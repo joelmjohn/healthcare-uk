@@ -3,11 +3,6 @@ const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
 const educationService = new Schema({
-    id: {
-        type: String,
-        unique: true,
-        required: true
-    },
     name: {
         type: String,
         required: true
@@ -18,7 +13,9 @@ const educationService = new Schema({
     },
     serviceInstitutions: [
         {
-            institutionId: String
+            type: Schema.Types.ObjectId,
+            ref: 'institution',
+            required: true
         }
     ],
     isBlocked: {

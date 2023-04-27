@@ -3,20 +3,16 @@ const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
 const user = new Schema({
-    id: {
-        type: String,
-        unique: true,
-        required: true
-    },
     userType: {
         type: String,
         enum: modelEnum.USER_TYPE,
         required: true
     },
     jobRole: {
-        type: String,
-        enum: modelEnum.JOB_ROLES,
+        type: Schema.Types.ObjectId,
+        ref: 'jobRole',
         required: true
+
     },
     email: {
         type: String,

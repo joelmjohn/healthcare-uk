@@ -3,11 +3,6 @@ const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
 const staffService = new Schema({
-    id: {
-        type: String,
-        unique: true,
-        required: true
-    },
     name: {
         type: String,
         required: true
@@ -16,9 +11,11 @@ const staffService = new Schema({
         type: String,
         required: true
     },
-    serviceOrganizations: [
+    serviceOrganization: [
         {
-            organisationId: String
+            type: Schema.Types.ObjectId,
+            ref: 'organisation',
+            required: true
         }
     ],
     isBlocked: {
