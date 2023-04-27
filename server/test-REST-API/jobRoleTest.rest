@@ -1,0 +1,13 @@
+
+
+POST http://localhost:3000/v1/jobRole/create 
+Content-Type: application/json
+
+{
+    "name": "Nurse",
+    "description": "Nurse Job Role",
+    "isBlocked": false
+}
+###
+
+GET http://localhost:3000/v1/jobRole

@@ -1,0 +1,13 @@
+
+
+POST http://localhost:3000/v1/education/create 
+Content-Type: application/json
+
+{
+    "name": "DEFAULT_USER",
+        "description" :"644a7923528edf6d86a865b1",
+        "serviceInstitutions": ["644xxxtestId"]
+}
+###
+
+GET http://localhost:3000/v1/education

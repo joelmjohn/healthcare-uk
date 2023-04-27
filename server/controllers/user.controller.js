@@ -15,23 +15,44 @@ exports.getUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
     const {
+        userType,
+        jobRole,
         email,
-        password,
-        role,
         userName,
+        password,
         fullName,
+        gender,
+        dob,
+        country,
+        education,
+        experience,
+        awards,
+        image,
+        isVerified,
+        isBlocked,
+        hasAddedBasicInfo
     } = req.body;
-
+    const lastUpdatedOn = Date.now();
     try {
-        if (!email || !password || !role || !userName || !fullName) {
-            throw new Error("BAD_REQUEST");
-        }
         const user = new userModel({
-            role: role,
+            userType: userType,
+            jobRole: jobRole,
             email: email,
-            fullName: fullName,
             userName: userName,
-            password: password
+            password: password,
+            fullName: fullName,
+            gender: gender,
+            dob: dob,
+            country: country,
+            education,
+            experience: experience,
+            awards: awards,
+            image: image,
+            isVerified: isVerified,
+            isBlocked: isBlocked,
+            hasAddedBasicInfo: hasAddedBasicInfo,
+            lastUpdatedOn: lastUpdatedOn
+
         });
         const newUser = await user.save();
         res.status(201).json({ status: true, message: newUser });

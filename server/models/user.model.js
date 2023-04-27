@@ -39,7 +39,7 @@ const user = new Schema({
         enum: modelEnum.GENDER_ENUM,
         required: true
     },
-    dob: { type: Date },
+    dob: { type: Date, required: true },
     country: {
         type: String,
         enum: modelEnum.COUNTRY_LIST,

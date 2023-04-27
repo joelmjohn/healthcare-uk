@@ -2,8 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const userRoute = require('./user.route');
+const jobRoleRoute = require('./jobRole.route');
+const educationServiceRoute = require('./education.route');
 
 router.use('/user', userRoute);
+router.use('/jobRole', jobRoleRoute);
+router.use('/education', educationServiceRoute);
 
 // get all
 router.get('/', (req, res) => {
