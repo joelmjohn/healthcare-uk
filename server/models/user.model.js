@@ -3,16 +3,17 @@ const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
 const user = new Schema({
-    userType: {
+    firstName: {
         type: String,
-        enum: modelEnum.USER_TYPE,
         required: true
     },
-    jobRole: {
-        type: Schema.Types.ObjectId,
-        ref: 'jobRole',
+    designation: {
+        type: String,
         required: true
-
+    },
+    lastName: {
+        type: String,
+        required: true
     },
     email: {
         type: String,
@@ -29,10 +30,6 @@ const user = new Schema({
         type: String,
         required: true
 
-    },
-    fullName: {
-        type: String,
-        required: true
     },
     gender: {
         type: String,
@@ -57,14 +54,14 @@ const user = new Schema({
 
     experience: [
         {
-            hospitalName: String,
+            organisationName: String,
             startDate: String,
             endDate: String,
             designation: String,
         }
     ],
     awards: [{ awardName: String, year: Number }],
-    image: String,
+    profileImg: String,
     isVerified: {
         type: Boolean,
         default: false

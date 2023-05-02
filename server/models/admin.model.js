@@ -2,32 +2,37 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const jobRole = new Schema({
+const admin = new Schema({
     name: {
         type: String,
         required: true
     },
-    description: {
+    role: {
+        type: String,
+        enum: modelEnum.ADMIN_ROLE,
+        required: true
+
+    },
+    userName: {
         type: String,
         required: true
+
     },
-    address: {
+    password: {
         type: String,
         required: true
+
     },
-    countryId: {
-        type: Schema.Types.ObjectId,
-        ref: 'country',
+    email: {
+        type: String,
+        unique: true,
         required: true
+
     },
-    isOpen: {
+    profileImg: String,
+    isVerified: {
         type: Boolean,
-        default: true
-    },
-    vacancy: {
-        type: Number,
-        default: 0,
-        required: true
+        default: false
     },
     isBlocked: {
         type: Boolean,
@@ -44,4 +49,4 @@ const jobRole = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('jobRole', jobRole);
+module.exports = new mongoose.model('admin', admin);

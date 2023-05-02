@@ -2,22 +2,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const staffService = new Schema({
+const document = new Schema({
     name: {
         type: String,
         required: true
     },
-    description: {
-        type: String,
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
         required: true
+
     },
-    serviceOrganization: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'organisation',
-            required: true
-        }
-    ],
+    cloudStorage: {
+        type: Object,
+        required: true
+
+    },
     isBlocked: {
         type: Boolean,
         default: false
@@ -33,4 +33,4 @@ const staffService = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('staffService', staffService);
+module.exports = new mongoose.model('document', document);

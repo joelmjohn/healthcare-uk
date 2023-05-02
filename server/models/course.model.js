@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const jobRole = new Schema({
+const course = new Schema({
     name: {
         type: String,
         required: true
@@ -11,18 +11,14 @@ const jobRole = new Schema({
         type: String,
         required: true
     },
-    address: {
+    courseCode: {
         type: String,
         required: true
     },
-    countryId: {
+    universityId: {
         type: Schema.Types.ObjectId,
-        ref: 'country',
+        ref: 'university',
         required: true
-    },
-    isOpen: {
-        type: Boolean,
-        default: true
     },
     vacancy: {
         type: Number,
@@ -44,4 +40,4 @@ const jobRole = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('jobRole', jobRole);
+module.exports = new mongoose.model('course', course);

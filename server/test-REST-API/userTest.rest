@@ -4,15 +4,15 @@ POST http://localhost:3000/v1/user/create
 Content-Type: application/json
 
 {
-    "userType": "DEFAULT_USER",
-        "jobRole" :"644a7923528edf6d86a865b1",
-        "email": "sara@mail.com",
-        "userName":"sara",
-        "password":"123",
-        "fullName" :"Sara John",
-        "gender":"FEMALE",
-        "dob":"01-01-1969",
-        "country":"Afghanistan"
+    "firstName": "Sara",
+    "designation" :"Registered Nurse",
+    "lastName" :"John",
+    "email": "sara@mail.com",
+    "userName":"sara",
+    "password":"123",
+    "gender":"FEMALE",
+    "dob":"01-01-1969",
+    "country":"Afghanistan"
 }
 ###
 

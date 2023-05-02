@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const educationService = new Schema({
+const country = new Schema({
     name: {
         type: String,
         required: true
@@ -10,14 +10,13 @@ const educationService = new Schema({
     description: {
         type: String,
         required: true
+
     },
-    serviceInstitutions: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'institution',
-            required: true
-        }
-    ],
+    countryCode: {
+        type: String,
+        required: true
+
+    },
     isBlocked: {
         type: Boolean,
         default: false
@@ -33,4 +32,4 @@ const educationService = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('educationService', educationService);
+module.exports = new mongoose.model('country', country);

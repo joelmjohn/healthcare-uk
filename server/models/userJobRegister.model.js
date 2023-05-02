@@ -2,32 +2,31 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const organisation = new Schema({
+const userJobRegister = new Schema({
     name: {
         type: String,
         required: true
     },
-    description: {
-        type: String,
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
         required: true
+
     },
-    address: {
-        type: String,
+    jobRoleId: {
+        type: Schema.Types.ObjectId,
+        ref: 'jobRole',
         required: true
+
     },
-    city: { type: String },
-    state: { type: String },
-    country: {
+    registeredOn: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    registrationStatus: {
         type: String,
-        enum: modelEnum.COUNTRY_LIST,
-        required: true
-    },
-    headCount: {
-        type: Number,
-    },
-    rating: {
-        type: Number,
-        enum: modelEnum.ORG_RATING
+        enum: modelEnum.REG_STATUS
     },
     isBlocked: {
         type: Boolean,
@@ -44,4 +43,4 @@ const organisation = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('organisation', organisation);
+module.exports = new mongoose.model('userJobRegister', userJobRegister);

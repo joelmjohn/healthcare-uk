@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const userModel = require("../models/user.model");
-
+const md5 = require('md5');
 
 exports.getUser = async (req, res) => {
-    //res.send(' Test Get All');
     try {
         const allUsers = await userModel.find();
         res.status(200).json({ status: true, message: allUsers })
@@ -15,39 +14,40 @@ exports.getUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
     const {
-        userType,
-        jobRole,
+        firstName,
+        designation,
         email,
         userName,
         password,
-        fullName,
+        lastName,
         gender,
         dob,
         country,
         education,
         experience,
         awards,
-        image,
+        profileImg,
         isVerified,
         isBlocked,
         hasAddedBasicInfo
     } = req.body;
     const lastUpdatedOn = Date.now();
+    const passwordEncrypted = md5(password);
     try {
         const user = new userModel({
-            userType: userType,
-            jobRole: jobRole,
+            firstName: firstName,
+            designation: designation,
             email: email,
             userName: userName,
-            password: password,
-            fullName: fullName,
+            password: passwordEncrypted,
+            lastName: lastName,
             gender: gender,
             dob: dob,
             country: country,
             education,
             experience: experience,
             awards: awards,
-            image: image,
+            profileImg: profileImg,
             isVerified: isVerified,
             isBlocked: isBlocked,
             hasAddedBasicInfo: hasAddedBasicInfo,
