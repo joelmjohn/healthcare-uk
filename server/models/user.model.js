@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
 const user = new Schema({
+    id: {
+        type: String,
+        unique: true,
+        required: true
+    },
     firstName: {
         type: String,
         required: true

@@ -11,9 +11,25 @@ Content-Type: application/json
     "userName":"sara",
     "password":"123",
     "gender":"FEMALE",
-    "dob":"01-01-1969",
-    "country":"Afghanistan"
+    "dob":"11-04-1969",
+    "country":"India"
 }
 ###
 
 GET http://localhost:3000/v1/user
+###
+
+GET http://localhost:3000/v1/user/2023-05-02T12-08-55.500ZJames
+
+###
+
+PATCH http://localhost:3000/v1/user/2023-05-02T12-08-55.500ZJames
+Content-Type: application/json
+
+{
+    "country": "China"
+}
+
+###
+
+DELETE http://localhost:3000/v1/user/2023-05-02T12-08-55.500ZJames
