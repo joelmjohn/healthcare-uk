@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const userRoute = require('./user.route');
+const documentRoute = require('./document.route');
 
 router.use('/user', userRoute);
+router.use('/document', documentRoute);
 
 //Testing only- need to be removed
 // get all
