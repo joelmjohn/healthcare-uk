@@ -1,0 +1,140 @@
+<html lang="en">
+
+<head>
+    <title>Add Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="/assets/css/slick.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-light shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand">Logo</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav p-2 me-auto">
+                    <li class="list-item pe-2"><a href="http://127.0.0.1:5500/Home.html" class="nav-link p-3">Home</a>
+                    </li>
+                    <li class="list-item pe-2"><a href="http://127.0.0.1:5500/aboutus.html" class="nav-link p-3">About Us</a></li>
+                    <li class="list-item pe-2 dropdown"><a href="" class="nav-link p-3"
+                            data-bs-toggle="dropdown-menu">Services</a>
+                        <ul class="dropdown-menu">
+                            <li class="list-item pe-2"><a href="http://127.0.0.1:5500/Job%20Services.html"
+                                    class="nav-link">Job Services</a></li>
+                            <li class="list-item pe-2"><a href="http://127.0.0.1:5500/study-abroad.html" class="nav-link">Study Abroad Services</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="list-item pe-2"><a href="http://127.0.0.1:5500/contact.html"
+                            class="nav-link p-3">Contact</a></li>
+
+                            <li class="list-item pe-2"><a href="http://127.0.0.1:5500/single-blog-post.html"
+                                class="nav-link p-3">Blog</a></li>
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+         
+    <section class="admin-section" style="margin-top: 12rem;">
+        <div class="container mt-5">
+            <div class="row">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#job-course">Add Details
+                            For Jobs & Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#blog-content">Add Blog
+                            Content</a></li>
+                </ul>
+                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 card p-4">
+                    <div class="tab-content">
+                        <div id="job-course" class="container tab-pane active">
+                            <h5 class="text-left  fw-bolder text-primary">Add Data To The Website</h5>
+                            <hr>
+                            <form class="form-inline">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-4">
+                                        <Label>Add Countries</Label>
+                                        <input type="text" class="form-control" placeholder="Add Countries">
+                                    </div>
+    
+                                    <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-4">
+                                        <Label>Add Jobs</Label>
+                                        <input type="text" class="form-control" placeholder="Add Jobs">
+                                    </div>
+    
+    
+    
+                                    <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-4">
+                                        <Label>Add Universities</Label>
+                                        <input type="text" class="form-control" placeholder="Add Universities">
+                                    </div>
+    
+                                    <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-4">
+                                        <Label>Add Courses</Label>
+                                        <input type="text" class="form-control" placeholder="Add Courses">
+                                    </div>
+    
+    
+                                    <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                        <button type="button" class="btn btn-primary reg-popup mt-3">Add Details</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+    
+    
+    
+                        <div id="blog-content" class="container tab-pane">
+                            <h5 class="text-left  fw-bolder text-primary">Add Blog Details</h5>
+                            <hr>
+                            <form class="form-inline">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-4">
+                                        <Label>Blog Title</Label>
+                                        <input type="text" class="form-control" placeholder="Blog Title">
+                                    </div>
+    
+                                    <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-4">
+                                        <Label>Date</Label>
+                                        <input type="date" class="form-control">
+                                    </div>
+    
+    
+                                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-4">
+                                        <Label>Add Images/Videos</Label>
+                                        <input type="file" class="form-control">
+    
+                                    </div>
+    
+                                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-4">
+                                        <Label>Add Blog Content</Label>
+                                         
+                                          <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea> 
+                                    </div>
+                                    <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                        <button type="button" class="btn btn-primary reg-popup mt-3">Add Details To Blog</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+    
+    
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

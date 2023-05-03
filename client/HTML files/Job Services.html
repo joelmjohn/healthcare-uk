@@ -1,0 +1,375 @@
+<html lang="en">
+
+<head>
+    <title>Job Services</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-light shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand">Logo</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav p-2 me-auto">
+                    <li class="list-item pe-2"><a href="http://127.0.0.1:5500/Home.html" class="nav-link p-3">Home</a>
+                    </li>
+                    <li class="list-item pe-2"><a href="http://127.0.0.1:5500/aboutus.html" class="nav-link p-3">About Us</a></li>
+                    <li class="list-item pe-2 dropdown"><a href="" class="nav-link p-3"
+                            data-bs-toggle="dropdown-menu">Services</a>
+                        <ul class="dropdown-menu">
+                            <li class="list-item pe-2"><a href="http://127.0.0.1:5500/Job%20Services.html"
+                                    class="nav-link">Job Services</a></li>
+                            <li class="list-item pe-2"><a href="http://127.0.0.1:5500/study-abroad.html" class="nav-link">Study Abroad Services</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="list-item pe-2"><a href="http://127.0.0.1:5500/contact.html"
+                            class="nav-link p-3">Contact</a></li>
+
+                            <li class="list-item pe-2"><a href="http://127.0.0.1:5500/single-blog-post.html"
+                                class="nav-link p-3">Blog</a></li>
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="job-banner mt-5">
+        <div class="banner-text mt-5">
+            <h1 class="text-center text-white banner-font">Find Your Job & Make Your Goal</h1>
+
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-primary register" data-bs-target="#modal" data-bs-toggle="modal">Register to apply jobs</button>
+                <div id="modal" class="modal fade">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="text-left text-dark">Register to apply </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                                            <label for="" class="mt-3">Name</label>
+                                            <input type="text" class="form-control mt-3" placeholder="Enter Your Name"/>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                                            <label for="" class="mt-3">Email</label>
+                                            <input type="email" class="form-control mt-3" placeholder="Enter Your E-mail"/>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                                            <label for="" class="mt-3">DOB</label>
+                                            <input type="date
+                                            
+                                            " class="form-control mt-3" placeholder="Enter Your DOB"/>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                                            <label for="" class="mt-3">Phone</label>
+                                            <input type="text" class="form-control mt-3" placeholder="Enter Your Phone"/>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                                            <label for="" class="mt-3">Select Documents</label>
+                                            <select class="form-select mt-3">
+                                                <option value="Deg ">UG Degree</option>
+                                            </select>
+                                      
+                                        </div>
+              
+                                    </div>
+                                    <button type="button" class="btn btn-primary reg-popup mt-3">Register</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-container mt-4">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4 col-xl-4 col-xxl-4">
+                            <Label>Choose Country</Label>
+                            <select class="form-select">
+                                <option value="UK">Uk</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4 col-xl-4 col-xxl-4">
+                            <Label>Choose Jobs</Label>
+                            <select class="form-select">
+                                <option value="Nurse">Nurse</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Support agent">Support agent</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4 col-xl-4 col-xxl-4 mt-4">
+                            <button type="button" class="btn btn-primary">Search Job</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container job-section">
+        <div class="row">
+            <div class="col-md-12 col-lg-9 col-xxl-9 col-xl-9">
+                <h4 class="text-left text-dark fw-bold mt-5">5 Results</h4>
+            </div>
+        </div>
+        <hr>
+        <div class="job-listing">
+            <div class="row mt-3">
+                <div class="col-md-12 col-lg-4 col-xxl-4 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-8 col-xl-8 col-xxl-8">
+                                    <a href="" class="job-title">
+                                        <h5 class="text-white text-left">Nurse</h5>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                    <span class="badge bg-light text-primary p-2">5 vacancies</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <h6 class="text-left text-secondary"><i class="fa-solid fa-briefcase"
+                                    style="color: #0798f2;"></i> Job Description</h6>
+                            <p class="text-left job-description text-truncate" style="max-width: 450px;">
+
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                            </p>
+                            <h6 class="text-left job-city text-secondary"><i class="fa-solid fa-location-dot"
+                                    style="color: #0798f2;"></i> London </h6>
+                            <h6 class="text-left job-time text-secondary"><i class="fa-solid fa-business-time"
+                                    style="color: #0798f2;"></i> Full Time </h6>
+                            <h6 class="text-left job-salary">$1200 - $ 2500</h6>
+                            <a href="http://127.0.0.1:5500/singlejob-page.html" class="" style="text-decoration: none; color: #0798f2;">View More <i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-lg-4 col-xxl-4 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-8 col-xl-8 col-xxl-8">
+                                    <a href="" class="job-title">
+                                        <h5 class="text-white text-left">Nurse</h5>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                    <span class="badge bg-light text-primary p-2">5 vacancies</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <h6 class="text-left text-secondary"><i class="fa-solid fa-briefcase"
+                                    style="color: #0798f2;"></i> Job Description</h6>
+                            <p class="text-left job-description text-truncate" style="max-width: 450px;">
+
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                            </p>
+                            <h6 class="text-left job-city text-secondary"><i class="fa-solid fa-location-dot"
+                                    style="color: #0798f2;"></i> London </h6>
+                            <h6 class="text-left job-time text-secondary"><i class="fa-solid fa-business-time"
+                                    style="color: #0798f2;"></i> Full Time </h6>
+                            <h6 class="text-left job-salary">$1200 - $ 2500</h6>
+                            <a href="http://127.0.0.1:5500/singlejob-page.html" class="" style="text-decoration: none; color: #0798f2;">View More <i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-lg-4 col-xxl-4 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-8 col-xl-8 col-xxl-8">
+                                    <a href="" class="job-title">
+                                        <h5 class="text-white text-left">Nurse</h5>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                    <span class="badge bg-light text-primary p-2">5 vacancies</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <h6 class="text-left text-secondary"><i class="fa-solid fa-briefcase"
+                                    style="color: #0798f2;"></i> Job Description</h6>
+                            <p class="text-left job-description text-truncate" style="max-width: 450px;">
+
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                            </p>
+                            <h6 class="text-left job-city text-secondary"><i class="fa-solid fa-location-dot"
+                                    style="color: #0798f2;"></i> London </h6>
+                            <h6 class="text-left job-time text-secondary"><i class="fa-solid fa-business-time"
+                                    style="color: #0798f2;"></i> Full Time </h6>
+                            <h6 class="text-left job-salary">$1200 - $ 2500</h6>
+                            <a href="http://127.0.0.1:5500/singlejob-page.html" class="" style="text-decoration: none; color: #0798f2;">View More <i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 col-lg-4 col-xxl-4 col-xl-4 mt-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-8 col-xl-8 col-xxl-8">
+                                    <a href="" class="job-title">
+                                        <h5 class="text-white text-left">Nurse</h5>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                    <span class="badge bg-light text-primary p-2">5 vacancies</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <h6 class="text-left text-secondary"><i class="fa-solid fa-briefcase"
+                                    style="color: #0798f2;"></i> Job Description</h6>
+                            <p class="text-left job-description text-truncate" style="max-width: 450px;">
+
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                            </p>
+                            <h6 class="text-left job-city text-secondary"><i class="fa-solid fa-location-dot"
+                                    style="color: #0798f2;"></i> London </h6>
+                            <h6 class="text-left job-time text-secondary"><i class="fa-solid fa-business-time"
+                                    style="color: #0798f2;"></i> Full Time </h6>
+                            <h6 class="text-left job-salary">$1200 - $ 2500</h6>
+                            <a href="http://127.0.0.1:5500/singlejob-page.html" class="" style="text-decoration: none; color: #0798f2;">View More <i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-lg-4 col-xxl-4 col-xl-4 mt-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-8 col-xl-8 col-xxl-8">
+                                    <a href="" class="job-title">
+                                        <h5 class="text-white text-left">Nurse</h5>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                    <span class="badge bg-light text-primary p-2">5 vacancies</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <h6 class="text-left text-secondary"><i class="fa-solid fa-briefcase"
+                                    style="color: #0798f2;"></i> Job Description</h6>
+                            <p class="text-left job-description text-truncate" style="max-width: 450px;">
+
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                                adipisicing elit. Dicta delectus doloribus perspiciatis
+                            </p>
+                            <h6 class="text-left job-city text-secondary"><i class="fa-solid fa-location-dot"
+                                    style="color: #0798f2;"></i> London </h6>
+                            <h6 class="text-left job-time text-secondary"><i class="fa-solid fa-business-time"
+                                    style="color: #0798f2;"></i> Full Time </h6>
+                            <h6 class="text-left job-salary">$1200 - $ 2500</h6>
+                            <a href="" class="" style="text-decoration: none; color: #0798f2;">View More <i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-light mt-5 p-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 p-3">
+                    <div class="footer-links">
+                        <h5 class="text-dark">Information</h5>
+                        <ul class="navbar-nav">
+                            <li class="list-item pt-2"><a href="" class="nav-link pt-2">Home</a></li>
+                            <li class="list-item pt-2"><a href="" class="nav-link pt-2 ">About Us</a></li>
+                            <li class="list-item pt-2"><a href="" class="nav-link pt-2">Services</a></li>
+                            <li class="list-item pt-2"><a href="" class="nav-link pt-2">Job Services</a></li>
+                            <li class="list-item pt-2"><a href="" class="nav-link pt-2">Study Abroad Services</a></li>
+                            <li class="list-item pt-2"><a href="" class="nav-link pt-2">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 p-3">
+                    <h5 class="text-dark text-left ">Contact Us</h5>
+                    <div class="contact-information mt-3">
+                        <P>881 W State St #140-321, Pleasant Grove, UT</P>
+                        <p>84043, United States</p>
+                        <p>+1 801-796-2496</p>
+                    </div>
+                    <div class="d-flex footer-icons">
+                        <i class="fa-brands fa-facebook mx-2"></i>
+                        <i class="fa-brands fa-twitter mx-2"></i>
+                        <i class="fa-brands fa-linkedin-in mx-2"></i>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 p-3">
+                    <h5 class="text-dark text-left">NewsLetter</h5>
+                    <p>
+                        Sign Up with your Email Address to receive News and Updates.
+                    </p>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="subscribe">
+                        <button class="btn btn-primary newsletter-btn" type="submit"><i
+                                class="fa-solid fa-envelope text-white"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="bottom-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
