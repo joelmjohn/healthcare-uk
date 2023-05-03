@@ -37,3 +37,13 @@ exports.validationErrorResponse = (res, errors) => {
     };
     res.status(HTTP_STATUS_CODES.BAD_REQUEST).json(response);
 };
+
+exports.failResponse = (res, message, data, moreData) => {
+    let response = {
+        status: false,
+        message: message
+    };
+    if (data || !data) response.data = data;
+    if (moreData) response = { ...response, ...moreData };
+    res.status(HTTP_STATUS_CODES.OK).send(response);
+};

@@ -4,13 +4,13 @@ POST http://localhost:3000/v1/user/create
 Content-Type: application/json
 
 {
-    "firstName": "Sara",
+    "firstName": "John",
     "designation" :"Registered Nurse",
-    "lastName" :"John",
-    "email": "sara@mail.com",
-    "userName":"sara",
+    "lastName" :"M",
+    "email": "john@mail.com",
+    "userName":"john",
     "password":"123",
-    "gender":"FEMALE",
+    "gender":"MALE",
     "dob":"11-04-1969",
     "country":"India"
 }
@@ -19,11 +19,11 @@ Content-Type: application/json
 GET http://localhost:3000/v1/user
 ###
 
-GET http://localhost:3000/v1/user/2023-05-02T12-08-55.500ZJames
+GET http://localhost:3000/v1/user/2023-05-03T063043.337ZJohn
 
 ###
 
-PATCH http://localhost:3000/v1/user/2023-05-02T12-08-55.500ZJames
+PATCH http://localhost:3000/v1/user/8b441ff1-e837-423c-8b15-95d6369c68e3
 Content-Type: application/json
 
 {
@@ -32,4 +32,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/v1/user/2023-05-02T12-08-55.500ZJames
+DELETE http://localhost:3000/v1/user/ac0b3007-6277-4918-bb5e-e3180b723b56
