@@ -43,7 +43,7 @@ exports.createDocument = async (req, res) => {
     const lastUpdatedOn = Date.now();
     try {
         //Do cloud upload and get docId
-        let docId = {
+        const document = {
             name: 'document',
             cloudId: 'sampleXYZ'
         };
@@ -51,7 +51,7 @@ exports.createDocument = async (req, res) => {
             id: id,
             name: name,
             userId: userId.toString(),
-            cloudStorage: docId,
+            cloudStorage: document,
             lastUpdatedOn: lastUpdatedOn
         };
         const newDocument = await documentService.save(documentData);

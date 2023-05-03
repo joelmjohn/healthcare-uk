@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    succuss: 'success',
+    success: 'success',
     serverError: 'Internal Server Error',
     validationErrors: 'Validation Errors',
     notFoundError: 'Method or URL Not Found',
