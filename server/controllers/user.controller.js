@@ -1,7 +1,7 @@
+'use strict';
 const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const userService = require("../services/user.service");
-const userModel = require("../models/user.model");
 const md5 = require('md5');
 const { v4: uuidv4 } = require('uuid');
 
@@ -61,7 +61,7 @@ exports.createUser = async (req, res) => {
     const passwordEncrypted = md5(password);
     const id = uuidv4();
     try {
-        const userData = new userModel({
+        const userData = {
             id: id,
             firstName: firstName,
             designation: designation,
@@ -81,7 +81,7 @@ exports.createUser = async (req, res) => {
             hasAddedBasicInfo: hasAddedBasicInfo,
             lastUpdatedOn: lastUpdatedOn
 
-        });
+        };
         const newUser = await userService.save(userData);
         if (newUser) {
             responseUtil.successResponse(res, MessageUtil.success, newUser);
@@ -95,6 +95,7 @@ exports.createUser = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
     const reqBody = req.body;
+    reqBody.lastUpdatedOn = Date.now();
     const userId = req.params.id;
     try {
         const response = await userService.updateOne({ id: userId }, reqBody);

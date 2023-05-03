@@ -23,11 +23,12 @@ GET http://localhost:3000/v1/user/2023-05-03T063043.337ZJohn
 
 ###
 
-PATCH http://localhost:3000/v1/user/8b441ff1-e837-423c-8b15-95d6369c68e3
+PATCH http://localhost:3000/v1/user/6738d825-6bf6-4b49-90c3-1db4422efde8
 Content-Type: application/json
 
 {
-    "country": "China"
+    "country": "China",
+    "email":"john@mail.com"
 }
 
 ###
