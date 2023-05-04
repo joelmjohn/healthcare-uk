@@ -45,5 +45,5 @@ exports.failResponse = (res, message, data, moreData) => {
     };
     if (data || !data) response.data = data;
     if (moreData) response = { ...response, ...moreData };
-    res.status(HTTP_STATUS_CODES.OK).send(response);
+    res.status(HTTP_STATUS_CODES.NOT_FOUND).send(response);
 };
