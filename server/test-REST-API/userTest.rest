@@ -8,11 +8,29 @@ Content-Type: application/json
     "designation" :"Registered Nurse",
     "lastName" :"M",
     "email": "john@mail.com",
-    "userName":"john",
-    "password":"123",
     "gender":"MALE",
     "dob":"11-04-1969",
-    "country":"India"
+    "country":"United States of America",
+    "address":" 93 NORTH 9TH STREET, BROOKLYN NY 11211",
+    "zipCode":"NY 11211",
+    "phone":"1234567890"
+}
+###
+
+POST http://localhost:3000/v1/user/create 
+Content-Type: application/json
+
+{
+    "firstName": "Carla",
+    "designation" :"Registered Nurse",
+    "lastName" :"Rose",
+    "email": "carla@mail.com",
+    "gender":"FEMALE",
+    "dob":"11-04-1999",
+    "country":"China",
+    "address":" 158 N SCOTT STREET, JOLIET IL 60432",
+    "zipCode":"IL 60432",
+    "phone":"1234567890"
 }
 ###
 
@@ -34,3 +52,12 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3000/v1/user/ac0b3007-6277-4918-bb5e-e3180b723b56
+
+###
+
+POST http://localhost:3000/v1/user/filter
+Content-Type: application/json
+
+{
+    "gender": "MALE",
+}

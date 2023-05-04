@@ -1,0 +1,51 @@
+
+
+POST http://localhost:3000/v1/admin/create 
+Content-Type: application/json
+
+{
+    "name": "Alan Rock",
+    "role": "ADMIN",
+    "userName": "alan",
+    "password": "1234",
+    "email": "alanD@mail.com"
+}
+###
+
+GET http://localhost:3000/v1/admin
+###
+
+GET http://localhost:3000/v1/admin/2485ab05-d5ee-440c-a55a-44eb46922bf8
+
+###
+
+PATCH http://localhost:3000/v1/admin/2485ab05-d5ee-440c-a55a-44eb46922bf8
+Content-Type: application/json
+
+{
+    "email": "alanR@mail.com"
+}
+
+###
+
+DELETE http://localhost:3000/v1/admin/870ec12b-406c-4741-b55e-6edded7507ca
+
+###
+
+POST http://localhost:3000/v1/admin/login
+Content-Type: application/json
+
+{
+    "userName": "alan",
+    "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/v1/admin/filter
+Content-Type: application/json
+
+{
+    "role": "ADMIN",
+    "userName": "alan"
+}

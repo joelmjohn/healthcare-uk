@@ -1,0 +1,39 @@
+
+
+POST http://localhost:3000/v1/job/create 
+Content-Type: application/json
+
+{
+    "jobName": "Paramedical Staff",
+    "jobDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+    "companyName": "Mater Prvt Hospital",
+    "companyDescription": "companyDescription ABC Top rated XYZ",
+    "address": "2900 4TH AVE, BILLINGS MT 59101",
+    "countryId":"ad3173e6-8f72-42fc-954a-2f8f0e154223",
+    "status":"ACTIVE",
+    "vacancy": 10,
+    "skillsRequired": ["Situational awareness","Empathy","Leadership","Teamwork"],
+    "experienceRequired": "1-3 Years",
+    "industryType": "Medical",
+    "employmentType":"FULL TIME",
+    "isBlocked":true
+}
+###
+
+GET http://localhost:3000/v1/job
+###
+
+GET http://localhost:3000/v1/job/00f4ff72-2cdc-42c3-8dd6-9d5881cfab32
+
+###
+
+PATCH http://localhost:3000/v1/job/00f4ff72-2cdc-42c3-8dd6-9d5881cfab32
+Content-Type: application/json
+
+{
+    "isBlocked": "true"
+}
+
+###
+
+DELETE http://localhost:3000/v1/job/00f4ff72-2cdc-42c3-8dd6-9d5881cfab32

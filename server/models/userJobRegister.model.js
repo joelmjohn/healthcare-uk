@@ -13,15 +13,13 @@ const userJobRegister = new Schema({
         required: true
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+        type: String,
+        required: false
 
     },
     jobRoleId: {
-        type: Schema.Types.ObjectId,
-        ref: 'jobRole',
-        required: true
+        type: String,
+        required: false
 
     },
     registeredOn: {

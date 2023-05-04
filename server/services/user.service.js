@@ -28,3 +28,11 @@ exports.findAll = async () => {
 exports.deleteOne = async (data) => {
     return await userModel.findOneAndDelete(data);
 };
+
+exports.findAllByFilter = async (filter) => {
+    return await userModel.find(filter);
+};
+
+exports.findOneByFilter = async (filter) => {
+    return await userModel.findOne(filter).lean();
+};

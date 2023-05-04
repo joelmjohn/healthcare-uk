@@ -1,12 +1,12 @@
 'use strict';
 const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
-const userService = require("../services/user.service");
+const jobService = require("../services/job.service");
 const { v4: uuidv4 } = require('uuid');
 
-exports.getUsers = async (req, res) => {
+exports.getJobs = async (req, res) => {
     try {
-        const response = await userService.findAll();
+        const response = await jobService.findAll();
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -17,13 +17,13 @@ exports.getUsers = async (req, res) => {
     }
 };
 
-exports.getUserById = async (req, res, next) => {
-    const userId = req.params.id;
+exports.getJobById = async (req, res, next) => {
+    const jobId = req.params.id;
     try {
-        if (!userId) {
+        if (!jobId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await userService.findOne({ id: userId });
+        const response = await jobService.findOne({ id: jobId });
         if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -36,71 +36,62 @@ exports.getUserById = async (req, res, next) => {
     next()
 };
 
-exports.createUser = async (req, res) => {
+exports.createJob = async (req, res) => {
     const {
-        firstName,
-        designation,
-        email,
-        lastName,
-        gender,
-        dob,
-        country,
+        jobName,
+        jobDescription,
+        companyName,
+        companyDescription,
         address,
-        zipCode,
-        education,
-        experience,
-        awards,
-        phone,
-        profileImg,
-        isVerified,
-        isBlocked,
-        hasAddedBasicInfo
+        countryId,
+        status,
+        vacancy,
+        skillsRequired,
+        experienceRequired,
+        industryType,
+        employmentType,
+        isBlocked
     } = req.body;
     const lastUpdatedOn = Date.now();
     const id = uuidv4();
     try {
         const userData = {
             id: id,
-            firstName: firstName,
-            designation: designation,
-            email: email,
-            lastName: lastName,
-            gender: gender,
-            dob: dob,
-            country: country,
+            jobName: jobName,
+            jobDescription: jobDescription,
+            companyName: companyName,
+            companyDescription: companyDescription,
             address: address,
-            phone: phone,
-            zipCode: zipCode,
-            education: education,
-            experience: experience,
-            awards: awards,
-            profileImg: profileImg,
-            isVerified: isVerified,
+            countryId: countryId,
+            status: status,
+            vacancy: vacancy,
+            skillsRequired: skillsRequired,
+            experienceRequired: experienceRequired,
+            industryType: industryType,
+            employmentType: employmentType,
             isBlocked: isBlocked,
-            hasAddedBasicInfo: hasAddedBasicInfo,
             lastUpdatedOn: lastUpdatedOn
-
         };
-        const newUser = await userService.save(userData);
-        if (newUser) {
-            responseUtil.successResponse(res, MessageUtil.success, newUser);
+        const newJob = await jobService.save(userData);
+        if (newJob) {
+            responseUtil.successResponse(res, MessageUtil.success, newJob);
         } else {
-            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newUser);
+            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newJob);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
 };
 
-exports.updateUserById = async (req, res) => {
+exports.updateJobById = async (req, res) => {
     const reqBody = req.body;
     reqBody.lastUpdatedOn = Date.now();
-    const userId = req.params.id;
+    const jobId = req.params.id;
     try {
-        const response = await userService.updateOne({ id: userId }, reqBody);
+        const response = await jobService.updateOne({ id: jobId }, reqBody);
         if (response) {
-            const updatedUser = await userService.findOne({ id: userId });
-            responseUtil.successResponse(res, MessageUtil.success, updatedUser);
+            const updatedJob = await jobService.findOne({ id: jobId });
+            responseUtil.successResponse(res, MessageUtil.success, updatedJob);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -109,15 +100,15 @@ exports.updateUserById = async (req, res) => {
     }
 };
 
-exports.deleteUserById = async (req, res) => {
-    const userId = req.params.id;
+exports.deleteJobById = async (req, res) => {
+    const jobId = req.params.id;
     try {
-        if (!userId) {
+        if (!jobId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await userService.deleteOne({ id: userId });
+        const response = await jobService.deleteOne({ id: jobId });
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `User Deleted Successfully`);
+            responseUtil.successResponse(res, MessageUtil.success, `Job Deleted Successfully`);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -126,13 +117,13 @@ exports.deleteUserById = async (req, res) => {
     }
 };
 
-exports.getUserByFilter = async (req, res) => {
+exports.getAllJobsByFilter = async (req, res) => {
     const filterData = req.body;
     try {
         if (!filterData) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await userService.findAllByFilter(filterData);
+        const response = await jobService.findAllByFilter(filterData);
         if (response.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {

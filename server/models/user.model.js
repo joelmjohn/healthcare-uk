@@ -22,19 +22,7 @@ const user = new Schema({
     },
     email: {
         type: String,
-        unique: true,
         required: true
-
-    },
-    userName: {
-        type: String,
-        required: true
-
-    },
-    password: {
-        type: String,
-        required: true
-
     },
     gender: {
         type: String,
@@ -45,6 +33,14 @@ const user = new Schema({
     country: {
         type: String,
         enum: modelEnum.COUNTRY_LIST,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    zipCode: {
+        type: String,
         required: true
     },
     education: [
@@ -65,7 +61,14 @@ const user = new Schema({
             designation: String,
         }
     ],
-    awards: [{ awardName: String, year: Number }],
+    awards: [{
+        awardName: String,
+        awardedBy: String,
+        year: Number
+    }],
+    phone: {
+        type: Number,
+    },
     profileImg: String,
     isVerified: {
         type: Boolean,
