@@ -1,14 +1,20 @@
-const express = require('express');
-const router = express.Router();
-const userModel = require("../models/user.model");
+'use strict';
+const responseUtil = require('../utils/responseUtils');
+const MessageUtil = require('../utils/messageUtil');
+const userService = require("../services/user.service");
 const md5 = require('md5');
+const { v4: uuidv4 } = require('uuid');
 
 exports.getUsers = async (req, res) => {
     try {
-        const allUsers = await userModel.find();
-        res.status(200).json({ status: true, message: allUsers })
+        const response = await userService.findAll();
+        if (response) {
+            responseUtil.successResponse(res, MessageUtil.success, response);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
     } catch (err) {
-        res.status(500).json({ status: false, message: err.message })
+        responseUtil.errorResponse(res, err.message);
     }
 };
 
@@ -16,15 +22,20 @@ exports.getUserById = async (req, res, next) => {
     const userId = req.params.id;
     console.log('%cuser.controller.js line:17 userId', 'color: #007acc;', userId);
     try {
-        if (userId == null) {
-            throw "INVALID USER ID";
+        if (!userId) {
+            responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const user = await userModel.find({ id: userId });
-        res.status(200).json({ status: true, message: user })
+        const response = await userService.findOne({ id: userId });
+        if (response != null) {
+            responseUtil.successResponse(res, MessageUtil.success, response);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
+
     } catch (err) {
-        res.status(400).json({ status: false, message: err.message })
+        responseUtil.errorResponse(res, err.message);
     }
-    next();
+    next()
 };
 
 exports.createUser = async (req, res) => {
@@ -48,9 +59,9 @@ exports.createUser = async (req, res) => {
     } = req.body;
     const lastUpdatedOn = Date.now();
     const passwordEncrypted = md5(password);
-    const id = new Date().toISOString().replace(/:/g, "") + firstName;
+    const id = uuidv4();
     try {
-        const user = new userModel({
+        const userData = {
             id: id,
             firstName: firstName,
             designation: designation,
@@ -70,31 +81,48 @@ exports.createUser = async (req, res) => {
             hasAddedBasicInfo: hasAddedBasicInfo,
             lastUpdatedOn: lastUpdatedOn
 
-        });
-        const newUser = await user.save();
-        res.status(201).json({ status: true, message: newUser });
+        };
+        const newUser = await userService.save(userData);
+        if (newUser) {
+            responseUtil.successResponse(res, MessageUtil.success, newUser);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newUser);
+        }
     } catch (err) {
-        res.status(400).json({ status: false, message: err.message });
+        responseUtil.errorResponse(res, err.message);
     }
 };
 
 exports.updateUserById = async (req, res) => {
     const reqBody = req.body;
+    reqBody.lastUpdatedOn = Date.now();
     const userId = req.params.id;
     try {
-        const user = await userModel.findOneAndUpdate({ id: userId }, reqBody);
-        res.status(200).json({ status: true, message: `User Updated Successfully` })
+        const response = await userService.updateOne({ id: userId }, reqBody);
+        if (response) {
+            const updatedUser = await userService.findOne({ id: userId });
+            responseUtil.successResponse(res, MessageUtil.success, updatedUser);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
     } catch (err) {
-        res.status(500).json({ status: false, message: err.message })
+        responseUtil.errorResponse(res, err.message);
     }
 };
 
 exports.deleteUserById = async (req, res) => {
     const userId = req.params.id;
     try {
-        const user = await userModel.findOneAndDelete({ id: userId });
-        res.status(200).json({ status: true, message: `User Deleted Successfully` })
+        if (!userId) {
+            responseUtil.throwError(MessageUtil.invalidRequest);
+        }
+        const response = await userService.deleteOne({ id: userId });
+        if (response) {
+            responseUtil.successResponse(res, MessageUtil.success, `User Deleted Successfully`);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
     } catch (err) {
-        res.status(500).json({ status: false, message: err.message })
+        responseUtil.errorResponse(res, err.message);
     }
 };

@@ -9,5 +9,7 @@ module.exports = {
     somethingWentWrong: 'Something went Wrong',
     somethingWentWrongInDocumentUpload: 'Something went wrong in Document Upload!',
     somethingWentWrongInUniversity: 'Something went wrong in University!',
-    somethingWentWrongInCourse: 'Something went wrong in Course!'
+    somethingWentWrongInCourse: 'Something went wrong in Course!',
+    requestedDataNotFound: 'Requested Data Not Found',
+    invalidRequest: 'Invalid Request'
 };

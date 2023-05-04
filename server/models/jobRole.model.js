@@ -8,17 +8,25 @@ const jobRole = new Schema({
         unique: true,
         required: true
     },
-    name: {
+    jobName: {
         type: String,
         required: true
     },
-    description: {
+    jobDescription: {
+        type: String,
+        required: true
+    },
+    companyName: {
+        type: String,
+        required: true
+    },
+    companyDescription: {
         type: String,
         required: true
     },
     address: {
         type: String,
-        required: true
+        required: false
     },
     countryId: {
         type: Schema.Types.ObjectId,
@@ -32,6 +40,21 @@ const jobRole = new Schema({
     vacancy: {
         type: Number,
         default: 0,
+        required: true
+    },
+    skillsRequired: [{
+        skillName: String
+    }],
+    experience: {
+        type: String,
+        required: true
+    },
+    industryType: {
+        type: String,
+        required: true
+    },
+    employmentType: {
+        type: String,
         required: true
     },
     isBlocked: {
