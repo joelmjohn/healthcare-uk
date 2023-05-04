@@ -1,0 +1,31 @@
+
+
+POST http://localhost:3000/v1/university/add 
+Content-Type: application/json
+
+{
+    "name": "University001",
+    "description": "some Description",
+    "universityCode": "U001",
+    "address": "address",
+    "countryId": "645250a85cabcbd8458b34fe"
+}
+###
+
+GET http://localhost:3000/v1/university
+###
+
+DELETE  http://localhost:3000/v1/university/U002
+
+###
+
+PATCH http://localhost:3000/v1/university/U001
+Content-Type: application/json
+
+{
+    "name": "University002",
+    "description": "New Description",
+    "universityCode": "U002",
+    "address": "address2",
+    "countryId": "645250a85cabcbd8458b34fe"
+}

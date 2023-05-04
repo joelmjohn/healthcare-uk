@@ -1,0 +1,20 @@
+
+// Use Postman for sending this request
+POST http://localhost:3000/v1/document/create 
+Content-Type: multipart/form-data
+
+{
+    "name":"doc001",
+    "userId": "6450fda0b82712c00a9838c3"
+}
+
+###
+
+
+// Get all documents
+GET http://localhost:3000/v1/document
+###
+
+
+// Get Document By ID
+GET http://localhost:3000/v1/document/6450fda0b82712c00a9838c1
