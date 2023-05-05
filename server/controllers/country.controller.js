@@ -50,14 +50,14 @@ exports.createCountry = async (req, res) => {
     } = req.body;
     const id = uuidv4();
     try {
-        const userData = {
+        const data = {
             id: id,
             name: name,
             description: description,
             countryCode: countryCode,
             isBlocked: isBlocked
         };
-        const newCountry = await countryService.save(userData);
+        const newCountry = await countryService.save(data);
         if (newCountry) {
             responseUtil.successResponse(res, MessageUtil.success, newCountry);
         } else {

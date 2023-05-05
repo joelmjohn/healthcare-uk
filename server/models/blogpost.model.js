@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const admin = new Schema({
+const blogpost = new Schema({
     id: {
         type: String,
         unique: true,
@@ -38,4 +38,4 @@ const admin = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('admin', admin);
+module.exports = new mongoose.model('blogpost', blogpost);

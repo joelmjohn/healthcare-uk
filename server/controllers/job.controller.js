@@ -55,7 +55,7 @@ exports.createJob = async (req, res) => {
     } = req.body;
     const id = uuidv4();
     try {
-        const userData = {
+        const data = {
             id: id,
             jobName: jobName,
             jobDescription: jobDescription,
@@ -72,7 +72,7 @@ exports.createJob = async (req, res) => {
             isBlocked: isBlocked,
             validTillDate: validTillDate
         };
-        const newJob = await jobService.save(userData);
+        const newJob = await jobService.save(data);
         if (newJob) {
             responseUtil.successResponse(res, MessageUtil.success, newJob);
         } else {

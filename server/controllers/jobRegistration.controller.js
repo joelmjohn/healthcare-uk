@@ -51,7 +51,7 @@ exports.createJobRegistration = async (req, res) => {
     } = req.body;
     const id = uuidv4();
     try {
-        const userData = {
+        const data = {
             id: id,
             name: name,
             userId: userId,
@@ -59,7 +59,7 @@ exports.createJobRegistration = async (req, res) => {
             registeredOn: registeredOn,
             registrationStatus: registrationStatus,
         };
-        const newJobReg = await jobRegService.save(userData);
+        const newJobReg = await jobRegService.save(data);
         if (newJobReg) {
             responseUtil.successResponse(res, MessageUtil.success, newJobReg);
         } else {

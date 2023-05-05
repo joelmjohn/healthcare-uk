@@ -1,11 +1,10 @@
 'use strict';
 const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
-const adminService = require("../services/admin.service");
+const blogpostService = require("../services/blogpost.service");
 const { v4: uuidv4 } = require('uuid');
-const md5 = require('md5');
 
-exports.getAllAdmin = async (req, res) => {
+exports.getAllBlogpost = async (req, res) => {
     const page = req.query.page || 1;
     const limit = parseInt(req.query.limit) || 10;
     const queryParams = {
@@ -13,7 +12,7 @@ exports.getAllAdmin = async (req, res) => {
         limit
     };
     try {
-        const response = await adminService.findAll(queryParams);
+        const response = await blogpostService.findAll(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -24,13 +23,13 @@ exports.getAllAdmin = async (req, res) => {
     }
 };
 
-exports.getAdminById = async (req, res) => {
-    const adminId = req.params.id;
+exports.getBlogpostById = async (req, res, next) => {
+    const blogId = req.params.id;
     try {
-        if (!adminId) {
+        if (!blogId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await adminService.findOne({ id: adminId });
+        const response = await blogpostService.findOne({ id: blogId });
         if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -42,44 +41,45 @@ exports.getAdminById = async (req, res) => {
     }
 };
 
-exports.createAdmin = async (req, res) => {
+exports.createBlogpost = async (req, res) => {
     const {
         name,
-        role,
-        userName,
-        password,
-        email
+        title,
+        richTextBody,
+        adminId,
+        comments,
+        isBlocked
     } = req.body;
     const id = uuidv4();
-    const passwordEncrypted = md5(password);
     try {
         const data = {
             id: id,
             name: name,
-            role: role,
-            userName: userName,
-            password: passwordEncrypted,
-            email: email
+            title: title,
+            richTextBody: richTextBody,
+            adminId: adminId,
+            comments: comments,
+            isBlocked: isBlocked
         };
-        const newAdmin = await adminService.save(data);
-        if (newAdmin) {
-            responseUtil.successResponse(res, MessageUtil.success, newAdmin);
+        const newBlog = await blogpostService.save(data);
+        if (newBlog) {
+            responseUtil.successResponse(res, MessageUtil.success, newBlog);
         } else {
-            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newAdmin);
+            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newBlog);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
 };
 
-exports.updateAdminById = async (req, res) => {
+exports.updateBlogById = async (req, res) => {
     const reqBody = req.body;
-    const adminId = req.params.id;
+    const blogId = req.params.id;
     try {
-        const response = await adminService.updateOne({ id: adminId }, reqBody);
+        const response = await blogpostService.updateOne({ id: blogId }, reqBody);
         if (response) {
-            const updatedAdmin = await adminService.findOne({ id: adminId });
-            responseUtil.successResponse(res, MessageUtil.success, updatedAdmin);
+            const updatedBlog = await blogpostService.findOne({ id: blogId });
+            responseUtil.successResponse(res, MessageUtil.success, updatedBlog);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -88,15 +88,15 @@ exports.updateAdminById = async (req, res) => {
     }
 };
 
-exports.deleteAdminById = async (req, res) => {
-    const adminId = req.params.id;
+exports.deleteBlogById = async (req, res) => {
+    const blogId = req.params.id;
     try {
-        if (!adminId) {
+        if (!blogId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await adminService.deleteOne({ id: adminId });
+        const response = await blogpostService.deleteOne({ id: blogId });
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `Admin Deleted Successfully`);
+            responseUtil.successResponse(res, MessageUtil.success, `Blogpost Deleted Successfully`);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -105,13 +105,13 @@ exports.deleteAdminById = async (req, res) => {
     }
 };
 
-exports.getAdminByFilter = async (req, res) => {
+exports.getAllBlogsByFilter = async (req, res) => {
     const filterData = req.body;
     try {
         if (!filterData) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await adminService.findAllByFilter(filterData);
+        const response = await blogpostService.findAllByFilter(filterData);
         if (response.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -123,24 +123,3 @@ exports.getAdminByFilter = async (req, res) => {
     }
 };
 
-exports.loginAdmin = async (req, res) => {
-    const {
-        userName,
-        password,
-    } = req.body;
-    const passwordEncrypted = md5(password);
-    try {
-        if (!userName || !password) {
-            responseUtil.throwError(MessageUtil.invalidRequest);
-        }
-        const response = await adminService.findOneByFilter({ userName: userName, password: passwordEncrypted });
-        if (response != null) {
-            responseUtil.successResponse(res, MessageUtil.success, response);
-        } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
-        }
-
-    } catch (err) {
-        responseUtil.errorResponse(res, err.message);
-    }
-};

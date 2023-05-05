@@ -9,6 +9,7 @@ const jobRoute = require('./job.route');
 const universityRoute = require('./university.route');
 const courseRoute = require('./course.route');
 const jobRegRoute = require('./jobReg.route');
+const blogPostRoute = require('./blogpost.route');
 
 router.use('/user', userRoute);
 router.use('/document', documentRoute);
@@ -18,5 +19,6 @@ router.use('/job', jobRoute);
 router.use('/university', universityRoute);
 router.use('/course', courseRoute);
 router.use('/jobReg', jobRegRoute);
+router.use('/blog', blogPostRoute);
 
 module.exports = router;
