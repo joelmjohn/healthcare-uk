@@ -1,8 +1,8 @@
 const courseModel = require('../models/course.model');
 
 exports.save = async (data) => {
-    const doc = new courseModel(data);
-    return await doc.save();
+    const course = new courseModel(data);
+    return await course.save();
 };
 
 exports.update = async (matchQuery, updateData) => {

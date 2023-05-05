@@ -13,10 +13,8 @@ const document = new Schema({
         required: true
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
+        type: String,
         required: true
-
     },
     cloudStorage: [{
         fieldName: {

@@ -8,7 +8,7 @@ Content-Type: application/json
     "description": "some Description",
     "universityCode": "U001",
     "address": "address",
-    "countryId": "645250a85cabcbd8458b34fe"
+    "countryCode": "645250a85cabcbd8458b34fe"
 }
 ###
 

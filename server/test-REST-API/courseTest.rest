@@ -7,16 +7,14 @@ Content-Type: application/json
     "name":"Data Analytics",
     "description": "Some More Details",
     "courseCode": "CS101",
-    "universityId": "6453aad23035870b8a00ea4b",
+    "universityCode": "U001",
     "vacancy": "200"
 }
 
 ###
 
 GET http://localhost:3000/v1/course
-###
 
-DELETE  http://localhost:3000/v1/course/CS101
 
 ###
 
@@ -27,6 +25,11 @@ Content-Type: application/json
     "name": "Data Analytics V02",
     "description": "New Description Provided",
     "courseCode": "CS102",
-    "universityId": "6453aad23035870b8a00ea4b",
+    "universityCode": "6453aad23035870b8a00ea4b",
     "vacancy": "150"
 }
+
+
+###
+
+DELETE  http://localhost:3000/v1/course/CS102

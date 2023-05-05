@@ -14,7 +14,6 @@ exports.getAllDocument = async (req, res) => {
     };
     try {
         const response = await documentService.findAllDocuments(queryParams);
-        console.log("Response", response[0])
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response[0]);
         } else {
@@ -32,7 +31,6 @@ exports.getDocumentsByUserId = async (req, res) => {
             userId: id
         }
         const response = await documentService.findOne(query);
-        console.log("Response", response)
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -51,7 +49,6 @@ exports.removeDocument = async (req, res) => {
     }
     try {
         const response = await documentService.removeDocument(queryParameters);
-        console.log("Response is", response)
         if (response && response.modifiedCount > 0) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -85,7 +82,6 @@ exports.addDocument = async (req, res) => {
     try {
         //Do cloud upload and get docId
         const docExists = await documentService.exists({userId});
-        console.log("Document Exists", docExists);
         if(!docExists) {
             const documentData = {
                 id: id,

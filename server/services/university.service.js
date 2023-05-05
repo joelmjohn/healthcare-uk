@@ -1,8 +1,8 @@
 const universityModel = require('../models/university.model');
 
 exports.save = async (data) => {
-    const doc = new universityModel(data);
-    return await doc.save();
+    const university = new universityModel(data);
+    return await university.save();
 };
 
 exports.update = async (matchQuery, updateData) => {

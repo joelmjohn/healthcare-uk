@@ -24,9 +24,8 @@ const university = new Schema({
         type: String,
         required: true
     },
-    countryId: {
-        type: Schema.Types.ObjectId,
-        ref: 'country',
+    countryCode: {
+        type: String,
         required: true
     },
     isBlocked: {

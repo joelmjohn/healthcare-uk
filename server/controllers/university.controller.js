@@ -6,7 +6,6 @@ const universityServices = require('../services/university.service');
 const { v4: uuidv4 } = require('uuid');
 
 exports.getAllUniversities = async (req, res) => {
-    console.log("All Universities")
     const page = req.query.page || 1;
     const limit = parseInt(req.query.limit) || 10;
     const queryParams = {
@@ -28,9 +27,7 @@ exports.getAllUniversities = async (req, res) => {
 exports.updateUniversity = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("id is", id)
         const universityExists = await universityServices.exists(id);
-        console.log("University", universityExists)
         if(!universityExists){
             responseUtil.throwError(MessageUtil.somethingWentWrong);
         } else {
@@ -51,9 +48,7 @@ exports.updateUniversity = async (req, res) => {
 exports.removeUniversity = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("id is", id)
         const universityExists = await universityServices.exists(id);
-        console.log("University", universityExists)
         if(!universityExists){
             responseUtil.throwError(MessageUtil.somethingWentWrong);
         } else {
@@ -92,7 +87,7 @@ exports.addUniversity = async (req, res) => {
         description,
         universityCode,
         address,
-        countryId
+        countryCode
     } = req.body;
     const id = uuidv4();
     const lastUpdatedOn = Date.now();
@@ -103,7 +98,7 @@ exports.addUniversity = async (req, res) => {
             description,
             universityCode,
             address,
-            countryId,
+            countryCode,
             lastUpdatedOn
         };
         const universityExists = await universityServices.exists(universityCode)

@@ -40,7 +40,7 @@ exports.addCourse = async (req, res) => {
         name,
         description,
         courseCode,
-        universityId,
+        universityCode,
         vacancy
     } = req.body;
     const id = uuidv4();
@@ -51,7 +51,7 @@ exports.addCourse = async (req, res) => {
             name,
             description,
             courseCode,
-            universityId,
+            universityCode,
             vacancy,
             lastUpdatedOn
         };
@@ -74,9 +74,7 @@ exports.addCourse = async (req, res) => {
 exports.updateCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("id is", id)
         const courseExists = await courseServices.exists(id);
-        console.log("Course", courseExists)
         if(!courseExists){
             responseUtil.throwError(MessageUtil.somethingWentWrong);
         } else {
@@ -96,9 +94,7 @@ exports.updateCourse = async (req, res) => {
 exports.removeCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("id is", id)
         const courseExists = await courseServices.exists(id);
-        console.log("Course", courseExists)
         if(!courseExists){
             responseUtil.throwError(MessageUtil.somethingWentWrong);
         } else {
