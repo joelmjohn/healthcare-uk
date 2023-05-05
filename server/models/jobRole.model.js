@@ -60,12 +60,7 @@ const jobRole = new Schema({
         type: Boolean,
         default: false
     },
-    createdOn: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    lastUpdatedOn: {
+    validTillDate: {
         type: Date,
         required: true,
     }

@@ -12,33 +12,26 @@ const admin = new Schema({
         type: String,
         required: true
     },
-    role: {
+    title: {
         type: String,
-        enum: modelEnum.ADMIN_ROLE,
         required: true
-
     },
-    userName: {
+    richTextBody: {
         type: String,
         required: true
 
     },
-    password: {
+    adminId: {
         type: String,
         required: true
-
     },
-    email: {
-        type: String,
-        unique: true,
-        required: true
-
-    },
-    profileImg: String,
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+    comments: [
+        {
+            author: String,
+            comment: String,
+            date: Date
+        }
+    ],
     isBlocked: {
         type: Boolean,
         default: false

@@ -21,8 +21,13 @@ exports.findOne = async (data) => {
     return await userModel.findOne(data).lean();
 };
 
-exports.findAll = async () => {
-    return await userModel.find();
+exports.findAll = async ({ page, limit }) => {
+    const mongoQuery = [
+        { $project: { __v: 0, _id: 0 } },
+        { $skip: (page - 1) * limit },
+        { $limit: limit }
+    ]
+    return await userModel.aggregate(mongoQuery)
 };
 
 exports.deleteOne = async (data) => {

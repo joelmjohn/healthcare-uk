@@ -50,9 +50,9 @@ exports.createJob = async (req, res) => {
         experienceRequired,
         industryType,
         employmentType,
+        validTillDate,
         isBlocked
     } = req.body;
-    const lastUpdatedOn = Date.now();
     const id = uuidv4();
     try {
         const userData = {
@@ -70,7 +70,7 @@ exports.createJob = async (req, res) => {
             industryType: industryType,
             employmentType: employmentType,
             isBlocked: isBlocked,
-            lastUpdatedOn: lastUpdatedOn
+            validTillDate: validTillDate
         };
         const newJob = await jobService.save(userData);
         if (newJob) {
@@ -85,7 +85,6 @@ exports.createJob = async (req, res) => {
 
 exports.updateJobById = async (req, res) => {
     const reqBody = req.body;
-    reqBody.lastUpdatedOn = Date.now();
     const jobId = req.params.id;
     try {
         const response = await jobService.updateOne({ id: jobId }, reqBody);

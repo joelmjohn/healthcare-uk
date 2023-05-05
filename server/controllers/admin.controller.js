@@ -6,8 +6,14 @@ const { v4: uuidv4 } = require('uuid');
 const md5 = require('md5');
 
 exports.getAllAdmin = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const queryParams = {
+        page,
+        limit
+    };
     try {
-        const response = await adminService.findAll();
+        const response = await adminService.findAll(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -44,7 +50,6 @@ exports.createAdmin = async (req, res) => {
         password,
         email
     } = req.body;
-    const lastUpdatedOn = Date.now();
     const id = uuidv4();
     const passwordEncrypted = md5(password);
     try {
@@ -54,8 +59,7 @@ exports.createAdmin = async (req, res) => {
             role: role,
             userName: userName,
             password: passwordEncrypted,
-            email: email,
-            lastUpdatedOn: lastUpdatedOn
+            email: email
         };
         const newAdmin = await adminService.save(userData);
         if (newAdmin) {
@@ -70,7 +74,6 @@ exports.createAdmin = async (req, res) => {
 
 exports.updateAdminById = async (req, res) => {
     const reqBody = req.body;
-    reqBody.lastUpdatedOn = Date.now();
     const adminId = req.params.id;
     try {
         const response = await adminService.updateOne({ id: adminId }, reqBody);

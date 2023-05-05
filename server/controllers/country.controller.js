@@ -5,8 +5,14 @@ const countryService = require("../services/country.service");
 const { v4: uuidv4 } = require('uuid');
 
 exports.getAllCountry = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const queryParams = {
+        page,
+        limit
+    };
     try {
-        const response = await countryService.findAll();
+        const response = await countryService.findAll(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -42,7 +48,6 @@ exports.createCountry = async (req, res) => {
         countryCode,
         isBlocked
     } = req.body;
-    const lastUpdatedOn = Date.now();
     const id = uuidv4();
     try {
         const userData = {
@@ -50,8 +55,7 @@ exports.createCountry = async (req, res) => {
             name: name,
             description: description,
             countryCode: countryCode,
-            isBlocked: isBlocked,
-            lastUpdatedOn: lastUpdatedOn
+            isBlocked: isBlocked
         };
         const newCountry = await countryService.save(userData);
         if (newCountry) {
@@ -66,7 +70,6 @@ exports.createCountry = async (req, res) => {
 
 exports.updateCountryById = async (req, res) => {
     const reqBody = req.body;
-    reqBody.lastUpdatedOn = Date.now();
     const countryId = req.params.id;
     try {
         const response = await countryService.updateOne({ id: countryId }, reqBody);
@@ -93,6 +96,24 @@ exports.deleteCountryById = async (req, res) => {
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
+    } catch (err) {
+        responseUtil.errorResponse(res, err.message);
+    }
+};
+
+exports.getCountryByFilter = async (req, res) => {
+    const filterData = req.body;
+    try {
+        if (!filterData) {
+            responseUtil.throwError(MessageUtil.invalidRequest);
+        }
+        const response = await countryService.findAllByFilter(filterData);
+        if (response.length) {
+            responseUtil.successResponse(res, MessageUtil.success, response);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
+
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
