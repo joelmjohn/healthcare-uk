@@ -20,9 +20,8 @@ const course = new Schema({
         type: String,
         required: true
     },
-    universityId: {
-        type: Schema.Types.ObjectId,
-        ref: 'university',
+    universityCode: {
+        type: String,
         required: true
     },
     vacancy: {
