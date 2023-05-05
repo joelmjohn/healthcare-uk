@@ -13,3 +13,9 @@ exports.HTTP_STATUS_CODES = {
     BAD_GATEWAY: 502,
     SERVICE_UNAVAILABLE: 503
 };
+
+// Enter gmail creds here
+exports.emailCreds = {
+    EMAIL:"",
+    PASSWORD: ""
+}

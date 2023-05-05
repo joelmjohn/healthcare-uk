@@ -6,7 +6,7 @@ Content-Type: application/json
 {
     "name":"Data Analytics",
     "description": "Some More Details",
-    "courseCode": "CS101",
+    "courseCode": "CS102",
     "universityCode": "U001",
     "vacancy": "200"
 }

@@ -5,6 +5,10 @@ exports.save = async (data) => {
     return await user.save();
 };
 
+exports.exists = async (userId) => {
+    return await userModel.find({id: userId}).count() > 0
+}
+
 exports.update = async (matchQuery, updateData) => {
     const update = await userModel.updateMany(matchQuery, {
         $set: updateData

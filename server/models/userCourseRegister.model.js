@@ -8,7 +8,7 @@ const userCourseRegister = new Schema({
         unique: true,
         required: true
     },
-    name: {
+    candidateName: {
         type: String,
         required: true
     },
@@ -16,7 +16,7 @@ const userCourseRegister = new Schema({
         type: String,
         required: true
     },
-    courseId: {
+    courseCode: {
         type: String,
         required: true
     },
@@ -33,15 +33,6 @@ const userCourseRegister = new Schema({
         type: Boolean,
         default: false
     },
-    createdOn: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    lastUpdatedOn: {
-        type: Date,
-        required: true,
-    }
 }, { timestamps: true });
 
 module.exports = new mongoose.model('userCourseRegister', userCourseRegister);
