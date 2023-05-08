@@ -31,6 +31,7 @@ export default {
     ServiceSection,
     JobOpportunity,
     CourseOpportunity,
+    OurClients,
     BlogSection,
     Footer,
   },
