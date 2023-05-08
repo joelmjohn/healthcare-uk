@@ -12,16 +12,16 @@ exports.update = async (matchQuery, updateData) => {
     return update;
 };
 
-exports.exists = async (universityCode) => {
-    return await universityModel.find({'universityCode': { "$in": universityCode}}).count() > 0
+exports.exists = async (universityId) => {
+    return await universityModel.find({'id': { "$in": universityId}}).count() > 0
 }
 
-exports.rmUniversity = async (universityCode) => {
-    return await universityModel.deleteOne({ universityCode: universityCode })
+exports.rmUniversity = async (universityId) => {
+    return await universityModel.deleteOne({ id: universityId })
 }
 
 exports.modifyUniversity = async (id, data) => {
-    return await universityModel.findOneAndUpdate({ universityCode: id }, data)
+    return await universityModel.findOneAndUpdate({ id: id }, data)
 }
 
 exports.findOne = async (data) => {

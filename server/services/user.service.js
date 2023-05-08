@@ -5,8 +5,8 @@ exports.save = async (data) => {
     return await user.save();
 };
 
-exports.exists = async (userId) => {
-    return await userModel.find({id: userId}).count() > 0
+exports.exists = async (email) => {
+    return await userModel.find({email: email}).count() > 0
 }
 
 exports.update = async (matchQuery, updateData) => {

@@ -3,8 +3,8 @@ const { emailCreds } = require('../config/index')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: emailCreds,
-      pass: emailCreds
+      user: emailCreds.EMAIL,
+      pass: emailCreds.PASSWORD
     }
   });
 
@@ -13,14 +13,13 @@ exports.sendCourseRegistrationMail = async (data) => {
     console.log("User Data is", user);
     let linkDocuments = `<a>No Documents Available</a>`
     if(user.documents && user.documents[0]) {
-      console.log("documents are", user.documents[0].cloudStorage)
       const documents = user.documents[0].cloudStorage;
       linkDocuments = documents.map(document => `<li><a href="${document.imageUrl}">${document.originalName}</a></li>`).join('');
     }
     const subject = "New Registration For Course";
     const courseMailOptions = {
-        from: emailCreds,
-        to: 'samplforeignmastere@yopmail.com',
+        from: emailCreds.EMAIL,
+        to: emailCreds.TO_EMAIL,
         subject: subject,
         html:  `<html lang="en">
     

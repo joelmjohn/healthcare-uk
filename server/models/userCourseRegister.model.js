@@ -12,11 +12,11 @@ const userCourseRegister = new Schema({
         type: String,
         required: true
     },
-    userId: {
+    email: {
         type: String,
         required: true
     },
-    courseCode: {
+    courseId: {
         type: String,
         required: true
     },

@@ -1,7 +1,7 @@
 const userRegistrationModel = require('../models/userCourseRegister.model');
 
-exports.isUserAlreadyErolledToCourse = async (userId, courseCode) => {
-    return await userRegistrationModel.findOne({ userId: userId, courseCode: courseCode  }).count() > 0;
+exports.isUserAlreadyEnrolledToCourse = async (email, courseId) => {
+    return await userRegistrationModel.findOne({ email: email, courseId: courseId  }).count() > 0;
 }
 
 exports.enrollUserToCourse = async (data) => {
@@ -9,7 +9,7 @@ exports.enrollUserToCourse = async (data) => {
     return await courseEnrollData.save();
 }
 
-exports.mergeUserDataForEmail = async (userId, courseCode) => {
+exports.mergeUserDataForEmail = async (email, courseId) => {
     // Required Format
     // const data = {
     //     firstName: "name",
@@ -26,8 +26,8 @@ exports.mergeUserDataForEmail = async (userId, courseCode) => {
     //     documents: []
     // }
     const matchQuery = {
-        userId: userId,
-        courseCode: courseCode
+        email: email,
+        courseId: courseId
     }
     const mongoQuery = [
         {
@@ -36,46 +36,46 @@ exports.mergeUserDataForEmail = async (userId, courseCode) => {
         {
           $lookup: {
             from: "users",
-            localField: "userId",
-            foreignField: "id",
+            localField: "email",
+            foreignField: "email",
             as: "user"
           }
         },
         {
+          $unwind: "$user",
+        },
+        {
           $lookup: {
             from: "documents",
-            localField: "userId",
+            localField: "user.id",
             foreignField: "userId",
-            as: "document"
+            as: "documents"
           }
         },
         {
-            $unwind: "$user",
-        },
-        {
           $project: {
-           _id: 0,
-           firstName: "$user.firstName",
-           lastName: "$user.lastName",
-           email: "$user.email",
-           designation: "$user.designation",
-           dob: "$user.dob",
-           country: "$user.country",
-           education: 1,
-           experience: 1,
-           awards: 1,
-           profileImg: 1,
-           documents: {
-             $map: {
-               input: "$document",
-               as: "document",
-               in: {
-                 name: "$$document.name",
-                 cloudStorage: "$$document.cloudStorage",
-               },
-             },
-           },
-         }
+            _id: 0,
+            firstName: "$user.firstName",
+            lastName: "$user.lastName",
+            email: "$user.email",
+            designation: "$user.designation",
+            dob: "$user.dob",
+            country: "$user.country",
+            education: 1,
+            experience: 1,
+            awards: 1,
+            profileImg: 1,
+            documents: {
+              $map: {
+                input: "$documents",
+                as: "document",
+                in: {
+                  name: "$$document.name",
+                  cloudStorage: "$$document.cloudStorage",
+                },
+              },
+            },
+          }
         },
       ];
       

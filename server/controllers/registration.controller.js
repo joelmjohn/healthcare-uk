@@ -10,32 +10,31 @@ const { v4: uuidv4 } = require('uuid');
 exports.registerUserToCourse = async (req, res) => {
     const {
         candidateName,
-        courseCode,
-        userId,
+        courseId,
+        email,
     } = req.body;
     const id = uuidv4();
     try {
         const courseData = {
             id,
             candidateName,
-            courseCode,
-            userId,
+            courseId,
+            email,
             registrationStatus: "PENDING"
         };
-        const userExists = await userServices.exists(userId);
+        const userExists = await userServices.exists(email);
         if(userExists) {
-            const isUserErolledToCourse = await userRegistrationService.isUserAlreadyErolledToCourse(userId, courseCode);
+            const isUserErolledToCourse = await userRegistrationService.isUserAlreadyEnrolledToCourse(email, courseId);
             if (isUserErolledToCourse) {
                 responseUtil.throwError(MessageUtil.userAlreadyEnrolledToCourse)
             } else {
                 const enrollUserToCourse = await userRegistrationService.enrollUserToCourse(courseData)
                 if(enrollUserToCourse) {
-                    const getUserDataToEmail = await userRegistrationService.mergeUserDataForEmail(userId, courseCode)
-                    console.log(getUserDataToEmail)
+                    const getUserDataToEmail = await userRegistrationService.mergeUserDataForEmail(email, courseId)
                     if(getUserDataToEmail) {
                         const emailTemplateInformation = {}
                         emailTemplateInformation["user"] = getUserDataToEmail[0];
-                        const sendEmail = await sendCourseRegistrationMail(emailTemplateInformation)
+                        const sendEmail = await sendCourseRegistrationMail(emailTemplateInformation);
                         if(sendEmail) {
                             console.log(sendEmail)
                             responseUtil.successResponse(res, MessageUtil.success, sendEmail);

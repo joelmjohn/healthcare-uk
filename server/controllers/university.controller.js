@@ -28,6 +28,7 @@ exports.updateUniversity = async (req, res) => {
     try {
         const { id } = req.params;
         const universityExists = await universityServices.exists(id);
+        console.log(universityExists)
         if(!universityExists){
             responseUtil.throwError(MessageUtil.somethingWentWrong);
         } else {
@@ -87,10 +88,9 @@ exports.addUniversity = async (req, res) => {
         description,
         universityCode,
         address,
-        countryCode
+        countryId
     } = req.body;
     const id = uuidv4();
-    const lastUpdatedOn = Date.now();
     try {
         const universityData = {
             id,
@@ -98,8 +98,7 @@ exports.addUniversity = async (req, res) => {
             description,
             universityCode,
             address,
-            countryCode,
-            lastUpdatedOn
+            countryId,
         };
         const universityExists = await universityServices.exists(universityCode)
         if(universityExists) {

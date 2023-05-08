@@ -3,30 +3,30 @@
 POST http://localhost:3000/v1/course/add 
 Content-Type: application/json
 
-{
-    "name":"Data Analytics",
+{ 
+    "name":"Computer Basics",
     "description": "Some More Details",
-    "courseCode": "CS102",
-    "universityCode": "U001",
+    "courseCode": "CS103",
+    "universityId": "6458b69d63718ff304147f09",
     "vacancy": "200"
 }
 
 ###
 
-GET http://localhost:3000/v1/course
+GET http://localhost:3000/v1/course?page=1&limit=3
 
 
 ###
 
-PATCH http://localhost:3000/v1/course/CS101
+PATCH http://localhost:3000/v1/course/b486f7f0-bd89-47c3-908e-47849c9ad774
 Content-Type: application/json
 
-{
-    "name": "Data Analytics V02",
-    "description": "New Description Provided",
+{ 
+    "name":"Data Structure and Algorithms",
+    "description": "Some More Details",
     "courseCode": "CS102",
-    "universityCode": "6453aad23035870b8a00ea4b",
-    "vacancy": "150"
+    "universityId": "6458b69d63718ff304147f09",
+    "vacancy": "200"
 }
 
 

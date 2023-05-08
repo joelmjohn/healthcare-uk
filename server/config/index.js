@@ -16,6 +16,7 @@ exports.HTTP_STATUS_CODES = {
 
 // Enter gmail creds here
 exports.emailCreds = {
-    EMAIL:"",
-    PASSWORD: ""
+    EMAIL:"somename@gmail.com",
+    PASSWORD: "password",
+    TO_EMAIL:"samplforeignmastere@yopmail.com"
 }

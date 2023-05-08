@@ -6,8 +6,14 @@ const courseServices = require('../services/course.service');
 const { v4: uuidv4 } = require('uuid');
 
 exports.getAllCourses = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const queryParams = {
+        page,
+        limit
+    };
     try {
-        const response = await courseServices.findAll();
+        const response = await courseServices.findAllCourses(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -40,7 +46,7 @@ exports.addCourse = async (req, res) => {
         name,
         description,
         courseCode,
-        universityCode,
+        universityId,
         vacancy
     } = req.body;
     const id = uuidv4();
@@ -51,7 +57,7 @@ exports.addCourse = async (req, res) => {
             name,
             description,
             courseCode,
-            universityCode,
+            universityId,
             vacancy,
             lastUpdatedOn
         };

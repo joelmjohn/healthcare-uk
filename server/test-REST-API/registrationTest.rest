@@ -4,7 +4,7 @@ POST http://localhost:3000/v1/register/course
 Content-Type: application/json
 
 {
-    "name":"Jacob",
-    "courseCode": "CS101",
-    "userID": "62496de1-0a29-48cd-8b15-022633b93bf3",
+    "candidateName":"Evaline",
+    "courseId": "fd74350a-89b5-4e45-9fbf-0d81b4ee9aaa",
+    "email": "eva@mail.com"
 }

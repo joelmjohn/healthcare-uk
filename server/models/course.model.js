@@ -20,7 +20,7 @@ const course = new Schema({
         type: String,
         required: true
     },
-    universityCode: {
+    universityId: {
         type: String,
         required: true
     },
@@ -32,15 +32,6 @@ const course = new Schema({
     isBlocked: {
         type: Boolean,
         default: false
-    },
-    createdOn: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    lastUpdatedOn: {
-        type: Date,
-        required: true,
     }
 }, { timestamps: true });
 
