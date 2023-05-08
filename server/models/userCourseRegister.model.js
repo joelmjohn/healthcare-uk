@@ -13,16 +13,12 @@ const userCourseRegister = new Schema({
         required: true
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
+        type: String,
         required: true
-
     },
     courseId: {
-        type: Schema.Types.ObjectId,
-        ref: 'course',
+        type: String,
         required: true
-
     },
     registeredOn: {
         type: Date,

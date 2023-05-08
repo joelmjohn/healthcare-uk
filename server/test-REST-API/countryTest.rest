@@ -1,0 +1,29 @@
+
+
+POST http://localhost:3000/v1/country/create 
+Content-Type: application/json
+
+{
+    "name":"Scotland",
+        "description":"Country Scotland",
+        "countryCode":"GB-SCT"
+}
+###
+
+GET http://localhost:3000/v1/country
+###
+
+GET http://localhost:3000/v1/country/b3343f79-dffb-4af7-908a-97efd83cc0fc
+
+###
+
+PATCH http://localhost:3000/v1/country/b3343f79-dffb-4af7-908a-97efd83cc0fc
+Content-Type: application/json
+
+{
+    "countryCode": "CH"
+}
+
+###
+
+DELETE http://localhost:3000/v1/country/b3343f79-dffb-4af7-908a-97efd83cc0fc

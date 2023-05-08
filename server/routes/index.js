@@ -3,35 +3,22 @@ const router = express.Router();
 
 const userRoute = require('./user.route');
 const documentRoute = require('./document.route');
+const countryRoute = require('./country.route');
+const adminRoute = require('./admin.route');
+const jobRoute = require('./job.route');
+const universityRoute = require('./university.route');
+const courseRoute = require('./course.route');
+const jobRegRoute = require('./jobReg.route');
+const blogPostRoute = require('./blogpost.route');
 
 router.use('/user', userRoute);
 router.use('/document', documentRoute);
-
-//Testing only- need to be removed
-// get all
-router.get('/', (req, res) => {
-    res.send(' Test Get All');
-});
-
-// get one
-router.get('/:id', (req, res) => {
-    res.send(`Test Get one-id:${req.params.id}`);
-});
-
-// create one
-router.post('/', (req, res) => {
-    res.send(` Test create one: ${req.body}`);
-});
-
-// update one
-router.patch('/:id', (req, res) => {
-    res.send(` Test update one: ${req.params.id}`);
-});
-
-// delete one
-router.delete('/:id', (req, res) => {
-    res.send(` Test delete one:${req.params.id}`);
-});
-
+router.use('/country', countryRoute);
+router.use('/admin', adminRoute);
+router.use('/job', jobRoute);
+router.use('/university', universityRoute);
+router.use('/course', courseRoute);
+router.use('/jobReg', jobRegRoute);
+router.use('/blog', blogPostRoute);
 
 module.exports = router;
