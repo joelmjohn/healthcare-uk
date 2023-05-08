@@ -29,23 +29,21 @@ const jobRole = new Schema({
         required: false
     },
     countryId: {
-        type: Schema.Types.ObjectId,
-        ref: 'country',
-        required: true
+        type: String,
+        required: false
     },
-    isOpen: {
-        type: Boolean,
-        default: true
+    status: {
+        type: String,
+        enum: modelEnum.JOB_STATUS,
+        default: "ACTIVE"
     },
     vacancy: {
         type: Number,
         default: 0,
         required: true
     },
-    skillsRequired: [{
-        skillName: String
-    }],
-    experience: {
+    skillsRequired: [],
+    experienceRequired: {
         type: String,
         required: true
     },
@@ -55,18 +53,14 @@ const jobRole = new Schema({
     },
     employmentType: {
         type: String,
+        enum: modelEnum.EMPLMNT_TYPE,
         required: true
     },
     isBlocked: {
         type: Boolean,
         default: false
     },
-    createdOn: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    lastUpdatedOn: {
+    validTillDate: {
         type: Date,
         required: true,
     }

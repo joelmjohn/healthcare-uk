@@ -1,24 +1,24 @@
-const countryModel = require("../models/country.model");
+const blogpostModel = require("../models/blogpost.model");
 
 exports.save = async (data) => {
-    const country = new countryModel(data);
-    return await country.save();
+    const blog = new blogpostModel(data);
+    return await blog.save();
 };
 
 exports.update = async (matchQuery, updateData) => {
-    const update = await countryModel.updateMany(matchQuery, {
+    const update = await blogpostModel.updateMany(matchQuery, {
         $set: updateData
     });
     return update;
 };
 
 exports.updateOne = async (matchQuery, updateData) => {
-    const country = await countryModel.findOneAndUpdate(matchQuery, updateData);
-    return country;
+    const blog = await blogpostModel.findOneAndUpdate(matchQuery, updateData);
+    return blog;
 };
 
 exports.findOne = async (data) => {
-    return await countryModel.findOne(data).lean();
+    return await blogpostModel.findOne(data).lean();
 };
 
 exports.findAll = async ({ page, limit }) => {
@@ -27,17 +27,17 @@ exports.findAll = async ({ page, limit }) => {
         { $skip: (page - 1) * limit },
         { $limit: limit }
     ]
-    return await countryModel.aggregate(mongoQuery)
+    return await blogpostModel.aggregate(mongoQuery)
 };
 
 exports.deleteOne = async (data) => {
-    return await countryModel.findOneAndDelete(data);
+    return await blogpostModel.findOneAndDelete(data);
 };
 
 exports.findAllByFilter = async (filter) => {
-    return await adminModel.find(filter);
+    return await blogpostModel.find(filter);
 };
 
 exports.findOneByFilter = async (filter) => {
-    return await adminModel.findOne(filter).lean();
+    return await blogpostModel.findOne(filter).lean();
 };

@@ -1,10 +1,11 @@
 'use strict';
 const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
-const countryService = require("../services/country.service");
+const adminService = require("../services/admin.service");
 const { v4: uuidv4 } = require('uuid');
+const md5 = require('md5');
 
-exports.getAllCountry = async (req, res) => {
+exports.getAllAdmin = async (req, res) => {
     const page = req.query.page || 1;
     const limit = parseInt(req.query.limit) || 10;
     const queryParams = {
@@ -12,7 +13,7 @@ exports.getAllCountry = async (req, res) => {
         limit
     };
     try {
-        const response = await countryService.findAll(queryParams);
+        const response = await adminService.findAll(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -23,13 +24,13 @@ exports.getAllCountry = async (req, res) => {
     }
 };
 
-exports.getCountryById = async (req, res) => {
-    const countryId = req.params.id;
+exports.getAdminById = async (req, res) => {
+    const adminId = req.params.id;
     try {
-        if (!countryId) {
+        if (!adminId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await countryService.findOne({ id: countryId });
+        const response = await adminService.findOne({ id: adminId });
         if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -41,41 +42,44 @@ exports.getCountryById = async (req, res) => {
     }
 };
 
-exports.createCountry = async (req, res) => {
+exports.createAdmin = async (req, res) => {
     const {
         name,
-        description,
-        countryCode,
-        isBlocked
+        role,
+        userName,
+        password,
+        email
     } = req.body;
     const id = uuidv4();
+    const passwordEncrypted = md5(password);
     try {
         const data = {
             id: id,
             name: name,
-            description: description,
-            countryCode: countryCode,
-            isBlocked: isBlocked
+            role: role,
+            userName: userName,
+            password: passwordEncrypted,
+            email: email
         };
-        const newCountry = await countryService.save(data);
-        if (newCountry) {
-            responseUtil.successResponse(res, MessageUtil.success, newCountry);
+        const newAdmin = await adminService.save(data);
+        if (newAdmin) {
+            responseUtil.successResponse(res, MessageUtil.success, newAdmin);
         } else {
-            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newCountry);
+            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newAdmin);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
 };
 
-exports.updateCountryById = async (req, res) => {
+exports.updateAdminById = async (req, res) => {
     const reqBody = req.body;
-    const countryId = req.params.id;
+    const adminId = req.params.id;
     try {
-        const response = await countryService.updateOne({ id: countryId }, reqBody);
+        const response = await adminService.updateOne({ id: adminId }, reqBody);
         if (response) {
-            const updatedCountry = await countryService.findOne({ id: countryId });
-            responseUtil.successResponse(res, MessageUtil.success, updatedCountry);
+            const updatedAdmin = await adminService.findOne({ id: adminId });
+            responseUtil.successResponse(res, MessageUtil.success, updatedAdmin);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -84,15 +88,15 @@ exports.updateCountryById = async (req, res) => {
     }
 };
 
-exports.deleteCountryById = async (req, res) => {
-    const countryId = req.params.id;
+exports.deleteAdminById = async (req, res) => {
+    const adminId = req.params.id;
     try {
-        if (!countryId) {
+        if (!adminId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await countryService.deleteOne({ id: countryId });
+        const response = await adminService.deleteOne({ id: adminId });
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `Country Deleted Successfully`);
+            responseUtil.successResponse(res, MessageUtil.success, `Admin Deleted Successfully`);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -101,14 +105,36 @@ exports.deleteCountryById = async (req, res) => {
     }
 };
 
-exports.getCountryByFilter = async (req, res) => {
+exports.getAdminByFilter = async (req, res) => {
     const filterData = req.body;
     try {
         if (!filterData) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await countryService.findAllByFilter(filterData);
+        const response = await adminService.findAllByFilter(filterData);
         if (response.length) {
+            responseUtil.successResponse(res, MessageUtil.success, response);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
+
+    } catch (err) {
+        responseUtil.errorResponse(res, err.message);
+    }
+};
+
+exports.loginAdmin = async (req, res) => {
+    const {
+        userName,
+        password,
+    } = req.body;
+    const passwordEncrypted = md5(password);
+    try {
+        if (!userName || !password) {
+            responseUtil.throwError(MessageUtil.invalidRequest);
+        }
+        const response = await adminService.findOneByFilter({ userName: userName, password: passwordEncrypted });
+        if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);

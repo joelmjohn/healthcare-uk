@@ -1,0 +1,45 @@
+
+
+POST http://localhost:3000/v1/blog/create 
+Content-Type: application/json
+
+{
+    "name": "Blog #3",
+    "title": "THIS THE TITLE OF THE NEW BLOG",
+    "richTextBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.End",
+    "adminId": "9e2f484c-cab9-4e76-8c5e-b576b3d0ff89",
+    "comments": [{
+        "author":"James",
+        "comment": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "date": "01-01-1990"
+    }]
+}
+###
+
+GET http://localhost:3000/v1/blog
+###
+
+GET http://localhost:3000/v1/blog/86708971-af1b-4525-b44b-37dbad02deee
+
+###
+
+PATCH http://localhost:3000/v1/blog/86708971-af1b-4525-b44b-37dbad02deee
+Content-Type: application/json
+
+{
+    "title": "THIS THE NEW TITLE OF THE NEW BLOG"
+}
+
+###
+
+DELETE http://localhost:3000/v1/blog/8cfa8752-09a4-48bc-8c1c-0e27297e4f81
+
+###
+
+POST http://localhost:3000/v1/blog/filter
+Content-Type: application/json
+
+{
+    "name":"Blog #1",
+    "isBlocked":false
+}

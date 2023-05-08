@@ -1,0 +1,41 @@
+
+
+POST http://localhost:3000/v1/jobReg/create 
+Content-Type: application/json
+
+{
+    "name": "General Doctor - Job Registration",
+    "userId": "2c944f6f-a78e-47af-8ad6-d494cf57bd16",
+    "jobRoleId": "dcfd31ab-acb1-45f9-8deb-8a9ce38e80e9",
+    "registeredOn": "2023-05-04T12:11:24.613+00:00",
+    "registrationStatus":"SUCCESS"
+}
+###
+
+GET http://localhost:3000/v1/jobReg
+###
+
+GET http://localhost:3000/v1/jobReg/e85ca2a7-3a82-4833-b4d7-d9245f91bece
+
+###
+
+PATCH http://localhost:3000/v1/jobReg/e85ca2a7-3a82-4833-b4d7-d9245f91bece
+Content-Type: application/json
+
+{
+    "isBlocked": "true"
+}
+
+###
+
+DELETE http://localhost:3000/v1/jobReg/d6adc81d-7a4e-4466-a5e2-746589777884
+
+###
+
+POST http://localhost:3000/v1/jobReg/filter
+Content-Type: application/json
+
+{
+    "registrationStatus":"SUCCESS",
+    "isBlocked":false
+}

@@ -7,5 +7,6 @@ router.route('/create').post(userController.createUser)
 router.route('/:id').patch(userController.updateUserById)
 router.route('/:id').get(userController.getUserById)
 router.route('/:id').delete(userController.deleteUserById)
+router.route('/filter').post(userController.getUserByFilter)
 
 module.exports = router;
