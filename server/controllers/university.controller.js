@@ -65,6 +65,26 @@ exports.removeUniversity = async (req, res) => {
     }
 }
 
+exports.getUniversityByCountry = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const countryId = req.query.countryId;
+    const queryParams = {
+        countryId,
+        page,
+        limit
+    };    try {
+        const universities = await universityServices.getUniversityByCountryService(queryParams);
+        if(universities) {
+            responseUtil.successResponse(res, MessageUtil.success, universities);
+        } else {
+            responseUtil.throwError(MessageUtil.somethingWentWrong);
+        }
+    } catch {
+        responseUtil.errorResponse(res, err.message);
+    }
+}
+
 exports.getUniversityById = async (req, res) => {
     try {
         const { id } = req.params;

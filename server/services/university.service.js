@@ -45,6 +45,19 @@ exports.count = async (data) => {
     return await universityModel.count(data);
 };
 
+exports.getUniversityByCountryService = async ({countryId, page, limit}) => {
+    const matchQuery = {
+        countryId: countryId
+    }
+    const mongoQuery = [
+        {$match: matchQuery},
+        {$project: { __v: 0, _id: 0}},
+        { $skip: (page - 1) * limit },
+        { $limit: limit }
+    ]
+    return await universityModel.aggregate(mongoQuery)
+}
+
 exports.filterUniversity = async (data) => {
     let query = {};
     return await universityModel.aggregate(query)

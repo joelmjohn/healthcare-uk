@@ -4,21 +4,31 @@ POST http://localhost:3000/v1/university/add
 Content-Type: application/json
 
 {
-    "name": "Harword University",
+    "name": "MIT University",
     "description": "some Description",
-    "universityCode": "HO001",
-    "address": "Harward University, UK",
+    "universityCode": "MIT001",
+    "address": "MIT, US",
     "countryId": "c7d74bba-fb46-4f22-ab6f-373f1de5dc34"
 }
 ###
 
-GET http://localhost:3000/v1/university?page=1&limit=1
-###
 
+// Get Complete University
+GET http://localhost:3000/v1/university?page=1&limit=2
+
+
+
+// Get University By Country - Can add more filters on future as needed
+###
+GET http://localhost:3000/v1/university/filter?page=1&limit=3&countryId=c7d74bba-fb46-4f22-ab6f-373f1de5dc34
+
+// Delete a University
+###
 DELETE  http://localhost:3000/v1/university/6b57f3a4-441d-4bc1-9af9-715a11940d6f
 
-###
 
+// Update a University
+###
 PATCH http://localhost:3000/v1/university/54e33ae8-75f9-4465-a31b-24446d34c51b
 Content-Type: application/json
 

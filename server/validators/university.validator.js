@@ -9,3 +9,11 @@ exports.validateUniversityCreate = {
         countryId: Joi.string().required()
     })
 };
+
+exports.validateFilterUniversity = {
+    query: Joi.object().keys({
+        countryId: Joi.string().required(),
+        page: Joi.number().optional(),
+        limit: Joi.number().optional()
+    })
+};
