@@ -8,7 +8,7 @@ const userCourseRegister = new Schema({
         unique: true,
         required: true
     },
-    candidateName: {
+    name: {
         type: String,
         required: true
     },

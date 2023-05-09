@@ -9,6 +9,15 @@ exports.enrollUserToCourse = async (data) => {
     return await courseEnrollData.save();
 }
 
+exports.getAllRegistrations = async ({ page, limit }) => {
+  const mongoQuery = [
+    { $project: { __v: 0, _id: 0 } },
+    { $skip: (page - 1) * limit },
+    { $limit: limit }
+  ]
+  return userRegistrationModel.aggregate(mongoQuery);
+}
+
 exports.mergeUserDataForEmail = async (email, courseId) => {
     // Required Format
     // const data = {

@@ -8,7 +8,7 @@ const adminRoute = require('./admin.route');
 const jobRoute = require('./job.route');
 const universityRoute = require('./university.route');
 const courseRoute = require('./course.route');
-const registerRoute = require('./register.route');
+const courseRegisterRoute = require('./courseReg.route');
 const jobRegRoute = require('./jobReg.route');
 const blogPostRoute = require('./blogpost.route');
 
@@ -19,7 +19,7 @@ router.use('/admin', adminRoute);
 router.use('/job', jobRoute);
 router.use('/university', universityRoute);
 router.use('/course', courseRoute);
-router.use('/register', registerRoute);
+router.use('/register', courseRegisterRoute);
 router.use('/jobReg', jobRegRoute);
 router.use('/blog', blogPostRoute);
 
