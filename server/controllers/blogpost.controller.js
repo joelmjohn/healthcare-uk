@@ -1,10 +1,10 @@
 'use strict';
 const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
-const userService = require("../services/user.service");
+const blogpostService = require("../services/blogpost.service");
 const { v4: uuidv4 } = require('uuid');
 
-exports.getUsers = async (req, res) => {
+exports.getAllBlogpost = async (req, res) => {
     const page = req.query.page || 1;
     const limit = parseInt(req.query.limit) || 10;
     const queryParams = {
@@ -12,7 +12,7 @@ exports.getUsers = async (req, res) => {
         limit
     };
     try {
-        const response = await userService.findAll(queryParams);
+        const response = await blogpostService.findAll(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -23,13 +23,13 @@ exports.getUsers = async (req, res) => {
     }
 };
 
-exports.getUserById = async (req, res, next) => {
-    const userId = req.params.id;
+exports.getBlogpostById = async (req, res, next) => {
+    const blogId = req.params.id;
     try {
-        if (!userId) {
+        if (!blogId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await userService.findOne({ id: userId });
+        const response = await blogpostService.findOne({ id: blogId });
         if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -39,71 +39,47 @@ exports.getUserById = async (req, res, next) => {
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
-    next()
 };
 
-exports.createUser = async (req, res) => {
+exports.createBlogpost = async (req, res) => {
     const {
-        firstName,
-        designation,
-        email,
-        lastName,
-        gender,
-        dob,
-        country,
-        address,
-        zipCode,
-        education,
-        experience,
-        awards,
-        phone,
-        profileImg,
-        isVerified,
-        isBlocked,
-        hasAddedBasicInfo
+        name,
+        title,
+        richTextBody,
+        adminId,
+        comments,
+        isBlocked
     } = req.body;
     const id = uuidv4();
     try {
-        const userData = {
+        const data = {
             id: id,
-            firstName: firstName,
-            designation: designation,
-            email: email,
-            lastName: lastName,
-            gender: gender,
-            dob: dob,
-            country: country,
-            address: address,
-            phone: phone,
-            zipCode: zipCode,
-            education: education,
-            experience: experience,
-            awards: awards,
-            profileImg: profileImg,
-            isVerified: isVerified,
-            isBlocked: isBlocked,
-            hasAddedBasicInfo: hasAddedBasicInfo
-
+            name: name,
+            title: title,
+            richTextBody: richTextBody,
+            adminId: adminId,
+            comments: comments,
+            isBlocked: isBlocked
         };
-        const newUser = await userService.save(userData);
-        if (newUser) {
-            responseUtil.successResponse(res, MessageUtil.success, newUser);
+        const newBlog = await blogpostService.save(data);
+        if (newBlog) {
+            responseUtil.successResponse(res, MessageUtil.success, newBlog);
         } else {
-            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newUser);
+            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newBlog);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
 };
 
-exports.updateUserById = async (req, res) => {
+exports.updateBlogById = async (req, res) => {
     const reqBody = req.body;
-    const userId = req.params.id;
+    const blogId = req.params.id;
     try {
-        const response = await userService.updateOne({ id: userId }, reqBody);
+        const response = await blogpostService.updateOne({ id: blogId }, reqBody);
         if (response) {
-            const updatedUser = await userService.findOne({ id: userId });
-            responseUtil.successResponse(res, MessageUtil.success, updatedUser);
+            const updatedBlog = await blogpostService.findOne({ id: blogId });
+            responseUtil.successResponse(res, MessageUtil.success, updatedBlog);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -112,15 +88,15 @@ exports.updateUserById = async (req, res) => {
     }
 };
 
-exports.deleteUserById = async (req, res) => {
-    const userId = req.params.id;
+exports.deleteBlogById = async (req, res) => {
+    const blogId = req.params.id;
     try {
-        if (!userId) {
+        if (!blogId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await userService.deleteOne({ id: userId });
+        const response = await blogpostService.deleteOne({ id: blogId });
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `User Deleted Successfully`);
+            responseUtil.successResponse(res, MessageUtil.success, `Blogpost Deleted Successfully`);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
@@ -129,13 +105,13 @@ exports.deleteUserById = async (req, res) => {
     }
 };
 
-exports.getUserByFilter = async (req, res) => {
+exports.getAllBlogsByFilter = async (req, res) => {
     const filterData = req.body;
     try {
         if (!filterData) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await userService.findAllByFilter(filterData);
+        const response = await blogpostService.findAllByFilter(filterData);
         if (response.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
@@ -146,3 +122,4 @@ exports.getUserByFilter = async (req, res) => {
         responseUtil.errorResponse(res, err.message);
     }
 };
+

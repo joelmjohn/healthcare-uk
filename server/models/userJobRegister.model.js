@@ -13,15 +13,13 @@ const userJobRegister = new Schema({
         required: true
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+        type: String,
+        required: false
 
     },
     jobRoleId: {
-        type: Schema.Types.ObjectId,
-        ref: 'jobRole',
-        required: true
+        type: String,
+        required: false
 
     },
     registeredOn: {
@@ -36,15 +34,6 @@ const userJobRegister = new Schema({
     isBlocked: {
         type: Boolean,
         default: false
-    },
-    createdOn: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    lastUpdatedOn: {
-        type: Date,
-        required: true,
     }
 }, { timestamps: true });
 

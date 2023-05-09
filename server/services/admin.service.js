@@ -1,24 +1,24 @@
-const countryModel = require("../models/country.model");
+const adminModel = require("../models/admin.model");
 
 exports.save = async (data) => {
-    const country = new countryModel(data);
-    return await country.save();
+    const admin = new adminModel(data);
+    return await admin.save();
 };
 
 exports.update = async (matchQuery, updateData) => {
-    const update = await countryModel.updateMany(matchQuery, {
+    const update = await adminModel.updateMany(matchQuery, {
         $set: updateData
     });
     return update;
 };
 
 exports.updateOne = async (matchQuery, updateData) => {
-    const country = await countryModel.findOneAndUpdate(matchQuery, updateData);
-    return country;
+    const admin = await adminModel.findOneAndUpdate(matchQuery, updateData);
+    return admin;
 };
 
 exports.findOne = async (data) => {
-    return await countryModel.findOne(data).lean();
+    return await adminModel.findOne(data).lean();
 };
 
 exports.findAll = async ({ page, limit }) => {
@@ -27,11 +27,11 @@ exports.findAll = async ({ page, limit }) => {
         { $skip: (page - 1) * limit },
         { $limit: limit }
     ]
-    return await countryModel.aggregate(mongoQuery)
+    return await adminModel.aggregate(mongoQuery)
 };
 
 exports.deleteOne = async (data) => {
-    return await countryModel.findOneAndDelete(data);
+    return await adminModel.findOneAndDelete(data);
 };
 
 exports.findAllByFilter = async (filter) => {

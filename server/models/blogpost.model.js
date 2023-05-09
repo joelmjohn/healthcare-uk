@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
 
-const admin = new Schema({
+const blogpost = new Schema({
     id: {
         type: String,
         unique: true,
@@ -12,37 +12,30 @@ const admin = new Schema({
         type: String,
         required: true
     },
-    role: {
+    title: {
         type: String,
-        enum: modelEnum.ADMIN_ROLE,
         required: true
-
     },
-    userName: {
+    richTextBody: {
         type: String,
         required: true
 
     },
-    password: {
+    adminId: {
         type: String,
         required: true
-
     },
-    email: {
-        type: String,
-        unique: true,
-        required: true
-
-    },
-    profileImg: String,
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+    comments: [
+        {
+            author: String,
+            comment: String,
+            date: Date
+        }
+    ],
     isBlocked: {
         type: Boolean,
         default: false
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('admin', admin);
+module.exports = new mongoose.model('blogpost', blogpost);
