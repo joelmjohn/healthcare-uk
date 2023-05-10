@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import AdminView from '../views/admin'
+import UserList from '../components/Admin/UserList'
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,12 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminView
+    ,
+    children: [
+      {
+        path: "userList",
+        component: UserList
+      },]
   }
 ]
 
