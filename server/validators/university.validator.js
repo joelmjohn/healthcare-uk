@@ -6,6 +6,14 @@ exports.validateUniversityCreate = {
         description: Joi.string().required(),
         universityCode: Joi.string().required(),
         address: Joi.string().required(),
-        countryCode: Joi.string().required()
+        countryId: Joi.string().required()
+    })
+};
+
+exports.validateFilterUniversity = {
+    query: Joi.object().keys({
+        countryId: Joi.string().required(),
+        page: Joi.number().optional(),
+        limit: Joi.number().optional()
     })
 };

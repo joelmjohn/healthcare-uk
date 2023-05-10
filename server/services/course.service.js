@@ -12,20 +12,25 @@ exports.update = async (matchQuery, updateData) => {
     return update;
 };
 
-exports.exists = async (courseCode) => {
-    return await courseModel.find({'courseCode': { "$in": courseCode}}).count() > 0
+exports.exists = async (courseId) => {
+    return await courseModel.find({'id': { "$in": courseId}}).count() > 0
 }
 
 exports.findOne = async (data) => {
     return await courseModel.find(data).lean();
 };
 
-exports.rmCourse = async (courseCode) => {
-    return await courseModel.deleteOne({ courseCode: courseCode })
+exports.rmCourse = async (courseId) => {
+    return await courseModel.deleteOne({ id: courseId })
 };
 
-exports.findAll = async (data) => {
-    return await courseModel.find();
+exports.findAllCourses = async ({page, limit}) => {
+    const mongoQuery = [
+        {$project: { __v: 0, _id: 0}},
+        { $skip: (page - 1) * limit },
+        { $limit: limit }
+    ]
+    return await courseModel.aggregate(mongoQuery);
 };
 
 exports.getAllCourses = async(data) => {
@@ -52,12 +57,10 @@ exports.getAllCourses = async(data) => {
     return await courseModel.aggregate(mongoQuery);
 }
 
-
-
 exports.count = async (data) => {
     return await courseModel.count(data);
 };
 
 exports.modifyCourse = async (id, data) => {
-    return await courseModel.findOneAndUpdate({ courseCode: id }, data)
+    return await courseModel.findOneAndUpdate({ id: id }, data)
 }

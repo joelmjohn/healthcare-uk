@@ -24,22 +24,13 @@ const university = new Schema({
         type: String,
         required: true
     },
-    countryCode: {
+    countryId: {
         type: String,
         required: true
     },
     isBlocked: {
         type: Boolean,
         default: false
-    },
-    createdOn: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    lastUpdatedOn: {
-        type: Date,
-        required: true,
     }
 }, { timestamps: true });
 

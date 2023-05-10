@@ -17,7 +17,7 @@ exports.getAllUniversities = async (req, res) => {
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -28,8 +28,9 @@ exports.updateUniversity = async (req, res) => {
     try {
         const { id } = req.params;
         const universityExists = await universityServices.exists(id);
+        console.log(universityExists)
         if(!universityExists){
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.doesNotExists);
         } else {
             console.log(req.body)
             const response = await universityServices.modifyUniversity(id, req.body)
@@ -37,7 +38,7 @@ exports.updateUniversity = async (req, res) => {
             if(response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
             } else {
-                responseUtil.throwError(MessageUtil.somethingWentWrong);
+                responseUtil.failResponse(res, MessageUtil.updationFailed);
             }
         }
     } catch (err) {
@@ -50,16 +51,36 @@ exports.removeUniversity = async (req, res) => {
         const { id } = req.params;
         const universityExists = await universityServices.exists(id);
         if(!universityExists){
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.doesNotExists);
         } else {
             const response = await universityServices.rmUniversity(id)
             if(response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
             } else {
-                responseUtil.throwError(MessageUtil.somethingWentWrong);
+                responseUtil.failResponse(res, MessageUtil.deleteFailed);
             }
         }
     } catch (err) {
+        responseUtil.errorResponse(res, err.message);
+    }
+}
+
+exports.getUniversityByCountry = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const countryId = req.query.countryId;
+    const queryParams = {
+        countryId,
+        page,
+        limit
+    };    try {
+        const universities = await universityServices.getUniversityByCountryService(queryParams);
+        if(universities) {
+            responseUtil.successResponse(res, MessageUtil.success, universities);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
+        }
+    } catch {
         responseUtil.errorResponse(res, err.message);
     }
 }
@@ -74,7 +95,7 @@ exports.getUniversityById = async (req, res) => {
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -87,10 +108,9 @@ exports.addUniversity = async (req, res) => {
         description,
         universityCode,
         address,
-        countryCode
+        countryId
     } = req.body;
     const id = uuidv4();
-    const lastUpdatedOn = Date.now();
     try {
         const universityData = {
             id,
@@ -98,19 +118,18 @@ exports.addUniversity = async (req, res) => {
             description,
             universityCode,
             address,
-            countryCode,
-            lastUpdatedOn
+            countryId,
         };
         const universityExists = await universityServices.exists(universityCode)
         if(universityExists) {
-            responseUtil.throwError(MessageUtil.somethingWentWrongInUniversity);
+            responseUtil.failResponse(res, MessageUtil.doesNotExists);
         } else {
             const newUniversity = await universityServices.save(universityData);
             console.log(newUniversity)
             if (newUniversity) {
                 responseUtil.successResponse(res, MessageUtil.success, newUniversity);
             } else {
-                responseUtil.throwError(MessageUtil.serverError);
+                responseUtil.failResponse(res, MessageUtil.creationFailed);
             }
         }
     } catch (err) {

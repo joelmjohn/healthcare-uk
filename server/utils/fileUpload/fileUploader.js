@@ -1,5 +1,5 @@
 const multer = require('multer');
-const { errorResponse } = require('../utils/responseUtils');
+const { errorResponse } = require('../responseUtils');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

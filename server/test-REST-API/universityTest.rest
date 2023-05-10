@@ -4,28 +4,38 @@ POST http://localhost:3000/v1/university/add
 Content-Type: application/json
 
 {
-    "name": "University001",
+    "name": "MIT University",
     "description": "some Description",
-    "universityCode": "U001",
-    "address": "address",
-    "countryCode": "645250a85cabcbd8458b34fe"
+    "universityCode": "MIT001",
+    "address": "MIT, US",
+    "countryId": "c7d74bba-fb46-4f22-ab6f-373f1de5dc34"
 }
 ###
 
-GET http://localhost:3000/v1/university
+
+// Get Complete University
+GET http://localhost:3000/v1/university?page=1&limit=2
+
+
+
+// Get University By Country - Can add more filters on future as needed
 ###
+GET http://localhost:3000/v1/university/filter?page=1&limit=3&countryId=c7d74bba-fb46-4f22-ab6f-373f1de5dc34
 
-DELETE  http://localhost:3000/v1/university/U002
-
+// Delete a University
 ###
+DELETE  http://localhost:3000/v1/university/6b57f3a4-441d-4bc1-9af9-715a11940d6f
 
-PATCH http://localhost:3000/v1/university/U001
+
+// Update a University
+###
+PATCH http://localhost:3000/v1/university/54e33ae8-75f9-4465-a31b-24446d34c51b
 Content-Type: application/json
 
 {
-    "name": "University002",
+    "name": "Hardward University",
     "description": "New Description",
-    "universityCode": "U002",
-    "address": "address2",
-    "countryId": "645250a85cabcbd8458b34fe"
+    "universityCode": "HU001",
+    "address": "Harward University, US",
+    "countryId": "c7d74bba-fb46-4f22-ab6f-373f1de5dc34"
 }

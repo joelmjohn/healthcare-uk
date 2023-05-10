@@ -17,7 +17,6 @@ exports.findOne = async (data) => {
 };
 
 exports.exists = async ({userId}) => {
-  console.log("Exists Started")
   return await documentModel.find({ userId: userId }).count() > 0;
 };
 
@@ -72,6 +71,10 @@ exports.removeDocument = async ({ eTag, userId }) => {
     { userId: userId, "cloudStorage.etag": eTag },
     { $pull: { cloudStorage: { etag: eTag } } }
   )
+}
+
+exports.removeExactDocument = async (id) => {
+  return await documentModel.deleteOne(id)
 }
 
 exports.findAll = async () => {

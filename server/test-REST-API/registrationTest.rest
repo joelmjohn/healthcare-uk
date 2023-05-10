@@ -1,0 +1,18 @@
+
+
+POST http://localhost:3000/v1/courseReg/course
+Content-Type: application/json
+
+{
+    "candidateName":"Carla",
+    "courseId": "fd74350a-89b5-4e45-9fbf-0d81b4ee9aaa",
+    "email": "carla@mail.com",
+    "userId": "b22b1b18-6800-49aa-8ac9-dbe09d7a0cf3"
+}
+
+###
+
+// Get Complete University
+GET http://localhost:3000/v1/courseReg/list?page=1&limit=10
+
+
