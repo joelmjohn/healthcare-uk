@@ -11,9 +11,15 @@ module.exports = {
     somethingWentWrongInUniversity: 'Something went wrong in University!',
     somethingWentWrongInCourse: 'Something went wrong in Course!',
     requestedDataNotFound: 'Requested Data Not Found',
+    alreadyExists: 'Already Exists',
+    doesNotExists: 'Requested Item Does not exist',
+    creationFailed: 'Course Creation Failed',
+    updationFailed: 'Updation Failed',
+    deleteFailed: 'Delete Failed',
     invalidRequest: 'Invalid Request',
     userAlreadyEnrolledToCourse: 'You have already enrolled for this course, Please wait for reply from admin',
     userEnrollFailed: 'Unable to enroll user to course, Contact admin',
+    userNotRegistered: 'User Not Registered.',
     errorMergingDocuments: 'Registration Failed, Failed to fetch user details.',
     emailTransportFailure: 'Email Service Error, Please contact admin'
 };

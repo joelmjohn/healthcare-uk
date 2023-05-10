@@ -28,7 +28,7 @@ exports.registerUserToCourse = async (req, res) => {
         if(userExists) {
             const isUserErolledToCourse = await userCourseRegistrationService.isUserAlreadyEnrolledToCourse(email, courseId);
             if (isUserErolledToCourse) {
-                responseUtil.throwError(MessageUtil.userAlreadyEnrolledToCourse)
+                responseUtil.failResponse(res, MessageUtil.userAlreadyEnrolledToCourse);
             } else {
                 const enrollUserToCourse = await userCourseRegistrationService.enrollUserToCourse(courseData)
                 if(enrollUserToCourse) {
@@ -41,17 +41,17 @@ exports.registerUserToCourse = async (req, res) => {
                             console.log(sendEmail)
                             responseUtil.successResponse(res, MessageUtil.success, sendEmail);
                         } else {
-                            responseUtil.throwError(MessageUtil.emailTransportFailure)
+                            responseUtil.failResponse(res, MessageUtil.emailTransportFailure);
                         }
                     } else {
-                        responseUtil.throwError(MessageUtil.errorMergingDocuments)
+                        responseUtil.failResponse(res, MessageUtil.errorMergingDocuments);
                     }
                 } else {
-                    responseUtil.throwError(MessageUtil.userEnrollFailed);
+                    responseUtil.failResponse(res, MessageUtil.userEnrollFailed);
                 }
             }
         } else {
-            responseUtil.throwError(MessageUtil.userEnrollFailed);
+            responseUtil.throwError(MessageUtil.userNotRegistered);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -70,7 +70,7 @@ exports.getCourseRegistrations = async (req, res) => {
         if(response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.serverError);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);

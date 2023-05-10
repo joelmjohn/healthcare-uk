@@ -17,7 +17,7 @@ exports.getAllCourses = async (req, res) => {
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -34,7 +34,7 @@ exports.getCourseById = async (req, res) => {
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -63,13 +63,13 @@ exports.addCourse = async (req, res) => {
         };
         const courseExists = await courseServices.exists(courseCode);
         if(courseExists) {
-            responseUtil.throwError(MessageUtil.somethingWentWrongInCourse);
+            responseUtil.failResponse(res, MessageUtil.alreadyExists, response);
         } else {
             const newCourse = await courseServices.save(courseData);
             if (newCourse) {
                 responseUtil.successResponse(res, MessageUtil.success, newCourse);
             } else {
-                responseUtil.throwError(MessageUtil.serverError);
+                responseUtil.failResponse(res, MessageUtil.creationFailed, newCourse);
             }
         }
     } catch (err) {
@@ -89,7 +89,7 @@ exports.updateCourse = async (req, res) => {
             if(response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
             } else {
-                responseUtil.throwError(MessageUtil.somethingWentWrong);
+                responseUtil.failResponse(res, MessageUtil.updationFailed, newCourse);
             }
         }
     } catch (err) {
@@ -108,7 +108,7 @@ exports.removeCourse = async (req, res) => {
             if(response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
             } else {
-                responseUtil.throwError(MessageUtil.somethingWentWrong);
+                responseUtil.failResponse(res, MessageUtil.deleteFailed, newCourse);
             }
         }
     } catch (err) {

@@ -17,7 +17,7 @@ exports.getAllDocument = async (req, res) => {
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response[0]);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -34,7 +34,7 @@ exports.getDocumentsByUserId = async (req, res) => {
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -52,7 +52,7 @@ exports.removeDocument = async (req, res) => {
         if (response && response.modifiedCount > 0) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
+            responseUtil.failResponse(res, MessageUtil.deleteFailed, response);
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -94,7 +94,7 @@ exports.addDocument = async (req, res) => {
             if (newDocument) {
                 responseUtil.successResponse(res, MessageUtil.success, newDocument);
             } else {
-                responseUtil.throwError(MessageUtil.serverError);
+                responseUtil.failResponse(res, MessageUtil.creationFailed, response);
             }
         } else {
             const documentData = await documentService.findOne({userId: userId});
@@ -105,7 +105,7 @@ exports.addDocument = async (req, res) => {
             if (newDocument) {
                 responseUtil.successResponse(res, MessageUtil.success, newDocument);
             } else {
-                responseUtil.throwError(MessageUtil.serverError);
+                responseUtil.failResponse(res, MessageUtil.creationFailed, response);
             }
         }
 

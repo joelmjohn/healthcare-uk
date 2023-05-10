@@ -19,7 +19,7 @@ router.use('/admin', adminRoute);
 router.use('/job', jobRoute);
 router.use('/university', universityRoute);
 router.use('/course', courseRoute);
-router.use('/register', courseRegisterRoute);
+router.use('/courseReg', courseRegisterRoute);
 router.use('/jobReg', jobRegRoute);
 router.use('/blog', blogPostRoute);
 

@@ -1,6 +1,6 @@
 
 
-POST http://localhost:3000/v1/register/course
+POST http://localhost:3000/v1/courseReg/course
 Content-Type: application/json
 
 {
@@ -13,6 +13,6 @@ Content-Type: application/json
 ###
 
 // Get Complete University
-GET http://localhost:3000/v1/register/list?page=1&limit=10
+GET http://localhost:3000/v1/courseReg/list?page=1&limit=10
 
 
