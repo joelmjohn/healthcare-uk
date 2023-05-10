@@ -19,7 +19,7 @@
         <td>{{ userDetails.lastName }}</td>
         <td>{{ userDetails.gender }}</td>
         <td>{{ userDetails.country }}</td>
-        <td>{{ new Date(userDetails.dob).toLocaleDateString() }}</td>
+        <td>{{ user_dob(userDetails.dob) }}</td>
         <td>{{ userDetails.email }}</td>
         <td>{{ userDetails.designation }}</td>
       </tr>
@@ -28,21 +28,31 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
-    return { users: "" };
+    return { users: "", root: process.env.VUE_APP_ROOT_API };
   },
   name: "UserList",
   mounted() {
     this.usersList();
   },
   methods: {
+    user_dob(userDOB) {
+      return new Date(userDOB).toLocaleDateString();
+    },
     usersList() {
-      axios
-        .get("http://localhost:3000/v1/user")
+      this.$axios
+        .get(`${this.root}/user`)
         .then((response) => {
-          this.users = response.data.data;
+          if (response.data.status) {
+            this.users = response.data.data;
+          } else {
+            this.$bvToast.toast("Users Not Found", {
+              title: "Error",
+              variant: "danger",
+              solid: true,
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -57,5 +67,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
