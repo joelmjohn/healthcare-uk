@@ -51,21 +51,28 @@ exports.createAdmin = async (req, res) => {
         email
     } = req.body;
     const id = uuidv4();
-    const passwordEncrypted = md5(password);
     try {
-        const data = {
-            id: id,
-            name: name,
-            role: role,
+        const query = {
             userName: userName,
-            password: passwordEncrypted,
-            email: email
-        };
-        const newAdmin = await adminService.save(data);
-        if (newAdmin) {
-            responseUtil.successResponse(res, MessageUtil.success, newAdmin);
+        }
+        const doesAdminExists = await adminService.exists(query);
+        if(doesAdminExists) {
+            responseUtil.errorResponse(res, MessageUtil.alreadyExists);
         } else {
-            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newAdmin);
+            const data = {
+                id: id,
+                name: name,
+                role: role,
+                userName: userName,
+                password: password,
+                email: email
+            };
+            const newAdmin = await adminService.save(data)
+            if (newAdmin) {
+                responseUtil.successResponse(res, MessageUtil.success, newAdmin);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newAdmin);
+            }
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);

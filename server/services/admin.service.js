@@ -21,6 +21,10 @@ exports.findOne = async (data) => {
     return await adminModel.findOne(data).lean();
 };
 
+exports.exists = async (data) => {
+    return await adminModel.findOne(data).count() > 0
+}
+
 exports.findAll = async ({ page, limit }) => {
     const mongoQuery = [
         { $project: { __v: 0, _id: 0 } },

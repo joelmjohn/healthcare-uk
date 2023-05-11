@@ -16,6 +16,8 @@ module.exports = {
     creationFailed: 'Course Creation Failed',
     updationFailed: 'Updation Failed',
     deleteFailed: 'Delete Failed',
+    loginFailed: 'Login Failed',
+    loginEmailError: 'The entered Email address is not associated with the foreignMaster application. Please Register',
     invalidRequest: 'Invalid Request',
     userAlreadyEnrolledToCourse: 'You have already enrolled for this course, Please wait for reply from admin',
     userEnrollFailed: 'Unable to enroll user to course, Contact admin',
