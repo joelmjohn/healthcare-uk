@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import AdminView from '../views/admin'
 import UserList from '../components/Admin/UserList'
+import AdminBlog from '../components/Admin/Blogpost'
 
 Vue.use(VueRouter)
 
@@ -61,7 +62,13 @@ const routes = [
       {
         path: "userList",
         component: UserList
-      },]
+      }
+    ]
+  },
+  {
+    path: '/admin/blogpost',
+    name: 'blogpost',
+    component: AdminBlog
   }
 ]
 
