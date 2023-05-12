@@ -45,48 +45,18 @@ const admin = new Schema({
     }
 }, { timestamps: true });
 
-// Password Hash middleware
-admin.pre('save', function save (next) {
-    const admin = this
-    if (!admin.isModified('password')) {
-      return next()
-    }
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        return next(err)
-      }
-      bcrypt.hash(admin.password, salt, null, (err, hash) => {
-        if (err) {
-          return next(err)
-        }
-        admin.password = hash
-        next()
-      })
-    })
-})
-
-
-admin.pre('findOneAndUpdate', function save (next) {
-    const admin = this
-    const password = this.getUpdate().$set.password
-    if (!password) {
-      return next()
-    }
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        return next(err)
-      }
-  
-      bcrypt.hash(password, salt, null, (err, hash) => {
-        if (err) {
-          return next(err)
-        }
-        admin.getUpdate().$set.password = hash
-        next()
-      })
-    })
-})
-
+// Password Hash Middleware
+admin.pre('save', function(next) {
+  const admin = this;
+  if (!admin.isModified('password')) {
+    return next()
+  }
+  bcrypt.hash(admin.password, 10, function(err, hash) {
+      if (err) return next(err);
+      admin.password = hash;
+      next();
+  });
+});
 
 // Helper for comparing password
 admin.methods.comparePassword = function comparePassword(adminPassword,cb) {

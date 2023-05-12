@@ -53,7 +53,7 @@ exports.createAdmin = async (req, res) => {
     const id = uuidv4();
     try {
         const query = {
-            userName: userName,
+            email: email,
         }
         const doesAdminExists = await adminService.exists(query);
         if(doesAdminExists) {
