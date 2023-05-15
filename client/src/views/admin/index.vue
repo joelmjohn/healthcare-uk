@@ -31,6 +31,10 @@
       </b-card>
     </b-container>
     <router-link to="/admin/userList">User</router-link>
+    <br/>
+    <router-link to="/admin/adminList">List Admins</router-link>
+    <br/>
+    <router-link to="/admin/registerUser">Register Admin</router-link>
     <router-view></router-view>
   </div>
 </template>
