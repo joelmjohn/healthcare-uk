@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import AdminView from '../views/admin'
 import UserList from '../components/Admin/UserList'
-import AdminRegistration from '../components/Admin/AdminRegistration'
-import AdminList from '../components/Admin/AdminList'
+import AdminRegistration from '../views/admin/AdminRegistration'
+import AdminList from '../views/admin/AdminList'
 
 Vue.use(VueRouter)
 
@@ -63,17 +63,18 @@ const routes = [
       {
         path: "userList",
         component: UserList
-      },
-      {
-        path: "adminList",
-        component: AdminList
-      },
-      {
-        path: "registerUser",
-        component: AdminRegistration
       }
-    
     ]
+  },
+  {
+    path: '/admin/register',
+    name: 'AdminRegistration',
+    component: AdminRegistration
+  },
+  {
+    path: '/admin/list',
+    name: 'AdminList',
+    component: AdminList
   }
 ]
 
