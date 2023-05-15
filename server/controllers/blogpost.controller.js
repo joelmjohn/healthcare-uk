@@ -44,7 +44,6 @@ exports.getBlogpostById = async (req, res, next) => {
 exports.createBlogpost = async (req, res) => {
     const {
         name,
-        title,
         richTextBody,
         adminId,
         comments,
@@ -55,7 +54,6 @@ exports.createBlogpost = async (req, res) => {
         const data = {
             id: id,
             name: name,
-            title: title,
             richTextBody: richTextBody,
             adminId: adminId,
             comments: comments,

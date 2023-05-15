@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import AdminView from '../views/admin'
 import UserList from '../components/Admin/UserList'
 import AdminBlog from '../components/Admin/Blogpost'
+import AdminBlogCreate from '../components/Admin/Blogpost/createBlog'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,11 @@ const routes = [
     path: '/admin/blogpost',
     name: 'blogpost',
     component: AdminBlog
+  },
+  {
+    path: '/admin/blogpost/create',
+    name: 'blogpostCreate',
+    component: AdminBlogCreate
   }
 ]
 
