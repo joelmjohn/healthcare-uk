@@ -21,8 +21,23 @@ exports.findOne = async (data) => {
     return await jobModel.findOne(data).lean();
 };
 
-exports.findAll = async () => {
-    return await jobModel.find();
+exports.findAll = async ({page, limit}) => {
+    const mongoQuery = [
+        { $project: { "_id": 0 } },
+        {
+          $facet: {
+            jobs: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+            totalCount: [{ $count: 'count' }]
+          }
+        },
+        {
+          $project: {
+            jobs: 1,
+            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+          }
+        }
+      ];
+    return await jobModel.aggregate(mongoQuery);
 };
 
 exports.deleteOne = async (data) => {

@@ -15,7 +15,7 @@ exports.getAllUniversities = async (req, res) => {
     try {
         const response = await universityServices.findAllUniversities(queryParams);
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, response);
+            responseUtil.successResponse(res, MessageUtil.success, response[0]);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }

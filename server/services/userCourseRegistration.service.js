@@ -11,10 +11,20 @@ exports.enrollUserToCourse = async (data) => {
 
 exports.getAllRegistrations = async ({ page, limit }) => {
   const mongoQuery = [
-    { $project: { __v: 0, _id: 0 } },
-    { $skip: (page - 1) * limit },
-    { $limit: limit }
-  ]
+    { $project: { "_id": 0 } },
+    {
+      $facet: {
+        courseRegistrations: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+        totalCount: [{ $count: 'count' }]
+      }
+    },
+    {
+      $project: {
+        courseRegistrations: 1,
+        totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+      }
+    }
+  ];
   return userRegistrationModel.aggregate(mongoQuery);
 }
 

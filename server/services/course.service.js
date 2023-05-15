@@ -26,10 +26,20 @@ exports.rmCourse = async (courseId) => {
 
 exports.findAllCourses = async ({page, limit}) => {
     const mongoQuery = [
-        {$project: { __v: 0, _id: 0}},
-        { $skip: (page - 1) * limit },
-        { $limit: limit }
-    ]
+        { $project: { "_id": 0 } },
+        {
+          $facet: {
+            courses: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+            totalCount: [{ $count: 'count' }]
+          }
+        },
+        {
+          $project: {
+            courses: 1,
+            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+          }
+        }
+      ];
     return await courseModel.aggregate(mongoQuery);
 };
 

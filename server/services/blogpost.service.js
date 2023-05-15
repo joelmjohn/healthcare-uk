@@ -23,10 +23,20 @@ exports.findOne = async (data) => {
 
 exports.findAll = async ({ page, limit }) => {
     const mongoQuery = [
-        { $project: { __v: 0, _id: 0 } },
-        { $skip: (page - 1) * limit },
-        { $limit: limit }
-    ]
+        { $project: { "_id": 0 } },
+        {
+          $facet: {
+            blogs: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+            totalCount: [{ $count: 'count' }]
+          }
+        },
+        {
+          $project: {
+            blogs: 1,
+            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+          }
+        }
+      ];
     return await blogpostModel.aggregate(mongoQuery)
 };
 
