@@ -30,7 +30,7 @@
         </b-container>
       </b-card>
     </b-container>
-    <router-link to="/admin/userList">User</router-link>
+    <button><router-link to="/admin/userList">User</router-link></button>
     <router-view></router-view>
   </div>
 </template>
