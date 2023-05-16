@@ -11,6 +11,7 @@ const courseRoute = require('./course.route');
 const courseRegisterRoute = require('./courseReg.route');
 const jobRegRoute = require('./jobReg.route');
 const blogPostRoute = require('./blogpost.route');
+const authRoute = require('./authentication.route');
 
 router.use('/user', userRoute);
 router.use('/document', documentRoute);
@@ -22,5 +23,6 @@ router.use('/course', courseRoute);
 router.use('/courseReg', courseRegisterRoute);
 router.use('/jobReg', jobRegRoute);
 router.use('/blog', blogPostRoute);
+router.use('/auth', authRoute);
 
 module.exports = router;
