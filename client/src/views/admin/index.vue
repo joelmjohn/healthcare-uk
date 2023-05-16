@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-alert show variant="primary">
+        <b-alert show variant="primary" class="text-center">
             Welcome to sample admin page for testing Vue API
         </b-alert>
         <b-container>
@@ -10,13 +10,19 @@
                         <b>ADMIN LOGIN </b>
                     </h1>
                     <div class="form mb-3">
-                        <b-form-input v-model="username" :state="userState" placeholder="username/ email"></b-form-input>
+                        <b-form-input v-model="email" :state="userState" placeholder="email" type="email"></b-form-input>
                     </div>
                     <div class="form mb-4">
                         <b-form-input v-model="password" :state="passwordState" type="password"
                             placeholder="Password"></b-form-input>
                     </div>
-                    <b-button variant="outline-primary" size="lg" @click="login">Login</b-button>
+                    <b-button variant="outline-primary" size="lg" @click="login" :disabled="loading">
+                        <b-spinner v-if="loading" small></b-spinner>
+                        login
+                    </b-button>&nbsp;
+                    <b-button variant="outline-secondary" size="lg" @click="logout" :disabled="loading">
+                        logout (test)
+                    </b-button>
                 </b-container>
             </b-card>
         </b-container>
@@ -29,8 +35,8 @@
 export default {
     name: "admin",
     watch: {
-        username() {
-            if (this.username.length > 2) {
+        email() {
+            if (this.email.length > 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
                 return (this.userState = true);
             }
             this.userState = false;
@@ -50,7 +56,8 @@ export default {
     },
     data() {
         return {
-            username: "",
+            loading: false,
+            email: "",
             userState: false,
             password: "",
             passwordState: false,
@@ -59,7 +66,7 @@ export default {
     },
     methods: {
         login() {
-            if (!this.username || !this.password) {
+            if (!this.email || !this.password) {
                 this.$bvToast.toast("All fields are required", {
                     title: `Invalid Input`,
                     variant: "warning",
@@ -67,18 +74,24 @@ export default {
                 });
                 return false;
             }
+            this.loading = true;
             const data = {};
-            data.userName = this.username;
+            data.email = this.email;
             data.password = this.password;
             this.$axios
                 .post(`${this.root}/admin/login`, data)
                 .then((response) => {
-                    if (response.data.status) {
+                    const responseData = response.data;
+                    console.log('%cindex.vue line:77 responseData', 'color: #007acc;', responseData);
+                    if (responseData.status) {
+                        localStorage.setItem("adminId", responseData.data.id);
+                        localStorage.setItem("adminRole", responseData.data.role);
                         this.$bvToast.toast("Welcome Admin", {
                             title: "Success",
                             variant: "success",
                             solid: true,
                         });
+
                     } else {
                         this.$bvToast.toast("Invalid User", {
                             title: "Invalid",
@@ -88,6 +101,7 @@ export default {
                         this.userState = false;
                         this.passwordState = false;
                     }
+                    this.loading = false;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -96,8 +110,17 @@ export default {
                         variant: "danger",
                         solid: true,
                     });
+                    this.loading = false;
                 });
         },
+        logout() {
+            localStorage.removeItem('adminId');
+            this.$bvToast.toast("Logged Out", {
+                title: "Success",
+                variant: "success",
+                solid: true,
+            });
+        }
     },
 };
 </script>

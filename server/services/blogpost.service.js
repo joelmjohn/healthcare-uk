@@ -23,6 +23,14 @@ exports.findOne = async (data) => {
 
 exports.findAll = async ({ page, limit }) => {
     const mongoQuery = [
+        {
+            $lookup: {
+                from: "admins",
+                localField: "adminId",
+                foreignField: "id",
+                as: "adminDetails"
+            }
+        },
         { $project: { __v: 0, _id: 0 } },
         { $skip: (page - 1) * limit },
         { $limit: limit }

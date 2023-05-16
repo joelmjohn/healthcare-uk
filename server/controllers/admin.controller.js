@@ -125,15 +125,16 @@ exports.getAdminByFilter = async (req, res) => {
 
 exports.loginAdmin = async (req, res) => {
     const {
-        userName,
+        email,
         password,
     } = req.body;
     const passwordEncrypted = md5(password);
     try {
-        if (!userName || !password) {
+        if (!email || !password) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await adminService.findOneByFilter({ userName: userName, password: passwordEncrypted });
+        const filter = { email: email, password: passwordEncrypted, isBlocked: false }
+        const response = await adminService.findOneByFilter(filter);
         if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {

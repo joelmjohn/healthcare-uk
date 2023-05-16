@@ -23,22 +23,27 @@
                                     <th>BlogName</th>
                                     <th>Created By</th>
                                     <th>Created On</th>
-                                    <th>Actions</th>
+                                    <th>Visibility</th>
+                                    <th>Override</th>
                                 </tr>
                             </thead>
                             <tbody v-for="(data, idx) in blogList">
                                 <tr>
                                     <td>{{ idx + 1 }}</td>
                                     <td>{{ data.name }}</td>
-                                    <td>{{ data.adminId }}</td>
+                                    <td>{{ data.adminDetails[0].name }}</td>
                                     <td>{{ data.createdAt }}</td>
                                     <td>
+                                        <b-icon :icon="handleVisibilty(data.isBlocked)" aria-hidden="true" font-scale="2">
+                                        </b-icon>
+                                    </td>
+                                    <td>
                                         <b-button variant="outline-primary" size="sm">
-                                            <b-icon icon="pencil" aria-hidden="true"></b-icon>
+                                            <b-icon icon="pencil"></b-icon>
                                             Edit
                                         </b-button>
                                         <b-button variant="outline-danger" size="sm">
-                                            <b-icon icon="trash" aria-hidden="true"></b-icon>
+                                            <b-icon icon="trash"></b-icon>
                                             Delete
                                         </b-button>
                                     </td>
@@ -54,6 +59,7 @@
 
 <script>
 export default {
+    name: "blogHome",
     data() {
         return {
             root: process.env.VUE_APP_ROOT_API,
@@ -86,6 +92,14 @@ export default {
                         solid: true,
                     });
                 });
+        },
+        handleVisibilty(isHidden) {
+            if (isHidden == true) {
+                return `toggle-off`;
+            }
+            else {
+                return 'toggle-on';
+            }
         }
     },
     mounted() {

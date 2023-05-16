@@ -77,11 +77,33 @@ const routes = [
     component: AdminBlogCreate
   }
 ]
+//{ path: '/:NotFound(.*)*', component: NotFound},
+
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const adminId = localStorage.getItem("adminId");
+  const adminRole = localStorage.getItem("adminRole");
+  if (!adminId &&
+    (to.path === '/admin/blogpost' ||
+      to.path === '/admin/userList' ||
+      to.path === '/admin/blogpost/create'
+    )) {
+    next('/admin');
+  }
+  else if (adminId && adminRole !== "SUPERADMIN" &&
+    (to.path == '/admin/userList')
+  ) {
+    next('/admin');
+  }
+  else {
+    next();
+  }
 })
 
 export default router
