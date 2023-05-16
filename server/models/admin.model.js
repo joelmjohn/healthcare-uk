@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
+const { hashPassword, comparePassword } = require('../middleware/admin');
 
 const admin = new Schema({
     id: {
@@ -46,24 +47,10 @@ const admin = new Schema({
 }, { timestamps: true });
 
 // Password Hash Middleware
-admin.pre('save', function(next) {
-  const admin = this;
-  if (!admin.isModified('password')) {
-    return next()
-  }
-  bcrypt.hash(admin.password, 10, function(err, hash) {
-      if (err) return next(err);
-      admin.password = hash;
-      next();
-  });
-});
+admin.pre('save', hashPassword);
 
 // Helper for comparing password
-admin.methods.comparePassword = function comparePassword(adminPassword,cb) {
-    bcrypt.compare(adminPassword, this.password, (err, isMatch) => {
-       cb(err, isMatch)
-    })
-}
+admin.methods.comparePassword = comparePassword;
 
 admin.options.toJSON = {
     transform (doc, ret, options) {

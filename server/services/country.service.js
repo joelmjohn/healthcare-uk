@@ -37,7 +37,12 @@ exports.findAll = async ({ page, limit }) => {
           }
         }
       ];
-    return await countryModel.aggregate(mongoQuery)
+    const countries = await countryModel.aggregate(mongoQuery)
+    if(countries) {
+      return countries[0]
+    } else {
+      return false
+    }
 };
 
 exports.deleteOne = async (data) => {

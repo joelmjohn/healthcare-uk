@@ -41,7 +41,12 @@ exports.findAll = async ({ page, limit }) => {
           }
         }
       ];
-    return await adminModel.aggregate(mongoQuery)
+    const admins = await adminModel.aggregate(mongoQuery);
+    if(admins) {
+        return admins[0]
+      } else {
+        return false
+      }
 };
 
 exports.deleteOne = async (data) => {

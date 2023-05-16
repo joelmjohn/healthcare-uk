@@ -15,7 +15,7 @@ exports.getAllCourses = async (req, res) => {
     try {
         const response = await courseServices.findAllCourses(queryParams);
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, response[0]);
+            responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }

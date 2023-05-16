@@ -1,8 +1,7 @@
 POST http://localhost:3000/v1/auth/admin 
 Content-Type: application/json
 
-
 {
-    "email":"alanD@mail.com",
-    "password": "alan@1234"
+    "email":"mike@mail.com",
+    "password": "password"
 }

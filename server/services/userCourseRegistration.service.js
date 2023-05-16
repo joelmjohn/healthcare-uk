@@ -25,7 +25,12 @@ exports.getAllRegistrations = async ({ page, limit }) => {
       }
     }
   ];
-  return userRegistrationModel.aggregate(mongoQuery);
+  const courseRegistrations = await userRegistrationModel.aggregate(mongoQuery);
+  if(courseRegistrations) {
+    return courseRegistrations[0]
+  } else {
+    return false
+  }
 }
 
 exports.mergeUserDataForEmail = async (email, courseId) => {

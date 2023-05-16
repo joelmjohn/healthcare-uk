@@ -44,7 +44,12 @@ exports.findAllUniversities = async ({page, limit}) => {
           }
         }
       ];
-    return await universityModel.aggregate(mongoQuery)
+    const universities = await universityModel.aggregate(mongoQuery)
+    if(universities) {
+        return universities[0]
+      } else {
+        return false
+      }
 };
 
 exports.deleteOne = async (data) => {

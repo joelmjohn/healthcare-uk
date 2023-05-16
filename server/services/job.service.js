@@ -37,7 +37,12 @@ exports.findAll = async ({page, limit}) => {
           }
         }
       ];
-    return await jobModel.aggregate(mongoQuery);
+    const jobs =  await jobModel.aggregate(mongoQuery);
+    if(jobs) {
+      return jobs[0]
+    } else {
+      return false
+    }
 };
 
 exports.deleteOne = async (data) => {

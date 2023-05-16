@@ -14,7 +14,7 @@ exports.getAllBlogpost = async (req, res) => {
     try {
         const response = await blogpostService.findAll(queryParams);
         if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, response[0]);
+            responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
         }

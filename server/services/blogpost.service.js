@@ -37,7 +37,12 @@ exports.findAll = async ({ page, limit }) => {
           }
         }
       ];
-    return await blogpostModel.aggregate(mongoQuery)
+    const blogs = await blogpostModel.aggregate(mongoQuery);
+    if(blogs) {
+      return blogs[0]
+    } else {
+      return false
+    }
 };
 
 exports.deleteOne = async (data) => {

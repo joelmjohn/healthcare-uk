@@ -41,7 +41,12 @@ exports.findAll = async ({ page, limit }) => {
           }
         }
       ];
-    return await userModel.aggregate(mongoQuery)
+    const users =  await userModel.aggregate(mongoQuery)
+    if(users) {
+        return users[0]
+      } else {
+        return false
+      }
 };
 
 exports.deleteOne = async (data) => {

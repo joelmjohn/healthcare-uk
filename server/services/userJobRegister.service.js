@@ -36,7 +36,12 @@ exports.findAll = async ({ page, limit }) => {
           }
         }
       ];
-    return await jobRegisterModel.aggregate(mongoQuery)
+    const jobRegistrations = await jobRegisterModel.aggregate(mongoQuery)
+    if(jobRegistrations) {
+      return jobRegistrations[0]
+    } else {
+      return false
+    }
 };
 
 exports.deleteOne = async (data) => {
