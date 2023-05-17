@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-//import HomeView from '../views/HomeView.vue'
 import AdminView from '../views/admin';
-import UserList from '../components/Admin/UserList';
-import AddCountry from '../views/admin/addCountry';
+import UserList from '../components/Admin/UserList/index.vue';
+import Country from '../components/Admin/CountryList/index.vue';
 
 Vue.use (VueRouter);
 
@@ -63,20 +62,17 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminView,
-    children: [
-      {
-        path: 'userList',
-        component: UserList,
-      },
-    ],
-
   },
   {
-    path: '/admin/addCountry',
-    name: 'addCountry',
-    component: AddCountry,
+    path: '/admin/country',
+    name: 'Country',
+    component: Country,
   },
-
+  {
+    path: '/admin/userList',
+    name: 'UserList',
+    component: UserList,
+  }
 ];
 
 const router = new VueRouter ({

@@ -61,7 +61,7 @@
                 <h3>Are you sure want to Delete</h3>
             </div>
             <div class="form mb-3 text-center">
-                <b-button type="button" class="btn btn-danger" @click="deleted">OK</b-button>
+                <b-button type="button" class="btn btn-danger" @click="deleteCountry">OK</b-button>
             </div>
 
         </b-modal>
@@ -69,13 +69,13 @@
 </template>
 <script>
 export default {
-    name: "addCountry",
+    name: "country",
     data() {
         return {
             modalShowView: false,
             deleteModalShowView: false,
             deleteId: "",
-            updateCountry: "",
+            updateCountry: {},
             selectedId: "",
             country: { name: "", description: "", countryCode: "" },
             addedCountries: [],
@@ -83,17 +83,16 @@ export default {
             root: process.env.VUE_APP_ROOT_API,
         };
     },
-    created() {
-        this.test()
+    mounted() {
+        this.countryList()
+
     },
     methods: {
-        test() {
+        countryList() {
             this.$axios
                 .get(`${this.root}/country`)
                 .then((response) => {
-                    if (response.data.status) {
-                        this.addedCountries = response.data.data
-                    }
+                    this.addedCountries = response.data.data
                 })
                 .catch((err) => {
                     console.log(err);
@@ -105,23 +104,30 @@ export default {
                 })
         },
         handleUpdate(data) {
+
             this.selectedId = data.id;
             this.updateCountry = {
                 name: data.name,
                 description: data.description,
                 countryCode: data.countryCode,
             };
+
             this.modalShowView = true;
         },
         handleSave() {
             this.modalShowView = false;
-
+            this.updateCountry.name = this.updateCountry.name.toUpperCase()
             this.$axios
 
                 .patch(`${this.root}/country/` + this.selectedId, this.updateCountry)
                 .then((response) => {
                     if (response.data.status) {
-                        this.test()
+                        this.countryList()
+                        this.$bvToast.toast("Country Details updated successfully", {
+                            title: "Success",
+                            variant: "success",
+                            solid: true,
+                        });
                     }
                 })
                 .catch((err) => {
@@ -135,6 +141,7 @@ export default {
         },
 
         handleAdd() {
+
             this.country.name = this.country.name.toUpperCase();
 
             this.$axios
@@ -142,7 +149,7 @@ export default {
 
                 .then((response) => {
                     if (response.data.status) {
-                        this.test()
+                        this.countryList()
                         this.country.name = ""
                         this.country.description = ""
                         this.country.countryCode = ""
@@ -164,24 +171,34 @@ export default {
             this.deleteId = id
             this.deleteModalShowView = true
         },
-        deleted() {
-            this.deleteModalShowView = false
-            this.$axios
-
-                .delete(`${this.root}/country/` + this.deleteId)
-                .then((response) => {
-                    if (response.data.status) {
-                        this.test()
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.$bvToast.toast("error", {
-                        title: "Error",
-                        variant: "danger",
-                        solid: true,
-                    });
+        deleteCountry() {
+            if (!this.deleteId) {
+                this.$bvToast.toast("Error Occured", {
+                    title: "Error ",
+                    variant: "danger",
+                    solid: true,
                 });
+                return false;
+            }
+            else {
+                this.deleteModalShowView = false
+                this.$axios
+
+                    .delete(`${this.root}/country/` + this.deleteId)
+                    .then((response) => {
+                        if (response.data.status) {
+                            this.countryList()
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.$bvToast.toast("error", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                    });
+            }
         },
     },
 };
