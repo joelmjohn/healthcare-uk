@@ -51,21 +51,28 @@ exports.createAdmin = async (req, res) => {
         email
     } = req.body;
     const id = uuidv4();
-    const passwordEncrypted = md5(password);
     try {
-        const data = {
-            id: id,
-            name: name,
-            role: role,
-            userName: userName,
-            password: passwordEncrypted,
-            email: email
-        };
-        const newAdmin = await adminService.save(data);
-        if (newAdmin) {
-            responseUtil.successResponse(res, MessageUtil.success, newAdmin);
+        const query = {
+            email: email,
+        }
+        const doesAdminExists = await adminService.exists(query);
+        if (doesAdminExists) {
+            responseUtil.errorResponse(res, MessageUtil.alreadyExists);
         } else {
-            responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newAdmin);
+            const data = {
+                id: id,
+                name: name,
+                role: role,
+                userName: userName,
+                password: password,
+                email: email
+            };
+            const newAdmin = await adminService.save(data)
+            if (newAdmin) {
+                responseUtil.successResponse(res, MessageUtil.success, newAdmin);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.somethingWentWrong, newAdmin);
+            }
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -133,7 +140,7 @@ exports.loginAdmin = async (req, res) => {
         if (!email || !password) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const filter = { email: email, password: passwordEncrypted, isBlocked: false }
+        const filter = { email: email, password: passwordEncrypted, isBlocked: false };
         const response = await adminService.findOneByFilter(filter);
         if (response != null) {
             responseUtil.successResponse(res, MessageUtil.success, response);

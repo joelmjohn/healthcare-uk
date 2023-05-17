@@ -76,7 +76,6 @@ export default {
                 .post(`${this.root}/admin/login`, data)
                 .then((response) => {
                     const responseData = response.data;
-                    console.log('%cindex.vue line:77 responseData', 'color: #007acc;', responseData);
                     if (responseData.status) {
                         localStorage.setItem("adminId", responseData.data.id);
                         localStorage.setItem("adminRole", responseData.data.role);

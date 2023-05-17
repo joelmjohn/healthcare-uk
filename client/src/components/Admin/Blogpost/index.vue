@@ -76,7 +76,7 @@ export default {
                 .then((response) => {
                     const responseData = response.data;
                     if (responseData.status) {
-                        this.blogList = responseData.data;
+                        this.blogList = responseData.data.blogs;
                     } else {
                         this.$bvToast.toast("Couldn't fetch data, try again", {
                             title: "Success",

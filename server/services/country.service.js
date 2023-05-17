@@ -23,11 +23,26 @@ exports.findOne = async (data) => {
 
 exports.findAll = async ({ page, limit }) => {
     const mongoQuery = [
-        { $project: { __v: 0, _id: 0 } },
-        { $skip: (page - 1) * limit },
-        { $limit: limit }
-    ]
-    return await countryModel.aggregate(mongoQuery)
+        { $project: { "_id": 0 } },
+        {
+          $facet: {
+            country: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+            totalCount: [{ $count: 'count' }]
+          }
+        },
+        {
+          $project: {
+            country: 1,
+            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+          }
+        }
+      ];
+    const countries = await countryModel.aggregate(mongoQuery)
+    if(countries) {
+      return countries[0]
+    } else {
+      return false
+    }
 };
 
 exports.deleteOne = async (data) => {
