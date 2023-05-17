@@ -5,6 +5,7 @@ import AdminView from '../views/admin'
 import UserList from '../components/Admin/UserList'
 import AdminBlog from '../components/Admin/Blogpost'
 import AdminBlogCreate from '../components/Admin/Blogpost/createBlog'
+import AdminBlogUpdate from '../components/Admin/Blogpost/updateBlog'
 
 Vue.use(VueRouter)
 
@@ -75,6 +76,11 @@ const routes = [
     path: '/admin/blogpost/create',
     name: 'blogpostCreate',
     component: AdminBlogCreate
+  },
+  {
+    path: '/admin/blogpost/update/:id',
+    name: 'blogpostUpdate',
+    component: AdminBlogUpdate
   }
 ]
 //{ path: '/:NotFound(.*)*', component: NotFound},
@@ -92,7 +98,8 @@ router.beforeEach((to, from, next) => {
   if (!adminId &&
     (to.path === '/admin/blogpost' ||
       to.path === '/admin/userList' ||
-      to.path === '/admin/blogpost/create'
+      to.path === '/admin/blogpost/create' ||
+      to.path === '/admin/blogpost/update'
     )) {
     next('/admin');
   }

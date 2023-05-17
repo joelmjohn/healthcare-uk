@@ -34,15 +34,16 @@
                                     <td>{{ data.adminDetails[0].name }}</td>
                                     <td>{{ data.createdAt }}</td>
                                     <td>
-                                        <b-icon :icon="handleVisibilty(data.isBlocked)" aria-hidden="true" font-scale="2">
+                                        <b-icon :icon="handleVisibilty(data.isBlocked)" aria-hidden="true" font-scale="2"
+                                            @click="toggleHide(data.isBlocked, data.id)" style="cursor:pointer">
                                         </b-icon>
                                     </td>
                                     <td>
-                                        <b-button variant="outline-primary" size="sm">
+                                        <b-button variant="outline-primary" size="sm" @click="handleEdit(data.id)">
                                             <b-icon icon="pencil"></b-icon>
                                             Edit
                                         </b-button>
-                                        <b-button variant="outline-danger" size="sm">
+                                        <b-button variant="outline-danger" size="sm" @click="handleDelete(data.id)">
                                             <b-icon icon="trash"></b-icon>
                                             Delete
                                         </b-button>
@@ -64,11 +65,12 @@ export default {
         return {
             root: process.env.VUE_APP_ROOT_API,
             blogList: [],
-            loading: true
+            loading: false
         }
     },
     methods: {
         getAllBlogpost() {
+            this.loading = true;
             this.$axios
                 .get(`${this.root}/blog`)
                 .then((response) => {
@@ -77,7 +79,7 @@ export default {
                         this.blogList = responseData.data;
                     } else {
                         this.$bvToast.toast("Couldn't fetch data, try again", {
-                            title: "Invalid",
+                            title: "Success",
                             variant: "danger",
                             solid: true,
                         });
@@ -99,6 +101,86 @@ export default {
             }
             else {
                 return 'toggle-on';
+            }
+        },
+        handleEdit(id) {
+            this.$router.push({ path: `/admin/blogpost/update/${id}` });
+        },
+        handleDelete(id) {
+            if (!id) {
+                return false
+            }
+            if (confirm("You sure want to permanently delete this blog") == true) {
+                this.loading = true;
+                this.$axios
+                    .delete(`${this.root}/blog/${id}`)
+                    .then((response) => {
+                        const responseData = response.data;
+                        if (responseData.status) {
+                            this.$bvToast.toast("Deleted successfully", {
+                                title: "Success",
+                                variant: "success",
+                                solid: true,
+                            });
+                        } else {
+                            this.$bvToast.toast("Couldn't delete, try again", {
+                                title: "Invalid",
+                                variant: "danger",
+                                solid: true,
+                            });
+                        }
+                        this.loading = false;
+                        this.getAllBlogpost();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.$bvToast.toast("Error Occured!", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                        this.loading = false;
+                    });
+            }
+
+        },
+        toggleHide(currState, id) {
+            if (!id) {
+                return false;
+            }
+            currState = !currState;
+            const data = { isBlocked: currState };
+            if (confirm("You sure want to change visibilty of this blog") == true) {
+                this.loading = true;
+                this.$axios
+                    .patch(`${this.root}/blog/${id}`, data)
+                    .then((response) => {
+                        const responseData = response.data;
+                        if (responseData.status) {
+                            this.$bvToast.toast("Updated successfully", {
+                                title: "Success",
+                                variant: "success",
+                                solid: true,
+                            });
+                        } else {
+                            this.$bvToast.toast("Couldn't perform action, try again", {
+                                title: "Invalid",
+                                variant: "danger",
+                                solid: true,
+                            });
+                        }
+                        this.loading = false;
+                        this.getAllBlogpost();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.$bvToast.toast("Error Occured!", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                        this.loading = false;
+                    });
             }
         }
     },

@@ -48,12 +48,6 @@ export default {
             this.passwordState = false;
         },
     },
-    created() {
-        //methods/fetch API request before DOM mounted goes here
-    },
-    mounted() {
-        //methods/fetch API request after DOM mounted goes here
-    },
     data() {
         return {
             loading: false,
