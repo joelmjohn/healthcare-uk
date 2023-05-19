@@ -4,7 +4,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const passport = require('passport')
+require('./middleware/passport');
 
 /**DB connection config */
 // mongoose.connect('mongodb://localhost/keka');
@@ -49,6 +50,9 @@ mongoose.connection.once("open", function () {
 
 
 app.use(express.json());
+
+// Initialize passport
+app.use(passport.initialize())
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());

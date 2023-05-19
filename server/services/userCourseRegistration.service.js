@@ -11,11 +11,26 @@ exports.enrollUserToCourse = async (data) => {
 
 exports.getAllRegistrations = async ({ page, limit }) => {
   const mongoQuery = [
-    { $project: { __v: 0, _id: 0 } },
-    { $skip: (page - 1) * limit },
-    { $limit: limit }
-  ]
-  return userRegistrationModel.aggregate(mongoQuery);
+    { $project: { "_id": 0 } },
+    {
+      $facet: {
+        courseRegistrations: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+        totalCount: [{ $count: 'count' }]
+      }
+    },
+    {
+      $project: {
+        courseRegistrations: 1,
+        totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+      }
+    }
+  ];
+  const courseRegistrations = await userRegistrationModel.aggregate(mongoQuery);
+  if(courseRegistrations) {
+    return courseRegistrations[0]
+  } else {
+    return false
+  }
 }
 
 exports.mergeUserDataForEmail = async (email, courseId) => {

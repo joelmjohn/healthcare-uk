@@ -1,19 +1,20 @@
 <template>
   <div>
-    <b-alert show variant="primary">
+    <b-alert show variant="primary" class="text-center">
       Welcome to sample admin page for testing Vue API
     </b-alert>
     <b-container>
       <b-card>
-        <b-container>
+        <b-container class="text-center">
           <h1>
             <b>ADMIN LOGIN </b>
           </h1>
           <div class="form mb-3">
             <b-form-input
-              v-model="username"
+              v-model="email"
               :state="userState"
-              placeholder="username/ email"
+              placeholder="email"
+              type="email"
             ></b-form-input>
           </div>
           <div class="form mb-4">
@@ -24,13 +25,28 @@
               placeholder="Password"
             ></b-form-input>
           </div>
-          <b-button variant="outline-primary" size="lg" @click="login"
-            >Login</b-button
+          <b-button
+            variant="outline-primary"
+            size="lg"
+            @click="login"
+            :disabled="loading"
           >
+            <b-spinner v-if="loading" small></b-spinner>
+            login </b-button
+          >&nbsp;
+          <b-button
+            variant="outline-secondary"
+            size="lg"
+            @click="logout"
+            :disabled="loading"
+          >
+            logout (test)
+          </b-button>
         </b-container>
       </b-card>
     </b-container>
-
+    <router-link to="/admin/userList">User</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -38,8 +54,11 @@
 export default {
   name: "admin",
   watch: {
-    username() {
-      if (this.username.length > 2) {
+    email() {
+      if (
+        this.email.length > 2 &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)
+      ) {
         return (this.userState = true);
       }
       this.userState = false;
@@ -51,15 +70,10 @@ export default {
       this.passwordState = false;
     },
   },
-  created() {
-    //methods/fetch API request before DOM mounted goes here
-  },
-  mounted() {
-    //methods/fetch API request after DOM mounted goes here
-  },
   data() {
     return {
-      username: "",
+      loading: false,
+      email: "",
       userState: false,
       password: "",
       passwordState: false,
@@ -68,7 +82,7 @@ export default {
   },
   methods: {
     login() {
-      if (!this.username || !this.password) {
+      if (!this.email || !this.password) {
         this.$bvToast.toast("All fields are required", {
           title: `Invalid Input`,
           variant: "warning",
@@ -76,13 +90,17 @@ export default {
         });
         return false;
       }
+      this.loading = true;
       const data = {};
-      data.userName = this.username;
+      data.email = this.email;
       data.password = this.password;
       this.$axios
         .post(`${this.root}/admin/login`, data)
         .then((response) => {
-          if (response.data.status) {
+          const responseData = response.data;
+          if (responseData.status) {
+            localStorage.setItem("adminId", responseData.data.id);
+            localStorage.setItem("adminRole", responseData.data.role);
             this.$bvToast.toast("Welcome Admin", {
               title: "Success",
               variant: "success",
@@ -97,6 +115,7 @@ export default {
             this.userState = false;
             this.passwordState = false;
           }
+          this.loading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -105,14 +124,19 @@ export default {
             variant: "danger",
             solid: true,
           });
+          this.loading = false;
         });
+    },
+    logout() {
+      localStorage.removeItem("adminId");
+      this.$bvToast.toast("Logged Out", {
+        title: "Success",
+        variant: "success",
+        solid: true,
+      });
     },
   },
 };
 </script>
 
-<style >
-.toast:not(.show) {
-  display: block;
-}
-</style>
+<style ></style>
