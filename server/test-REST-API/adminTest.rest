@@ -36,8 +36,8 @@ POST http://localhost:3000/v1/admin/login
 Content-Type: application/json
 
 {
-    "userName": "alan",
-    "password": "1234"
+    "email": "mike@mail.com",
+    "password": "password"
 }
 
 ###

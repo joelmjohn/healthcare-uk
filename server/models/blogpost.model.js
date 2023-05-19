@@ -12,14 +12,9 @@ const blogpost = new Schema({
         type: String,
         required: true
     },
-    title: {
-        type: String,
-        required: true
-    },
     richTextBody: {
         type: String,
         required: true
-
     },
     adminId: {
         type: String,

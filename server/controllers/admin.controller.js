@@ -3,7 +3,8 @@ const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const adminService = require("../services/admin.service");
 const { v4: uuidv4 } = require('uuid');
-const md5 = require('md5');
+const bcrypt = require('bcrypt');
+
 
 exports.getAllAdmin = async (req, res) => {
     const page = req.query.page || 1;
@@ -56,7 +57,7 @@ exports.createAdmin = async (req, res) => {
             email: email,
         }
         const doesAdminExists = await adminService.exists(query);
-        if(doesAdminExists) {
+        if (doesAdminExists) {
             responseUtil.errorResponse(res, MessageUtil.alreadyExists);
         } else {
             const data = {
@@ -132,19 +133,22 @@ exports.getAdminByFilter = async (req, res) => {
 
 exports.loginAdmin = async (req, res) => {
     const {
-        userName,
+        email,
         password,
     } = req.body;
-    const passwordEncrypted = md5(password);
     try {
-        if (!userName || !password) {
+        if (!email || !password) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await adminService.findOneByFilter({ userName: userName, password: passwordEncrypted });
-        if (response != null) {
-            responseUtil.successResponse(res, MessageUtil.success, response);
+        const adminDetails = await adminService.findOneByFilter({ email: email, isVerified: true, isBlocked: false });
+        if (adminDetails == null) {
+            return responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
+        }
+        const verifyPassword = await bcrypt.compare(password, adminDetails.password);
+        if (verifyPassword) {
+            responseUtil.successResponse(res, MessageUtil.success, adminDetails);
         } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }
 
     } catch (err) {
