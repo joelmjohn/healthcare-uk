@@ -42,7 +42,6 @@ export default {
         .get(`${this.root}/admin`)
         .then((response) => {
           if (response.data.status) {
-            console.log("Admin Data is", response.data.data);
             this.admins = response.data.data;
           } else {
             this.$bvToast.toast("No Admins Found", {
@@ -62,12 +61,11 @@ export default {
         });
     },
     removeAdmin(id) {
-      console.log("Remove Index", id);
       this.$axios
         .delete(`${this.root}/admin/${id}`)
         .then((response) => {
           if (response.data.status) {
-            this.$bvToast.toast("Removed Admin", {
+            this.$bvToast.toast("removed admin successfully", {
               title: "Success",
               variant: "success",
               solid: true,
