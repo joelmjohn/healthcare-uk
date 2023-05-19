@@ -81,7 +81,6 @@ const routes = [
     path: '/admin/blogpost/update/:id',
     name: 'blogpostUpdate',
     component: AdminBlogUpdate
-    component: AdminView,
   },
   {
     path: '/admin/country',
