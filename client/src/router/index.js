@@ -5,6 +5,9 @@ import AdminView from '../views/admin'
 import UserList from '../components/Admin/UserList'
 import AdminRegistration from '../views/admin/AdminRegistration'
 import AdminList from '../views/admin/AdminList'
+import AdminBlog from '../components/Admin/Blogpost'
+import AdminBlogCreate from '../components/Admin/Blogpost/createBlog'
+import AdminBlogUpdate from '../components/Admin/Blogpost/updateBlog'
 
 Vue.use(VueRouter)
 
@@ -75,13 +78,52 @@ const routes = [
     path: '/admin/list',
     name: 'AdminList',
     component: AdminList
+  },
+  {
+    path: '/admin/blogpost',
+    name: 'blogpost',
+    component: AdminBlog
+  },
+  {
+    path: '/admin/blogpost/create',
+    name: 'blogpostCreate',
+    component: AdminBlogCreate
+  },
+  {
+    path: '/admin/blogpost/update/:id',
+    name: 'blogpostUpdate',
+    component: AdminBlogUpdate
   }
 ]
+//{ path: '/:NotFound(.*)*', component: NotFound},
+
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+const protectedRoutes = [
+  '/admin/blogpost', '/admin/userList',
+  '/admin/blogpost/create', '/admin/blogpost/update'
+];
+
+router.beforeEach((to, from, next) => {
+  const adminId = localStorage.getItem("adminId");
+  const adminRole = localStorage.getItem("adminRole");
+
+  if (!adminId && protectedRoutes.includes(to.path)) {
+    next('/admin');
+  }
+  if (adminId && adminRole !== "SUPERADMIN" &&
+    (to.path == '/admin/userList')
+  ) {
+    next('/admin');
+  }
+  else {
+    next();
+  }
 })
 
 export default router

@@ -4,11 +4,11 @@ POST http://localhost:3000/v1/admin/create
 Content-Type: application/json
 
 {
-    "name": "Alan Rock",
+    "name": "Mike Tyson",
     "role": "ADMIN",
-    "userName": "alan",
-    "password": "1234",
-    "email": "alanD@mail.com"
+    "userName": "mikeT",
+    "password": "password",
+    "email": "mike@mail.com"
 }
 ###
 
@@ -36,8 +36,8 @@ POST http://localhost:3000/v1/admin/login
 Content-Type: application/json
 
 {
-    "userName": "alan",
-    "password": "1234"
+    "email": "mike@mail.com",
+    "password": "password"
 }
 
 ###

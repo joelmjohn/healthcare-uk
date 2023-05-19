@@ -1,14 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/admin.controller');
+const { validationMiddleware } = require('../middleware/validation');
+const { validateCreateAdmin, validateUpdate, validateDelete } = require('../validators/admin.validator');
+const {
+    getAllAdmin,
+    getAdminById,
+    createAdmin,
+    updateAdminById,
+    deleteAdminById,
+    getAdminByFilter,
+    loginAdmin
+} = require('../controllers/admin.controller');
 
-router.route('').get(adminController.getAllAdmin)
-router.route('/:id').get(adminController.getAdminById)
-router.route('/create').post(adminController.createAdmin)
-router.route('/:id').patch(adminController.updateAdminById)
-router.route('/:id').delete(adminController.deleteAdminById)
-router.route('/filter').post(adminController.getAdminByFilter)
-router.route('/login').post(adminController.loginAdmin)
+
+router.get('', getAllAdmin);
+router.get('/:id', getAdminById);
+router.post('/create', validationMiddleware(validateCreateAdmin), createAdmin);
+router.patch('/:id', validationMiddleware(validateUpdate), updateAdminById);
+router.delete('/:id', validationMiddleware(validateDelete), deleteAdminById);
+router.post('/filter', getAdminByFilter);
+router.post('/login', loginAdmin);
 
 
 module.exports = router;
