@@ -92,18 +92,19 @@ const router = new VueRouter({
   routes
 })
 
+const protectedRoutes = [
+  '/admin/blogpost', '/admin/userList',
+  '/admin/blogpost/create', '/admin/blogpost/update'
+];
+
 router.beforeEach((to, from, next) => {
   const adminId = localStorage.getItem("adminId");
   const adminRole = localStorage.getItem("adminRole");
-  if (!adminId &&
-    (to.path === '/admin/blogpost' ||
-      to.path === '/admin/userList' ||
-      to.path === '/admin/blogpost/create' ||
-      to.path === '/admin/blogpost/update'
-    )) {
+
+  if (!adminId && protectedRoutes.includes(to.path)) {
     next('/admin');
   }
-  else if (adminId && adminRole !== "SUPERADMIN" &&
+  if (adminId && adminRole !== "SUPERADMIN" &&
     (to.path == '/admin/userList')
   ) {
     next('/admin');

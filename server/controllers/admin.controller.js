@@ -3,7 +3,8 @@ const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const adminService = require("../services/admin.service");
 const { v4: uuidv4 } = require('uuid');
-const md5 = require('md5');
+const bcrypt = require('bcrypt');
+
 
 exports.getAllAdmin = async (req, res) => {
     const page = req.query.page || 1;
@@ -135,17 +136,19 @@ exports.loginAdmin = async (req, res) => {
         email,
         password,
     } = req.body;
-    const passwordEncrypted = md5(password);
     try {
         if (!email || !password) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const filter = { email: email, password: passwordEncrypted, isBlocked: false };
-        const response = await adminService.findOneByFilter(filter);
-        if (response != null) {
-            responseUtil.successResponse(res, MessageUtil.success, response);
+        const adminDetails = await adminService.findOneByFilter({ email: email, isVerified: true, isBlocked: false });
+        if (adminDetails == null) {
+            return responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
+        }
+        const verifyPassword = await bcrypt.compare(password, adminDetails.password);
+        if (verifyPassword) {
+            responseUtil.successResponse(res, MessageUtil.success, adminDetails);
         } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }
 
     } catch (err) {

@@ -35,7 +35,8 @@
                                     <td>{{ data.createdAt }}</td>
                                     <td>
                                         <b-icon :icon="handleVisibilty(data.isBlocked)" aria-hidden="true" font-scale="2"
-                                            @click="toggleHide(data.isBlocked, data.id)" style="cursor:pointer">
+                                            @click="toggleHide(data.isBlocked, data.id)" style="cursor:pointer"
+                                            variant="success">
                                         </b-icon>
                                     </td>
                                     <td>
