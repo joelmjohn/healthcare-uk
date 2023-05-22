@@ -1,19 +1,20 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 //import HomeView from '../views/HomeView.vue'
-import AdminView from '../views/admin'
-import UserList from '../components/Admin/UserList'
-import AdminBlog from '../components/Admin/Blogpost'
-import AdminBlogCreate from '../components/Admin/Blogpost/createBlog'
-import AdminBlogUpdate from '../components/Admin/Blogpost/updateBlog'
+import AdminView from '../views/admin';
+import UserList from '../components/Admin/userList/index.vue';
+import AdminBlog from '../components/Admin/Blogpost';
+import AdminBlogCreate from '../components/Admin/Blogpost/createBlog';
+import AdminBlogUpdate from '../components/Admin/Blogpost/updateBlog';
+import Country from '../components/Admin/Country/index.vue';
 
-Vue.use(VueRouter)
+Vue.use (VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/IndexView.vue')
+    component: () => import ('../views/IndexView.vue'),
   },
   {
     path: '/about',
@@ -21,7 +22,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutUs.vue')
+    component: () =>
+      import (/* webpackChunkName: "about" */ '../views/AboutUs.vue'),
   },
   ,
   {
@@ -30,7 +32,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/JobServices.vue')
+    component: () =>
+      import (/* webpackChunkName: "about" */ '../views/JobServices.vue'),
   },
   {
     path: '/studyAbroad',
@@ -38,7 +41,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/StudyAbroad.vue')
+    component: () =>
+      import (/* webpackChunkName: "about" */ '../views/StudyAbroad.vue'),
   },
   {
     path: '/contact',
@@ -46,72 +50,77 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Contact.vue')
-  }, {
+    component: () =>
+      import (/* webpackChunkName: "about" */ '../views/Contact.vue'),
+  },
+  {
     path: '/blog',
     name: 'Blog',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Blog.vue')
+    component: () =>
+      import (/* webpackChunkName: "about" */ '../views/Blog.vue'),
   },
   {
     path: '/admin',
     name: 'admin',
-    component: AdminView
-    ,
-    children: [
-      {
-        path: "userList",
-        component: UserList
-      }
-    ]
+    component: AdminView,
+  },
+  {
+    path: '/admin/userList',
+    name: 'UserList',
+    component: UserList,
+  },
+  {
+    path: '/admin/country',
+    name: 'Country',
+    component: Country,
   },
   {
     path: '/admin/blogpost',
     name: 'blogpost',
-    component: AdminBlog
+    component: AdminBlog,
   },
   {
     path: '/admin/blogpost/create',
     name: 'blogpostCreate',
-    component: AdminBlogCreate
+    component: AdminBlogCreate,
   },
   {
     path: '/admin/blogpost/update/:id',
     name: 'blogpostUpdate',
-    component: AdminBlogUpdate
-  }
-]
+    component: AdminBlogUpdate,
+  },
+];
 //{ path: '/:NotFound(.*)*', component: NotFound},
 
-
-const router = new VueRouter({
+const router = new VueRouter ({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
 const protectedRoutes = [
-  '/admin/blogpost', '/admin/userList',
-  '/admin/blogpost/create', '/admin/blogpost/update'
+  '/admin/blogpost',
+  '/admin/userList',
+  '/admin/country',
+  '/admin/blogpost/create',
+  '/admin/blogpost/update',
 ];
 
-router.beforeEach((to, from, next) => {
-  const adminId = localStorage.getItem("adminId");
-  const adminRole = localStorage.getItem("adminRole");
+router.beforeEach ((to, from, next) => {
+  const adminId = localStorage.getItem ('adminId');
+  const adminRole = localStorage.getItem ('adminRole');
 
-  if (!adminId && protectedRoutes.includes(to.path)) {
-    next('/admin');
+  if (!adminId && protectedRoutes.includes (to.path)) {
+    next ('/admin');
   }
-  if (adminId && adminRole !== "SUPERADMIN" &&
-    (to.path == '/admin/userList')
-  ) {
-    next('/admin');
+  if (adminId && adminRole !== 'SUPERADMIN' && to.path == '/admin/userList') {
+    next ('/admin');
+  } else {
+    next ();
   }
-  else {
-    next();
-  }
-})
+});
 
-export default router
+export default router;
