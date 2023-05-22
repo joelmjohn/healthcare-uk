@@ -17,13 +17,22 @@
           <td>{{ adminDetails.role }}</td>
           <td>{{ adminDetails.email }}</td>
           <td>
-            <button @click="removeAdmin(adminDetails.id)">Remove</button>
+            <button @click="openConfirmDialog(adminDetails.id)">Remove</button>
             <button @click="disableAdmin(adminDetails.id)">Disable</button>
             <button @click="verifyAdmin(adminDetails.id)">Verify</button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <b-modal
+      v-model="showConfirmDialog"
+      @ok="confirmRemoveAdmin"
+      @cancel="cancelRemoveAdmin"
+      title="Confirm"
+    >
+      Are you sure you want to remove this admin?
+    </b-modal>
   </b-container>
 </template>
 
@@ -31,7 +40,12 @@
 export default {
   name: "AdminList",
   data() {
-    return { admins: [], root: process.env.VUE_APP_ROOT_API };
+    return {
+      admins: [],
+      root: process.env.VUE_APP_ROOT_API,
+      showConfirmDialog: false,
+      adminIdToRemove: null,
+    };
   },
   mounted() {
     this.fetchAdminsList();
@@ -42,7 +56,7 @@ export default {
         .get(`${this.root}/admin`)
         .then((response) => {
           if (response.data.status) {
-            this.admins = response.data.data;
+            this.admins = response.data.data.admins;
           } else {
             this.$bvToast.toast("No Admins Found", {
               title: "Error",
@@ -93,6 +107,21 @@ export default {
     },
     verifyAdmin(id) {
       // verify admin  api here
+    },
+    openConfirmDialog(id) {
+      this.adminIdToRemove = id;
+      this.showConfirmDialog = true;
+    },
+    confirmRemoveAdmin() {
+      if (this.adminIdToRemove) {
+        this.removeAdmin(this.adminIdToRemove);
+        this.adminIdToRemove = null;
+      }
+      this.showConfirmDialog = false;
+    },
+    cancelRemoveAdmin() {
+      this.adminIdToRemove = null;
+      this.showConfirmDialog = false;
     },
   },
 };
