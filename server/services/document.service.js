@@ -62,7 +62,12 @@ exports.findAllDocuments = async ({page, limit}) => {
     //     }
     //   }
     // ];
-    return await documentModel.aggregate(query);
+    const documents = await documentModel.aggregate(query);
+    if(documents) {
+      return documents[0]
+    } else {
+      return false
+    }
 }
 
 

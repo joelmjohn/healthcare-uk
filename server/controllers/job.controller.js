@@ -5,8 +5,14 @@ const jobService = require("../services/job.service");
 const { v4: uuidv4 } = require('uuid');
 
 exports.getJobs = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const queryParams = {
+        page,
+        limit
+    };
     try {
-        const response = await jobService.findAll();
+        const response = await jobService.findAll(queryParams);
         if (response) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {

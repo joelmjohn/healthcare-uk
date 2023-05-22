@@ -25,12 +25,30 @@ exports.rmCourse = async (courseId) => {
 };
 
 exports.findAllCourses = async ({page, limit}) => {
-    const mongoQuery = [
-        {$project: { __v: 0, _id: 0}},
-        { $skip: (page - 1) * limit },
-        { $limit: limit }
-    ]
-    return await courseModel.aggregate(mongoQuery);
+  const mongoQuery = [
+    { $skip: (page - 1) * limit },
+    { $limit: +limit },
+    {
+      $group: {
+        _id: null,
+        courses: { $push: "$$ROOT" },
+        totalCount: { $sum: 1 }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        courses: 1,
+        totalCount: 1
+      }
+    }
+  ];
+  const courses = await courseModel.aggregate(mongoQuery);
+  if(courses) {
+    return courses[0]
+  } else {
+    return false
+  }
 };
 
 exports.getAllCourses = async(data) => {
@@ -53,7 +71,6 @@ exports.getAllCourses = async(data) => {
             }
         }
     ]
-
     return await courseModel.aggregate(mongoQuery);
 }
 

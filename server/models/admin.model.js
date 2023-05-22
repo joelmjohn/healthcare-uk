@@ -1,6 +1,8 @@
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const modelEnum = require('../constants/enum');
+const { hashPassword, comparePassword } = require('../middleware/admin');
 
 const admin = new Schema({
     id: {
@@ -16,7 +18,6 @@ const admin = new Schema({
         type: String,
         enum: modelEnum.ADMIN_ROLE,
         required: true
-
     },
     userName: {
         type: String,
@@ -45,4 +46,21 @@ const admin = new Schema({
     }
 }, { timestamps: true });
 
+// Password Hash Middleware
+admin.pre('save', hashPassword);
+
+// Helper for comparing password
+admin.methods.comparePassword = comparePassword;
+
+admin.options.toJSON = {
+    transform (doc, ret, options) {
+      delete ret._id
+      delete ret.password
+      delete ret.__v
+      delete ret.createdAt
+      delete ret.updatedAt
+      return ret
+    }
+}
+  
 module.exports = new mongoose.model('admin', admin);

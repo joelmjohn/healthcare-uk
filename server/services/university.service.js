@@ -30,11 +30,26 @@ exports.findOne = async (data) => {
 
 exports.findAllUniversities = async ({page, limit}) => {
     const mongoQuery = [
-        {$project: { __v: 0, _id: 0}},
-        { $skip: (page - 1) * limit },
-        { $limit: limit }
-    ]
-    return await universityModel.aggregate(mongoQuery)
+        { $project: { "_id": 0 } },
+        {
+          $facet: {
+            universities: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+            totalCount: [{ $count: 'count' }]
+          }
+        },
+        {
+          $project: {
+            universities: 1,
+            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+          }
+        }
+      ];
+    const universities = await universityModel.aggregate(mongoQuery)
+    if(universities) {
+        return universities[0]
+      } else {
+        return false
+      }
 };
 
 exports.deleteOne = async (data) => {

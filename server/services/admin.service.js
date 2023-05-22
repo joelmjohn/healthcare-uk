@@ -21,13 +21,32 @@ exports.findOne = async (data) => {
     return await adminModel.findOne(data).lean();
 };
 
+exports.exists = async (data) => {
+    return await adminModel.findOne(data).count() > 0
+}
+
 exports.findAll = async ({ page, limit }) => {
     const mongoQuery = [
-        { $project: { __v: 0, _id: 0 } },
-        { $skip: (page - 1) * limit },
-        { $limit: limit }
-    ]
-    return await adminModel.aggregate(mongoQuery)
+        { $project: { "_id": 0 } },
+        {
+          $facet: {
+            admins: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+            totalCount: [{ $count: 'count' }]
+          }
+        },
+        {
+          $project: {
+            admins: 1,
+            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+          }
+        }
+      ];
+    const admins = await adminModel.aggregate(mongoQuery);
+    if(admins) {
+        return admins[0]
+      } else {
+        return false
+      }
 };
 
 exports.deleteOne = async (data) => {

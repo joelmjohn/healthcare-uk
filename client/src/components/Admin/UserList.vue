@@ -44,8 +44,9 @@ export default {
       this.$axios
         .get(`${this.root}/user`)
         .then((response) => {
-          if (response.data.status) {
-            this.users = response.data.data;
+          const responseData = response.data;
+          if (responseData.status) {
+            this.users = responseData.data.users;
           } else {
             this.$bvToast.toast("Users Not Found", {
               title: "Error",
