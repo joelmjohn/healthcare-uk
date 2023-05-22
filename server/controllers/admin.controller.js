@@ -4,6 +4,10 @@ const MessageUtil = require('../utils/messageUtil');
 const adminService = require("../services/admin.service");
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
+const blogpostService = require("../services/blogpost.service");
+const countryService = require("../services/country.service");
+const courseService = require("../services/course.service");
+const universityService = require("../services/university.service");
 
 
 exports.getAllAdmin = async (req, res) => {
@@ -155,3 +159,30 @@ exports.loginAdmin = async (req, res) => {
         responseUtil.errorResponse(res, err.message);
     }
 };
+
+const checkAdminRecords = async (adminId) => {
+    const filter = { adminId: adminId };
+    const services = [blogpostService, countryService, courseService, universityService];
+    try {
+        services.forEach(async (service, idx) => {
+            let response = await service.findOne(filter);
+            if (response) {
+                throw "ERROR";
+            }
+        });
+    } catch (error) {
+        throw error;
+    }
+    // const country = await countryService.findOne(filter);
+    // if (country) {
+    //     return false;
+    // }
+    // const course = await courseService.findOne(filter);
+    // if (course) {
+    //     return false;
+    // }
+    // const university = await courseService.findOne(filter);
+    // if (course) {
+    //     return false;
+    // }
+}
