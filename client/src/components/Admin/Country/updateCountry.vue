@@ -1,5 +1,5 @@
 <template>
-  <b-modal class="modal-header-waring" id="modal-center" v-model="updateModal" centered @cancel="hideModal" @ok="handleOK"
+  <b-modal class="modal-header-waring" id="modal-center" v-model="updateModal" centered @cancel="hideModal" :ok-disabled="true"
     :no-close-on-backdrop="true">
     <div>
       <div class="form mb-3">
@@ -35,7 +35,7 @@ export default {
         .patch(`${this.root}/country/` + this.updateId, this.updateCountryValue)
         .then((response) => {
           if (response.data.status) {
-            this.$emit("closeUpdateModal", $event.target.value);
+            this.$emit("closeUpdateModal");
 
             this.countryListing();
 
@@ -63,12 +63,11 @@ export default {
     },
     hideModal(evt) {
       evt.preventDefault();
-      alert('hideModal');
       this.$emit('closeUpdateModal');
     },
-    handleOK() {
-      alert("OK-tst");
-    }
+    // handleOK() {
+    //   alert("OK-tst");
+    // }
   },
 };
 </script>

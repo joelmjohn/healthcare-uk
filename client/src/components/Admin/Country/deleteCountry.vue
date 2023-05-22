@@ -5,7 +5,8 @@
       id="modal-center"
       v-model="show"
       centered
-      hide-footer
+      @cancel="hideDeleteModal"  
+    :no-close-on-backdrop="true"
     >
       <div class="d-block text-center">
         <h3>Are you sure want to Delete</h3>
@@ -31,7 +32,10 @@ export default {
   },
 
   methods: {
+    hideDeleteModal(evt){ evt.preventDefault();
+      this.$emit('closeDeleteModal');},
     deleteCountry() {
+
       if (!this.id) {
         return false;
       } else {
@@ -40,7 +44,7 @@ export default {
           .delete(`${this.root}/country/` + this.id)
           .then((response) => {
             if (response.data.status) {
-              this.$emit("close");
+              this.$emit("closeDeleteModal");
 
               this.countryListing();
               this.$bvToast.toast("Country deleted successfully", {

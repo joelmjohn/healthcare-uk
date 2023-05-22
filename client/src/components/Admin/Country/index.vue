@@ -4,7 +4,7 @@
         <updateCountry @closeUpdateModal="closeUpdateModal()" :updateModal="modalShowView" :countryListing="countryList"
             :updateId="selectedId" :updateCountryValue="updateCountry" />
 
-        <deleteCountry @close="deleteModalShowView = false" :countryListing="countryList" :id="deleteId"
+        <deleteCountry @closeDeleteModal="deleteModalShowView = false" :countryListing="countryList" :id="deleteId"
             :show="deleteModalShowView" />
         <table class="table">
             <thead>
@@ -88,7 +88,7 @@ export default {
             this.deleteModalShowView = true;
         },
         closeUpdateModal() {
-            alert('emitWorks');
+
             this.modalShowView = false;
         }
     },
