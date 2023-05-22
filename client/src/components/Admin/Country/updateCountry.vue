@@ -1,5 +1,5 @@
 <template>
-  <b-modal
+  <modal
     class="modal-header-waring"
     id="modal-center"
     v-model="updateModal"
@@ -29,7 +29,7 @@
         >Save</b-button
       >
     </div>
-  </b-modal>
+  </modal>
 </template>
 
 <script>
@@ -45,37 +45,53 @@ export default {
   },
   methods: {
     handleSave() {
-      this.updateCountryValue.name = this.updateCountryValue.name.toUpperCase();
-      this.$axios
+      if (
+        !this.updateCountryValue.name ||
+        !this.updateCountryValue.description ||
+        !this.updateCountryValue.countryCode
+      ) {
+        this.$bvToast.toast("Please fill all the details", {
+          title: "Error",
+          variant: "danger",
+          solid: true,
+        });
+      } else {
+        this.updateCountryValue.name =
+          this.updateCountryValue.name.toUpperCase();
+        this.$axios
 
-        .patch(`${this.root}/country/` + this.updateId, this.updateCountryValue)
-        .then((response) => {
-          if (response.data.status) {
-            this.$emit("closeUpdateModal", $event.target.value);
+          .patch(
+            `${this.root}/country/` + this.updateId,
+            this.updateCountryValue
+          )
+          .then((response) => {
+            if (response.data.status) {
+              this.$emit("close");
 
-            this.countryListing();
+              this.countryListing();
 
-            this.$bvToast.toast("Country Details updated successfully", {
-              title: "Success",
-              variant: "success",
-              solid: true,
-            });
-          } else {
-            this.$bvToast.toast("Couldn't update country, try again", {
-              title: "Invalid",
+              this.$bvToast.toast("Country Details updated successfully", {
+                title: "Success",
+                variant: "success",
+                solid: true,
+              });
+            } else {
+              this.$bvToast.toast("Couldn't update country, try again", {
+                title: "Invalid",
+                variant: "danger",
+                solid: true,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$bvToast.toast("Error", {
+              title: "Error",
               variant: "danger",
               solid: true,
             });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$bvToast.toast("Error", {
-            title: "Error",
-            variant: "danger",
-            solid: true,
           });
-        });
+      }
     },
   },
 };
