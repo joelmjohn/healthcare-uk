@@ -1,33 +1,17 @@
 <template>
-  <b-modal
-    class="modal-header-waring"
-    id="modal-center"
-    v-model="updateModal"
-    centered
-    hide-footer
-  >
+  <b-modal class="modal-header-waring" id="modal-center" v-model="updateModal" centered @cancel="hideModal" @ok="handleOK"
+    :no-close-on-backdrop="true">
     <div>
       <div class="form mb-3">
-        <b-form-input
-          v-model="updateCountryValue.name"
-          placeholder="Enter the CountryName"
-        ></b-form-input>
+        <b-form-input v-model="updateCountryValue.name" placeholder="Enter the CountryName"></b-form-input>
       </div>
       <div class="form mb-3">
-        <b-form-input
-          v-model="updateCountryValue.description"
-          placeholder="Description"
-        ></b-form-input>
+        <b-form-input v-model="updateCountryValue.description" placeholder="Description"></b-form-input>
       </div>
       <div class="form mb-3">
-        <b-form-input
-          v-model="updateCountryValue.countryCode"
-          placeholder="Country Code"
-        ></b-form-input>
+        <b-form-input v-model="updateCountryValue.countryCode" placeholder="Country Code"></b-form-input>
       </div>
-      <b-button variant="outline-primary" size="lg" @click="handleSave()"
-        >Save</b-button
-      >
+      <b-button variant="outline-primary" size="lg" @click="handleSave()">Save</b-button>
     </div>
   </b-modal>
 </template>
@@ -77,6 +61,14 @@ export default {
           });
         });
     },
+    hideModal(evt) {
+      evt.preventDefault();
+      alert('hideModal');
+      this.$emit('closeUpdateModal');
+    },
+    handleOK() {
+      alert("OK-tst");
+    }
   },
 };
 </script>
