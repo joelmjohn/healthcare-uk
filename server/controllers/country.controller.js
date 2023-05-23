@@ -3,6 +3,9 @@ const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const countryService = require("../services/country.service");
 const { v4: uuidv4 } = require('uuid');
+const universityService = require("../services/university.service");
+const jobService = require("../services/job.service");
+
 
 exports.getAllCountry = async (req, res) => {
     const page = req.query.page || 1;
@@ -13,7 +16,7 @@ exports.getAllCountry = async (req, res) => {
     };
     try {
         const response = await countryService.findAll(queryParams);
-        if (response) {
+        if (response.country.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
@@ -46,6 +49,7 @@ exports.createCountry = async (req, res) => {
         name,
         description,
         countryCode,
+        adminId,
         isBlocked
     } = req.body;
     const id = uuidv4();
@@ -55,6 +59,7 @@ exports.createCountry = async (req, res) => {
             name: name,
             description: description,
             countryCode: countryCode,
+            adminId: adminId,
             isBlocked: isBlocked
         };
         const newCountry = await countryService.save(data);
@@ -84,11 +89,29 @@ exports.updateCountryById = async (req, res) => {
     }
 };
 
+const checkCountryRecords = async (countryId) => {
+    const filter = { "countryId": countryId };
+    const services = [universityService, jobService];
+    let authorizeDelete = true;
+    for (const service of services) {
+        let response = await service.findOne(filter);
+        if (response !== null) {
+            authorizeDelete = false;
+            break;
+        }
+    };
+    return authorizeDelete;
+}
+
 exports.deleteCountryById = async (req, res) => {
     const countryId = req.params.id;
     try {
         if (!countryId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
+        }
+        const verifyCountry = await checkCountryRecords(countryId);
+        if (!verifyCountry) {
+            return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
         const response = await countryService.deleteOne({ id: countryId });
         if (response) {

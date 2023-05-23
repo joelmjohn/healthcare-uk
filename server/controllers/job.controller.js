@@ -3,6 +3,8 @@ const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const jobService = require("../services/job.service");
 const { v4: uuidv4 } = require('uuid');
+const jobRegService = require("../services/userJobRegister.service");
+
 
 exports.getJobs = async (req, res) => {
     const page = req.query.page || 1;
@@ -13,7 +15,7 @@ exports.getJobs = async (req, res) => {
     };
     try {
         const response = await jobService.findAll(queryParams);
-        if (response) {
+        if (response.jobs.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
@@ -57,6 +59,7 @@ exports.createJob = async (req, res) => {
         industryType,
         employmentType,
         validTillDate,
+        adminId,
         isBlocked
     } = req.body;
     const id = uuidv4();
@@ -76,7 +79,8 @@ exports.createJob = async (req, res) => {
             industryType: industryType,
             employmentType: employmentType,
             isBlocked: isBlocked,
-            validTillDate: validTillDate
+            validTillDate: validTillDate,
+            adminId: adminId
         };
         const newJob = await jobService.save(data);
         if (newJob) {
@@ -105,11 +109,29 @@ exports.updateJobById = async (req, res) => {
     }
 };
 
+const checkJobRecords = async (jobId) => {
+    const filter = { "jobRoleId": jobId };
+    const services = [jobRegService];
+    let authorizeDelete = true;
+    for (const service of services) {
+        let response = await service.findOne(filter);
+        if (response !== null) {
+            authorizeDelete = false;
+            break;
+        }
+    };
+    return authorizeDelete;
+}
+
 exports.deleteJobById = async (req, res) => {
     const jobId = req.params.id;
     try {
         if (!jobId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
+        }
+        const verifyJob = await checkJobRecords(jobId);
+        if (!verifyJob) {
+            return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
         const response = await jobService.deleteOne({ id: jobId });
         if (response) {

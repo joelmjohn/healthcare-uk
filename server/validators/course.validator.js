@@ -6,6 +6,7 @@ exports.validateCourseCreate = {
         description: Joi.string().required(),
         courseCode: Joi.string().required(),
         universityId: Joi.string().required(),
-        vacancy: Joi.string().required()
+        vacancy: Joi.string().required(),
+        adminId: Joi.string().required()
     })
 };

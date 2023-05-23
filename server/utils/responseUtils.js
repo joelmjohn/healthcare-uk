@@ -43,7 +43,8 @@ exports.failResponse = (res, message, data, moreData) => {
         status: false,
         message: message
     };
+    const statusCode = data && data.statusCode ? data.statusCode : HTTP_STATUS_CODES.NO_CONTENT;
     if (data || !data) response.data = data;
     if (moreData) response = { ...response, ...moreData };
-    res.status(HTTP_STATUS_CODES.NO_CONTENT).send(response);
+    res.status(statusCode).send(response);
 };

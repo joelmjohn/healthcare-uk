@@ -25,19 +25,19 @@ exports.registerUserToCourse = async (req, res) => {
             registrationStatus: "PENDING"
         };
         const userExists = await userServices.exists(email);
-        if(userExists) {
+        if (userExists) {
             const isUserErolledToCourse = await userCourseRegistrationService.isUserAlreadyEnrolledToCourse(email, courseId);
             if (isUserErolledToCourse) {
                 responseUtil.failResponse(res, MessageUtil.userAlreadyEnrolledToCourse);
             } else {
                 const enrollUserToCourse = await userCourseRegistrationService.enrollUserToCourse(courseData)
-                if(enrollUserToCourse) {
+                if (enrollUserToCourse) {
                     const getUserDataToEmail = await userCourseRegistrationService.mergeUserDataForEmail(email, courseId)
-                    if(getUserDataToEmail) {
+                    if (getUserDataToEmail) {
                         const emailTemplateInformation = {}
                         emailTemplateInformation["user"] = getUserDataToEmail[0];
                         const sendEmail = await sendCourseRegistrationMail(emailTemplateInformation);
-                        if(sendEmail) {
+                        if (sendEmail) {
                             console.log(sendEmail)
                             responseUtil.successResponse(res, MessageUtil.success, sendEmail);
                         } else {
@@ -67,7 +67,7 @@ exports.getCourseRegistrations = async (req, res) => {
     };
     try {
         const response = await userCourseRegistrationService.getAllRegistrations(queryParams);
-        if(response) {
+        if (response.courseRegistrations.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);

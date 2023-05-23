@@ -8,6 +8,7 @@ const blogpostService = require("../services/blogpost.service");
 const countryService = require("../services/country.service");
 const courseService = require("../services/course.service");
 const universityService = require("../services/university.service");
+const jobService = require("../services/job.service");
 
 
 exports.getAllAdmin = async (req, res) => {
@@ -100,11 +101,29 @@ exports.updateAdminById = async (req, res) => {
     }
 };
 
+const checkAdminRecords = async (adminId) => {
+    const filter = { "adminId": adminId };
+    const services = [blogpostService, countryService, courseService, universityService, jobService];
+    let authorizeDelete = true;
+    for (const service of services) {
+        let response = await service.findOne(filter);
+        if (response !== null) {
+            authorizeDelete = false;
+            break;
+        }
+    };
+    return authorizeDelete;
+}
+
 exports.deleteAdminById = async (req, res) => {
     const adminId = req.params.id;
     try {
         if (!adminId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
+        }
+        const verifyAdmin = await checkAdminRecords(adminId);
+        if (!verifyAdmin) {
+            return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
         const response = await adminService.deleteOne({ id: adminId });
         if (response) {
@@ -160,29 +179,4 @@ exports.loginAdmin = async (req, res) => {
     }
 };
 
-const checkAdminRecords = async (adminId) => {
-    const filter = { adminId: adminId };
-    const services = [blogpostService, countryService, courseService, universityService];
-    try {
-        services.forEach(async (service, idx) => {
-            let response = await service.findOne(filter);
-            if (response) {
-                throw "ERROR";
-            }
-        });
-    } catch (error) {
-        throw error;
-    }
-    // const country = await countryService.findOne(filter);
-    // if (country) {
-    //     return false;
-    // }
-    // const course = await courseService.findOne(filter);
-    // if (course) {
-    //     return false;
-    // }
-    // const university = await courseService.findOne(filter);
-    // if (course) {
-    //     return false;
-    // }
-}
+
