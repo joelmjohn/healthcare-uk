@@ -1,19 +1,11 @@
 <template>
   <div>
-    <b-modal
-      class="modal-header-waring"
-      id="modal-center"
-      v-model="show"
-      centered
-      hide-footer
-    >
+    <b-modal id="modal-center" v-model="show" centered @cancel="cancelDeleteModal" @ok="deleteCountry"
+      @close="closeDeleteModal" :no-close-on-backdrop="true">
       <div class="d-block text-center">
         <h3>Are you sure want to Delete</h3>
       </div>
       <div class="form mb-3 text-center">
-        <b-button type="button" class="btn btn-danger" @click="deleteCountry"
-          >OK</b-button
-        >
       </div>
     </b-modal>
   </div>
@@ -31,7 +23,16 @@ export default {
   },
 
   methods: {
-    deleteCountry() {
+    cancelDeleteModal(evt) {
+      evt.preventDefault();
+      this.$emit('closeDeleteModal');
+    },
+    closeDeleteModal(evt) {
+      evt.preventDefault();
+      this.$emit('closeDeleteModal');
+    },
+    deleteCountry(evt) {
+      evt.preventDefault();
       if (!this.id) {
         return false;
       } else {
@@ -40,7 +41,7 @@ export default {
           .delete(`${this.root}/country/` + this.id)
           .then((response) => {
             if (response.data.status) {
-              this.$emit("close");
+              this.$emit("closeDeleteModal");
 
               this.countryListing();
               this.$bvToast.toast("Country deleted successfully", {

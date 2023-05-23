@@ -1,20 +1,11 @@
 <template>
   <div>
     <createCountry :countryListing="countryList" />
-    <updateCountry
-      @closeUpdateModal="modalShowView = false"
-      :updateModal="modalShowView"
-      :countryListing="countryList"
-      :updateId="selectedId"
-      :updateCountryValue="updateCountry"
-    />
+    <updateCountry @closeUpdateModal="modalShowView = false" :updateModal="modalShowView" :countryListing="countryList"
+      :updateId="selectedId" :updateCountryValue="updateCountry" />
 
-    <deleteCountry
-      @close="deleteModalShowView = false"
-      :countryListing="countryList"
-      :id="deleteId"
-      :show="deleteModalShowView"
-    />
+    <deleteCountry @closeDeleteModal="deleteModalShowView = false" :countryListing="countryList" :id="deleteId"
+      :show="deleteModalShowView" />
     <table class="table">
       <thead>
         <tr>
@@ -23,27 +14,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="(countryDetails, index) in addedCountries.country"
-          :key="index"
-        >
+        <tr v-for="(countryDetails, index) in addedCountries.country" :key="index">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ countryDetails.name }}</td>
           <td>
-            <button
-              type="button"
-              class="btn btn-success"
-              @click="handleUpdate(countryDetails)"
-            >
+            <button type="button" class="btn btn-success" @click="handleUpdate(countryDetails)">
               Update
             </button>
           </td>
           <td>
-            <button
-              type="button"
-              class="btn btn-danger"
-              @click="handleDelete(countryDetails.id)"
-            >
+            <button type="button" class="btn btn-danger" @click="handleDelete(countryDetails.id)">
               Delete
             </button>
           </td>

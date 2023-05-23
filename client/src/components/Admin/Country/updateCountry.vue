@@ -1,35 +1,18 @@
 <template>
-  <modal
-    class="modal-header-waring"
-    id="modal-center"
-    v-model="updateModal"
-    centered
-    hide-footer
-  >
+  <b-modal id="modal-center" v-model="updateModal" centered @close="closeUpdateModal" @cancel="cancelUpdateModal"
+    @ok="handleSave" :no-close-on-backdrop="true">
     <div>
       <div class="form mb-3">
-        <b-form-input
-          v-model="updateCountryValue.name"
-          placeholder="Enter the CountryName"
-        ></b-form-input>
+        <b-form-input v-model="updateCountryValue.name" placeholder="Enter the CountryName"></b-form-input>
       </div>
       <div class="form mb-3">
-        <b-form-input
-          v-model="updateCountryValue.description"
-          placeholder="Description"
-        ></b-form-input>
+        <b-form-input v-model="updateCountryValue.description" placeholder="Description"></b-form-input>
       </div>
       <div class="form mb-3">
-        <b-form-input
-          v-model="updateCountryValue.countryCode"
-          placeholder="Country Code"
-        ></b-form-input>
+        <b-form-input v-model="updateCountryValue.countryCode" placeholder="Country Code"></b-form-input>
       </div>
-      <b-button variant="outline-primary" size="lg" @click="handleSave()"
-        >Save</b-button
-      >
     </div>
-  </modal>
+  </b-modal>
 </template>
 
 <script>
@@ -44,7 +27,7 @@ export default {
     updateCountryValue: { type: Object, required: true },
   },
   methods: {
-    handleSave() {
+    handleSave(evt) {
       if (
         !this.updateCountryValue.name ||
         !this.updateCountryValue.description ||
@@ -55,18 +38,21 @@ export default {
           variant: "danger",
           solid: true,
         });
-      } else {
-        this.updateCountryValue.name =
-          this.updateCountryValue.name.toUpperCase();
+        evt.preventDefault();
+        this.$emit("closeUpdateModal");
+
+      }
+      else {
+        evt.preventDefault();
+
+        this.updateCountryValue.name = this.updateCountryValue.name.toUpperCase();
         this.$axios
 
-          .patch(
-            `${this.root}/country/` + this.updateId,
-            this.updateCountryValue
-          )
+          .patch(`${this.root}/country/` + this.updateId, this.updateCountryValue)
           .then((response) => {
             if (response.data.status) {
-              this.$emit("close");
+              this.$emit("closeUpdateModal");
+
 
               this.countryListing();
 
@@ -93,6 +79,12 @@ export default {
           });
       }
     },
+    closeUpdateModal(evt) { evt.preventDefault(), this.$emit('closeUpdateModal'); },
+    cancelUpdateModal(evt) {
+      evt.preventDefault();
+      this.$emit('closeUpdateModal');
+    },
+
   },
 };
 </script>
