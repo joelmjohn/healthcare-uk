@@ -33,4 +33,4 @@ Content-Type: application/json
 
 ###
 
-DELETE  http://localhost:3000/v1/course/CS102
+DELETE  http://localhost:3000/v1/course/2acf5d8e-c563-46e7-97a3-9fbcf5a27e6d

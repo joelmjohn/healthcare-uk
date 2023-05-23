@@ -133,11 +133,13 @@ exports.deleteJobById = async (req, res) => {
         if (!verifyJob) {
             return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
-        const response = await jobService.deleteOne({ id: jobId });
-        if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `Job Deleted Successfully`);
-        } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        else {
+            const response = await jobService.deleteOne({ id: jobId });
+            if (response) {
+                responseUtil.successResponse(res, MessageUtil.success, `Job Deleted Successfully`);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+            }
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);

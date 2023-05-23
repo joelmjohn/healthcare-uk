@@ -73,11 +73,13 @@ exports.removeUniversity = async (req, res) => {
         if (!verifyUniversity) {
             return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
-        const response = await universityServices.rmUniversity(id)
-        if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, response);
-        } else {
-            responseUtil.failResponse(res, MessageUtil.deleteFailed);
+        else {
+            const response = await universityServices.rmUniversity(id)
+            if (response) {
+                responseUtil.successResponse(res, MessageUtil.success, response);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.deleteFailed);
+            }
         }
 
     } catch (err) {

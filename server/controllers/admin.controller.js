@@ -125,11 +125,13 @@ exports.deleteAdminById = async (req, res) => {
         if (!verifyAdmin) {
             return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
-        const response = await adminService.deleteOne({ id: adminId });
-        if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `Admin Deleted Successfully`);
-        } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        else {
+            const response = await adminService.deleteOne({ id: adminId });
+            if (response) {
+                responseUtil.successResponse(res, MessageUtil.success, `Admin Deleted Successfully`);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+            }
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);

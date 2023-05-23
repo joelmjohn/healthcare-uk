@@ -113,11 +113,13 @@ exports.deleteCountryById = async (req, res) => {
         if (!verifyCountry) {
             return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
         }
-        const response = await countryService.deleteOne({ id: countryId });
-        if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `Country Deleted Successfully`);
-        } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        else {
+            const response = await countryService.deleteOne({ id: countryId });
+            if (response) {
+                responseUtil.successResponse(res, MessageUtil.success, `Country Deleted Successfully`);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+            }
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);

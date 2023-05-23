@@ -25,7 +25,7 @@ GET http://localhost:3000/v1/university/filter?page=1&limit=3&countryId=c7d74bba
 
 // Delete a University
 ###
-DELETE  http://localhost:3000/v1/university/6b57f3a4-441d-4bc1-9af9-715a11940d6f
+DELETE  http://localhost:3000/v1/university/b3399782-7f82-4ebe-bb0b-2f2e51530f85
 
 
 // Update a University

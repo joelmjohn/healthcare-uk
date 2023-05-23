@@ -4,6 +4,8 @@ const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const courseServices = require('../services/course.service');
 const { v4: uuidv4 } = require('uuid');
+const courseRegService = require("../services/userCourseRegistration.service")
+
 
 exports.getAllCourses = async (req, res) => {
     const page = req.query.page || 1;
@@ -97,13 +99,32 @@ exports.updateCourse = async (req, res) => {
     }
 };
 
+const checkCourseRecords = async (courseId) => {
+    const filter = { "courseId": courseId };
+    const services = [courseRegService];
+    let authorizeDelete = true;
+    for (const service of services) {
+        let response = await service.findOne(filter);
+        if (response !== null) {
+            authorizeDelete = false;
+            break;
+        }
+    };
+    return authorizeDelete;
+}
+
 exports.removeCourse = async (req, res) => {
     try {
         const { id } = req.params;
         const courseExists = await courseServices.exists(id);
         if (!courseExists) {
-            responseUtil.throwError(MessageUtil.somethingWentWrong);
-        } else {
+            return responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, { statusCode: 404 });
+        }
+        const verifyCourse = await checkCourseRecords(id);
+        if (!verifyCourse) {
+            return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
+        }
+        else {
             const response = await courseServices.rmCourse(id)
             if (response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
