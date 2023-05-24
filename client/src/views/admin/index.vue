@@ -18,15 +18,13 @@
                     </div>
                     <b-button variant="outline-primary" size="lg" @click="login" :disabled="loading">
                         <b-spinner v-if="loading" small></b-spinner>
-                        login
-                    </b-button>&nbsp;
+                        login </b-button>&nbsp;
                     <b-button variant="outline-secondary" size="lg" @click="logout" :disabled="loading">
                         logout (test)
                     </b-button>
                 </b-container>
             </b-card>
         </b-container>
-        <router-link to="/admin/userList">User</router-link>
         <router-view></router-view>
     </div>
 </template>
@@ -36,7 +34,10 @@ export default {
     name: "admin",
     watch: {
         email() {
-            if (this.email.length > 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+            if (
+                this.email.length > 2 &&
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)
+            ) {
                 return (this.userState = true);
             }
             this.userState = false;
@@ -84,7 +85,6 @@ export default {
                             variant: "success",
                             solid: true,
                         });
-
                     } else {
                         this.$bvToast.toast("Invalid User", {
                             title: "Invalid",
@@ -107,13 +107,13 @@ export default {
                 });
         },
         logout() {
-            localStorage.removeItem('adminId');
+            localStorage.removeItem("adminId");
             this.$bvToast.toast("Logged Out", {
                 title: "Success",
                 variant: "success",
                 solid: true,
             });
-        }
+        },
     },
 };
 </script>
