@@ -19,11 +19,6 @@ const admin = new Schema({
         enum: modelEnum.ADMIN_ROLE,
         required: true
     },
-    userName: {
-        type: String,
-        required: true
-
-    },
     password: {
         type: String,
         required: true
@@ -53,14 +48,14 @@ admin.pre('save', hashPassword);
 admin.methods.comparePassword = comparePassword;
 
 admin.options.toJSON = {
-    transform (doc, ret, options) {
-      delete ret._id
-      delete ret.password
-      delete ret.__v
-      delete ret.createdAt
-      delete ret.updatedAt
-      return ret
+    transform(doc, ret, options) {
+        delete ret._id
+        delete ret.password
+        delete ret.__v
+        delete ret.createdAt
+        delete ret.updatedAt
+        return ret
     }
 }
-  
+
 module.exports = new mongoose.model('admin', admin);
