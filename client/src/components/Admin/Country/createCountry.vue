@@ -25,6 +25,7 @@ export default {
     data() {
         return {
             root: process.env.VUE_APP_ROOT_API,
+            adminId: localStorage.getItem("adminId"),
             country: { name: "", description: "", countryCode: "" },
         };
     },
@@ -44,9 +45,14 @@ export default {
             }
             else {
                 this.country.name = this.country.name.toUpperCase();
-
+                const data = {
+                name: this.country.name,
+                description: this.country.description,
+                countryCode:this.country.countryCode,
+                adminId: this.adminId
+            }
                 this.$axios
-                    .post(`${this.root}/country/create`, this.country)
+                    .post(`${this.root}/country/create`,data )
 
                     .then((response) => {
                         if (response.data.status) {
