@@ -13,6 +13,7 @@
                     <th scope="col">Country Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Country Code</th>
+                    <th scope="col">Visibility</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +22,10 @@
                     <td>{{ countryDetails.name }}</td>
                     <td>{{ countryDetails.description }}</td>
                     <td>{{ countryDetails.countryCode }}</td>
+                    <td> <b-icon :icon="handleVisibilty(countryDetails.isBlocked)" aria-hidden="true" font-scale="2"
+                            @click="toggleHide(countryDetails.isBlocked, countryDetails.id)" style="cursor:pointer"
+                            variant="success">
+                        </b-icon></td>
                     <td>
                         <button type="button" class="btn btn-success" @click="handleUpdate(countryDetails)">
                             Update
@@ -56,12 +61,60 @@ export default {
             updateCountry: {},
             updateId: "",
             showUpdateModal: false,
+
         };
     },
     mounted() {
         this.countryList();
     },
     methods: {
+        handleVisibilty(isHidden) {
+            if (isHidden == true) {
+                return `toggle-off`;
+            }
+            else {
+                return 'toggle-on';
+            }
+        },
+        toggleHide(presentState, id) {
+            if (!id) {
+                return false;
+            }
+            presentState = !presentState;
+            const data = { isBlocked: presentState };
+            if (confirm("You sure want to change visibilty of this country") == true) {
+
+                this.$axios
+                    .patch(`${this.root}/country/${id}`, data)
+                    .then((response) => {
+                        const responseData = response.data;
+                        if (responseData.status) {
+                            this.$bvToast.toast("Updated successfully", {
+                                title: "Success",
+                                variant: "success",
+                                solid: true,
+                            });
+                            this.countryList();
+
+                        } else {
+                            this.$bvToast.toast("Couldn't perform action, try again", {
+                                title: "Invalid",
+                                variant: "danger",
+                                solid: true,
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.$bvToast.toast("Error Occured!", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                        this.loading = false;
+                    });
+            }
+        },
         handleUpdate(data) {
             this.updateId = data.id;
             this.updateCountry = {

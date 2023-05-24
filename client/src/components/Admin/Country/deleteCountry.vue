@@ -39,6 +39,7 @@ export default {
                 this.$axios
                     .delete(`${this.root}/country/` + this.id)
                     .then((response) => {
+                        console.log(response);
                         if (response.data.status) {
                             this.$emit("closeDeleteModal");
 
@@ -58,7 +59,7 @@ export default {
                     })
                     .catch((err) => {
                         console.log(err);
-                        this.$bvToast.toast("error", {
+                        this.$bvToast.toast("Entity exist in other collections", {
                             title: "Error",
                             variant: "danger",
                             solid: true,
