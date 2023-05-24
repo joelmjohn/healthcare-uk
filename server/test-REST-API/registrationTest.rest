@@ -5,14 +5,14 @@ Content-Type: application/json
 
 {
     "candidateName":"Carla",
-    "courseId": "fd74350a-89b5-4e45-9fbf-0d81b4ee9aaa",
+    "courseId": "2acf5d8e-c563-46e7-97a3-9fbcf5a27e6d",
     "email": "carla@mail.com",
     "userId": "b22b1b18-6800-49aa-8ac9-dbe09d7a0cf3"
 }
 
 ###
 
-// Get Complete University
+// Get Complete course Reg
 GET http://localhost:3000/v1/courseReg/list?page=1&limit=10
 
 

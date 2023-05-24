@@ -6,7 +6,8 @@ Content-Type: application/json
 {
     "name":"Scotland",
         "description":"Country Scotland",
-        "countryCode":"GB-SCT"
+        "countryCode":"GB-SCT",
+        "adminId":"4bf08fcc-6e31-4639-8c64-a0be91e05821"
 }
 ###
 
@@ -26,4 +27,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/v1/country/b3343f79-dffb-4af7-908a-97efd83cc0fc
+DELETE http://localhost:3000/v1/country/63d07076-bb77-461c-bcc5-dbc138162c5b

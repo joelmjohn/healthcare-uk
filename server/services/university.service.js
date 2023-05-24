@@ -13,7 +13,7 @@ exports.update = async (matchQuery, updateData) => {
 };
 
 exports.exists = async (universityId) => {
-    return await universityModel.find({'id': { "$in": universityId}}).count() > 0
+    return await universityModel.find({ 'id': { "$in": universityId } }).count() > 0
 }
 
 exports.rmUniversity = async (universityId) => {
@@ -25,31 +25,31 @@ exports.modifyUniversity = async (id, data) => {
 }
 
 exports.findOne = async (data) => {
-    return await universityModel.find(data).lean();
+    return await universityModel.findOne(data).lean();
 };
 
-exports.findAllUniversities = async ({page, limit}) => {
+exports.findAllUniversities = async ({ page, limit }) => {
     const mongoQuery = [
         { $project: { "_id": 0 } },
         {
-          $facet: {
-            universities: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
-            totalCount: [{ $count: 'count' }]
-          }
+            $facet: {
+                universities: [{ $skip: (page - 1) * limit }, { $limit: +limit }],
+                totalCount: [{ $count: 'count' }]
+            }
         },
         {
-          $project: {
-            universities: 1,
-            totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
-          }
+            $project: {
+                universities: 1,
+                totalCount: { $arrayElemAt: ['$totalCount.count', 0] }
+            }
         }
-      ];
+    ];
     const universities = await universityModel.aggregate(mongoQuery)
-    if(universities) {
+    if (universities) {
         return universities[0]
-      } else {
+    } else {
         return false
-      }
+    }
 };
 
 exports.deleteOne = async (data) => {
@@ -60,13 +60,13 @@ exports.count = async (data) => {
     return await universityModel.count(data);
 };
 
-exports.getUniversityByCountryService = async ({countryId, page, limit}) => {
+exports.getUniversityByCountryService = async ({ countryId, page, limit }) => {
     const matchQuery = {
         countryId: countryId
     }
     const mongoQuery = [
-        {$match: matchQuery},
-        {$project: { __v: 0, _id: 0}},
+        { $match: matchQuery },
+        { $project: { __v: 0, _id: 0 } },
         { $skip: (page - 1) * limit },
         { $limit: limit }
     ]

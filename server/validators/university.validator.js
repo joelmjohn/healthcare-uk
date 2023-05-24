@@ -6,7 +6,8 @@ exports.validateUniversityCreate = {
         description: Joi.string().required(),
         universityCode: Joi.string().required(),
         address: Joi.string().required(),
-        countryId: Joi.string().required()
+        countryId: Joi.string().required(),
+        adminId: Joi.string().required()
     })
 };
 

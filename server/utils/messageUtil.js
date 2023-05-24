@@ -23,5 +23,6 @@ module.exports = {
     userEnrollFailed: 'Unable to enroll user to course, Contact admin',
     userNotRegistered: 'User Not Registered.',
     errorMergingDocuments: 'Registration Failed, Failed to fetch user details.',
-    emailTransportFailure: 'Email Service Error, Please contact admin'
+    emailTransportFailure: 'Email Service Error, Please contact admin',
+    entityExistInCollection: 'Entity exist in other collections'
 };

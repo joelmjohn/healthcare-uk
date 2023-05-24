@@ -4,6 +4,8 @@ const responseUtil = require('../utils/responseUtils');
 const MessageUtil = require('../utils/messageUtil');
 const universityServices = require('../services/university.service');
 const { v4: uuidv4 } = require('uuid');
+const courseService = require("../services/course.service");
+
 
 exports.getAllUniversities = async (req, res) => {
     const page = req.query.page || 1;
@@ -14,7 +16,7 @@ exports.getAllUniversities = async (req, res) => {
     };
     try {
         const response = await universityServices.findAllUniversities(queryParams);
-        if (response) {
+        if (response.universities.length) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
@@ -29,13 +31,13 @@ exports.updateUniversity = async (req, res) => {
         const { id } = req.params;
         const universityExists = await universityServices.exists(id);
         console.log(universityExists)
-        if(!universityExists){
+        if (!universityExists) {
             responseUtil.failResponse(res, MessageUtil.doesNotExists);
         } else {
             console.log(req.body)
             const response = await universityServices.modifyUniversity(id, req.body)
             console.log(response)
-            if(response) {
+            if (response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
             } else {
                 responseUtil.failResponse(res, MessageUtil.updationFailed);
@@ -46,20 +48,40 @@ exports.updateUniversity = async (req, res) => {
     }
 }
 
+const checkUniversityRecords = async (universityId) => {
+    const filter = { "universityId": universityId };
+    const services = [courseService];
+    let authorizeDelete = true;
+    for (const service of services) {
+        let response = await service.findOne(filter);
+        if (response !== null) {
+            authorizeDelete = false;
+            break;
+        }
+    };
+    return authorizeDelete;
+}
+
 exports.removeUniversity = async (req, res) => {
     try {
         const { id } = req.params;
         const universityExists = await universityServices.exists(id);
-        if(!universityExists){
-            responseUtil.failResponse(res, MessageUtil.doesNotExists);
-        } else {
+        if (!universityExists) {
+            return responseUtil.failResponse(res, MessageUtil.doesNotExists);
+        }
+        const verifyUniversity = await checkUniversityRecords(id);
+        if (!verifyUniversity) {
+            return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
+        }
+        else {
             const response = await universityServices.rmUniversity(id)
-            if(response) {
+            if (response) {
                 responseUtil.successResponse(res, MessageUtil.success, response);
             } else {
                 responseUtil.failResponse(res, MessageUtil.deleteFailed);
             }
         }
+
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
@@ -73,14 +95,14 @@ exports.getUniversityByCountry = async (req, res) => {
         countryId,
         page,
         limit
-    };    try {
+    }; try {
         const universities = await universityServices.getUniversityByCountryService(queryParams);
-        if(universities) {
+        if (universities) {
             responseUtil.successResponse(res, MessageUtil.success, universities);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound);
         }
-    } catch {
+    } catch (err) {
         responseUtil.errorResponse(res, err.message);
     }
 }
@@ -108,7 +130,8 @@ exports.addUniversity = async (req, res) => {
         description,
         universityCode,
         address,
-        countryId
+        countryId,
+        adminId
     } = req.body;
     const id = uuidv4();
     try {
@@ -119,13 +142,13 @@ exports.addUniversity = async (req, res) => {
             universityCode,
             address,
             countryId,
+            adminId
         };
         const universityExists = await universityServices.exists(universityCode)
-        if(universityExists) {
+        if (universityExists) {
             responseUtil.failResponse(res, MessageUtil.doesNotExists);
         } else {
             const newUniversity = await universityServices.save(universityData);
-            console.log(newUniversity)
             if (newUniversity) {
                 responseUtil.successResponse(res, MessageUtil.success, newUniversity);
             } else {
