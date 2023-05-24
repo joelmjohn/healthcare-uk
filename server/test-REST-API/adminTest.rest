@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/v1/admin/870ec12b-406c-4741-b55e-6edded7507ca
+DELETE http://localhost:3000/v1/admin/4bf08fcc-6e31-4639-8c64-a0be91e05822
 
 ###
 

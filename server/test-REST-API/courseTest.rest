@@ -7,8 +7,9 @@ Content-Type: application/json
     "name":"Computer Basics",
     "description": "Some More Details",
     "courseCode": "CS103",
-    "universityId": "6458b69d63718ff304147f09",
-    "vacancy": "200"
+    "universityId": "b3399782-7f82-4ebe-bb0b-2f2e51530f85",
+    "vacancy": "200",
+    "adminId": "4bf08fcc-6e31-4639-8c64-a0be91e05821"
 }
 
 ###
@@ -32,4 +33,4 @@ Content-Type: application/json
 
 ###
 
-DELETE  http://localhost:3000/v1/course/CS102
+DELETE  http://localhost:3000/v1/course/2acf5d8e-c563-46e7-97a3-9fbcf5a27e6d

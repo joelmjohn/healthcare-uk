@@ -18,6 +18,7 @@ const course = new Schema({
     },
     courseCode: {
         type: String,
+        unique: true,
         required: true
     },
     universityId: {
@@ -27,6 +28,10 @@ const course = new Schema({
     vacancy: {
         type: Number,
         default: 0,
+        required: true
+    },
+    adminId: {
+        type: String,
         required: true
     },
     isBlocked: {

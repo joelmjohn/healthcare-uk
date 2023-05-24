@@ -16,7 +16,8 @@ Content-Type: application/json
     "experienceRequired": "1-3 Years",
     "industryType": "Medical",
     "employmentType":"FULL TIME",
-    "validTillDate":"2023-05-04T12:11:24.613+00:00"
+    "validTillDate":"2023-05-04T12:11:24.613+00:00",
+    "adminId":"4bf08fcc-6e31-4639-8c64-a0be91e05821"
 }
 ###
 

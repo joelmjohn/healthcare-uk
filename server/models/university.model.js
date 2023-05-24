@@ -18,13 +18,18 @@ const university = new Schema({
     },
     universityCode: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     address: {
         type: String,
         required: true
     },
     countryId: {
+        type: String,
+        required: true
+    },
+    adminId: {
         type: String,
         required: true
     },

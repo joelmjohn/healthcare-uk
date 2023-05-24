@@ -10,7 +10,8 @@ const country = new Schema({
     },
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,
@@ -19,8 +20,13 @@ const country = new Schema({
     },
     countryCode: {
         type: String,
-        required: true
+        required: true,
+        unique: true
 
+    },
+    adminId: {
+        type: String,
+        required: true
     },
     isBlocked: {
         type: Boolean,

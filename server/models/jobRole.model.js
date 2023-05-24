@@ -63,7 +63,11 @@ const jobRole = new Schema({
     validTillDate: {
         type: Date,
         required: true,
-    }
+    },
+    adminId: {
+        type: String,
+        required: true
+    },
 }, { timestamps: true });
 
 module.exports = new mongoose.model('jobRole', jobRole);

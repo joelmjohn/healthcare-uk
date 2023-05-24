@@ -4,6 +4,11 @@ const MessageUtil = require('../utils/messageUtil');
 const adminService = require("../services/admin.service");
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
+const blogpostService = require("../services/blogpost.service");
+const countryService = require("../services/country.service");
+const courseService = require("../services/course.service");
+const universityService = require("../services/university.service");
+const jobService = require("../services/job.service");
 
 
 exports.getAllAdmin = async (req, res) => {
@@ -96,17 +101,37 @@ exports.updateAdminById = async (req, res) => {
     }
 };
 
+const checkAdminRecords = async (adminId) => {
+    const filter = { "adminId": adminId };
+    const services = [blogpostService, countryService, courseService, universityService, jobService];
+    let authorizeDelete = true;
+    for (const service of services) {
+        let response = await service.findOne(filter);
+        if (response !== null) {
+            authorizeDelete = false;
+            break;
+        }
+    };
+    return authorizeDelete;
+}
+
 exports.deleteAdminById = async (req, res) => {
     const adminId = req.params.id;
     try {
         if (!adminId) {
             responseUtil.throwError(MessageUtil.invalidRequest);
         }
-        const response = await adminService.deleteOne({ id: adminId });
-        if (response) {
-            responseUtil.successResponse(res, MessageUtil.success, `Admin Deleted Successfully`);
-        } else {
-            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        const verifyAdmin = await checkAdminRecords(adminId);
+        if (!verifyAdmin) {
+            return responseUtil.failResponse(res, MessageUtil.entityExistInCollection, { statusCode: 403 });
+        }
+        else {
+            const response = await adminService.deleteOne({ id: adminId });
+            if (response) {
+                responseUtil.successResponse(res, MessageUtil.success, `Admin Deleted Successfully`);
+            } else {
+                responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+            }
         }
     } catch (err) {
         responseUtil.errorResponse(res, err.message);
@@ -155,3 +180,5 @@ exports.loginAdmin = async (req, res) => {
         responseUtil.errorResponse(res, err.message);
     }
 };
+
+

@@ -8,7 +8,8 @@ Content-Type: application/json
     "description": "some Description",
     "universityCode": "MIT001",
     "address": "MIT, US",
-    "countryId": "c7d74bba-fb46-4f22-ab6f-373f1de5dc34"
+    "countryId": "63d07076-bb77-461c-bcc5-dbc138162c5b",
+    "adminId":"4bf08fcc-6e31-4639-8c64-a0be91e05821"
 }
 ###
 
@@ -24,7 +25,7 @@ GET http://localhost:3000/v1/university/filter?page=1&limit=3&countryId=c7d74bba
 
 // Delete a University
 ###
-DELETE  http://localhost:3000/v1/university/6b57f3a4-441d-4bc1-9af9-715a11940d6f
+DELETE  http://localhost:3000/v1/university/b3399782-7f82-4ebe-bb0b-2f2e51530f85
 
 
 // Update a University
