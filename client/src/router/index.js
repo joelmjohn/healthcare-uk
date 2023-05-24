@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import AdminView from '../views/admin'
 import UserList from '../components/Admin/UserList'
+import AdminRegistration from '../views/admin/AdminRegistration'
+import AdminList from '../components/Admin/AdminList'
 import AdminBlog from '../components/Admin/Blogpost'
 import AdminBlogCreate from '../components/Admin/Blogpost/createBlog'
 import AdminBlogUpdate from '../components/Admin/Blogpost/updateBlog'
@@ -66,6 +68,16 @@ const routes = [
         component: UserList
       }
     ]
+  },
+  {
+    path: '/admin/register',
+    name: 'AdminRegistration',
+    component: AdminRegistration
+  },
+  {
+    path: '/admin/list',
+    name: 'AdminList',
+    component: AdminList
   },
   {
     path: '/admin/blogpost',
