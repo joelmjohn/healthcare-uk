@@ -2,7 +2,7 @@
     <div>
         <createCountry :countryListing="countryList" />
         <updateCountry @closeUpdateModal="showUpdateModal = false" :updateModal="showUpdateModal"
-            :countryListing="countryList" :updateId="selectedId" :updateCountryValue="updateCountry" />
+            :countryListing="countryList" :updateId="updateId" :updateCountryValue="updateCountry" />
 
         <deleteCountry @closeDeleteModal="showDeleteModal = false" :countryListing="countryList" :id="deleteId"
             :show="showDeleteModal" />
@@ -13,8 +13,6 @@
                     <th scope="col">Country Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Country Code</th>
-
-
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +21,6 @@
                     <td>{{ countryDetails.name }}</td>
                     <td>{{ countryDetails.description }}</td>
                     <td>{{ countryDetails.countryCode }}</td>
-
-
                     <td>
                         <button type="button" class="btn btn-success" @click="handleUpdate(countryDetails)">
                             Update
@@ -58,7 +54,7 @@ export default {
             deleteId: "",
             showDeleteModal: false,
             updateCountry: {},
-            selectedId: "",
+            updateId: "",
             showUpdateModal: false,
         };
     },
@@ -67,7 +63,7 @@ export default {
     },
     methods: {
         handleUpdate(data) {
-            this.selectedId = data.id;
+            this.updateId = data.id;
             this.updateCountry = {
                 name: data.name,
                 description: data.description,

@@ -50,10 +50,7 @@ export default {
                     .patch(`${this.root}/country/` + this.updateId, this.updateCountryValue)
                     .then((response) => {
                         if (response.data.status) {
-
-
                             this.countryListing();
-
                             this.$bvToast.toast("Country Details updated successfully", {
                                 title: "Success",
                                 variant: "success",

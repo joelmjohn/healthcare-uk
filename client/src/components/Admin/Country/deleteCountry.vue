@@ -37,7 +37,6 @@ export default {
                 return false;
             } else {
                 this.$axios
-
                     .delete(`${this.root}/country/` + this.id)
                     .then((response) => {
                         if (response.data.status) {
