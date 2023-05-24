@@ -19,11 +19,12 @@ GET http://localhost:3000/v1/admin/2485ab05-d5ee-440c-a55a-44eb46922bf8
 
 ###
 
-PATCH http://localhost:3000/v1/admin/2485ab05-d5ee-440c-a55a-44eb46922bf8
+PATCH http://localhost:3000/v1/admin/f3bdbb4c-6f5c-41b5-8a62-356959f2e635
 Content-Type: application/json
 
 {
-    "email": "alanR@mail.com"
+    "email": "mikey@mail.com",
+    "myField":"abc"
 }
 
 ###
