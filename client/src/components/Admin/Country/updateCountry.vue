@@ -28,6 +28,8 @@ export default {
   },
   methods: {
     handleSave(evt) {
+      evt.preventDefault();
+
       if (
         !this.updateCountryValue.name ||
         !this.updateCountryValue.description ||
@@ -38,12 +40,9 @@ export default {
           variant: "danger",
           solid: true,
         });
-        evt.preventDefault();
-        this.$emit("closeUpdateModal");
 
       }
       else {
-        evt.preventDefault();
 
         this.updateCountryValue.name = this.updateCountryValue.name.toUpperCase();
         this.$axios
@@ -51,7 +50,6 @@ export default {
           .patch(`${this.root}/country/` + this.updateId, this.updateCountryValue)
           .then((response) => {
             if (response.data.status) {
-              this.$emit("closeUpdateModal");
 
 
               this.countryListing();
@@ -61,6 +59,8 @@ export default {
                 variant: "success",
                 solid: true,
               });
+              this.$emit("closeUpdateModal");
+
             } else {
               this.$bvToast.toast("Couldn't update country, try again", {
                 title: "Invalid",
@@ -79,7 +79,10 @@ export default {
           });
       }
     },
-    closeUpdateModal(evt) { evt.preventDefault(), this.$emit('closeUpdateModal'); },
+    closeUpdateModal(evt) {
+      evt.preventDefault(),
+        this.$emit('closeUpdateModal');
+    },
     cancelUpdateModal(evt) {
       evt.preventDefault();
       this.$emit('closeUpdateModal');

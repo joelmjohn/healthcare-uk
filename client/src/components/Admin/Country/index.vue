@@ -1,22 +1,30 @@
 <template>
   <div>
     <createCountry :countryListing="countryList" />
-    <updateCountry @closeUpdateModal="modalShowView = false" :updateModal="modalShowView" :countryListing="countryList"
+    <updateCountry @closeUpdateModal="showUpdateModal = false" :updateModal="showUpdateModal" :countryListing="countryList"
       :updateId="selectedId" :updateCountryValue="updateCountry" />
 
-    <deleteCountry @closeDeleteModal="deleteModalShowView = false" :countryListing="countryList" :id="deleteId"
-      :show="deleteModalShowView" />
+    <deleteCountry @closeDeleteModal="showDeleteModal = false" :countryListing="countryList" :id="deleteId"
+      :show="showDeleteModal" />
     <table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">CountryName</th>
+          <th scope="col">Country Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Country Code</th>
+
+
         </tr>
       </thead>
       <tbody>
         <tr v-for="(countryDetails, index) in addedCountries.country" :key="index">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ countryDetails.name }}</td>
+          <td>{{ countryDetails.description }}</td>
+          <td>{{ countryDetails.countryCode }}</td>
+
+
           <td>
             <button type="button" class="btn btn-success" @click="handleUpdate(countryDetails)">
               Update
@@ -48,10 +56,10 @@ export default {
       root: process.env.VUE_APP_ROOT_API,
       addedCountries: [],
       deleteId: "",
-      deleteModalShowView: false,
+      showDeleteModal: false,
       updateCountry: {},
       selectedId: "",
-      modalShowView: false,
+      showUpdateModal: false,
     };
   },
   mounted() {
@@ -66,7 +74,7 @@ export default {
         countryCode: data.countryCode,
       };
 
-      this.modalShowView = true;
+      this.showUpdateModal = true;
     },
     countryList() {
       this.$axios
@@ -85,7 +93,7 @@ export default {
     },
     handleDelete(id) {
       this.deleteId = id;
-      this.deleteModalShowView = true;
+      this.showDeleteModal = true;
     },
   },
 };
