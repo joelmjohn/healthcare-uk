@@ -9,6 +9,7 @@
          <router-link to="/admin/blogpost">Admin Blog</router-link>|
          <router-link to="/admin/userList">User List</router-link>|
          <router-link to="/admin/country">Add Country</router-link>|
+         <router-link to="/admin/jobs">Jobs</router-link>|
       </nav>
       <router-view />
    </div>

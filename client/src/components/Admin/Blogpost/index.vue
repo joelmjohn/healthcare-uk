@@ -36,7 +36,7 @@
                                     <td>
                                         <b-icon :icon="handleVisibilty(data.isBlocked)" aria-hidden="true" font-scale="2"
                                             @click="toggleHide(data.isBlocked, data.id)" style="cursor:pointer"
-                                            variant="success">
+                                            :variant="data.isBlocked ? 'secondary' : 'success'">
                                         </b-icon>
                                     </td>
                                     <td>
@@ -80,7 +80,7 @@ export default {
                         this.blogList = responseData.data.blogs;
                     } else {
                         this.$bvToast.toast("Couldn't fetch data, try again", {
-                            title: "Success",
+                            title: "Error",
                             variant: "danger",
                             solid: true,
                         });
