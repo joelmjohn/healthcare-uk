@@ -31,6 +31,14 @@ exports.findAll = async ({ page, limit }) => {
         as: "adminDetails"
       }
     },
+    {
+      $lookup: {
+        from: "countries",
+        localField: "countryId",
+        foreignField: "id",
+        as: "countryDetails"
+      }
+    },
     { $project: { "_id": 0 } },
     {
       $facet: {

@@ -28,11 +28,11 @@ GET http://localhost:3000/v1/job/00f4ff72-2cdc-42c3-8dd6-9d5881cfab32
 
 ###
 
-PATCH http://localhost:3000/v1/job/00f4ff72-2cdc-42c3-8dd6-9d5881cfab32
+PATCH http://localhost:3000/v1/job/0959d94f-bd66-4648-8ca7-faa37536b458
 Content-Type: application/json
 
 {
-    "isBlocked": "true"
+    "countryId": "63d07076-bb77-461c-bcc5-dbc138162c5b"
 }
 
 ###

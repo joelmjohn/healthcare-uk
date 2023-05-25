@@ -16,24 +16,30 @@
                                     <option value="" disabled>Select</option>
                                     <option v-for="country in countrys" :value="country.id">{{ country.name }} ({{
                                         country.countryCode }})</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
                                 </select>
                             </b-form-group>
                         </b-card>
                     </b-collapse>
                 </div>
                 <div class="form text-center">
-                    <b-button variant="outline-primary" size="md">Search</b-button>
+                    <b-button variant="outline-primary" size="md" @click="fetchJobs" :disabled="loading">Search</b-button>
                 </div>
 
             </b-card>
-            <b-card>
+        </b-container>
+
+        <b-card v-if="jobList.length">
+            <b-skeleton-wrapper :loading="loading">
+                <template #loading>
+                    <b-skeleton-table :rows="5" :columns="4" :table-props="{ bordered: true, striped: true }">
+                    </b-skeleton-table>
+                </template>
                 <table class="table table-bordered" v-if="!loading">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>JobName</th>
+                            <th>Job Description</th>
                             <th>Company Name</th>
                             <th>Company Description</th>
                             <th>Country</th>
@@ -44,10 +50,35 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody v-for="(data, idx) in jobList" :key="idx">
+                        <tr>
+                            <td>{{ idx + 1 }}</td>
+                            <td>{{ data.jobName }}</td>
+                            <td>{{ handleDescription(data.jobDescription) }}</td>
+                            <td>{{ data.companyName }}</td>
+                            <td>{{ data.companyDescription }}</td>
+                            <td>{{ data.countryDetails[0].name }}</td>
+                            <td>{{ data.industryType }}</td>
+                            <td>{{ data.vacancy }}</td>
+                            <td :class="data.status == 'ACTIVE' ? 'table-success' : 'table-danger'">{{ data.status }}
+                            </td>
+                            <td>{{ data.adminDetails[0].name }}</td>
+                            <td>
+                                <b-button variant="outline-primary" size="sm" @click="handleEdit()">
+                                    <b-icon icon="pencil"></b-icon>
+                                    Edit
+                                </b-button>
+                                <b-button variant="outline-danger" size="sm" @click="handleDelete()">
+                                    <b-icon icon="trash"></b-icon>
+                                    Delete
+                                </b-button>
+                            </td>
+
+                        </tr>
+                    </tbody>
                 </table>
-            </b-card>
-        </b-container>
+            </b-skeleton-wrapper>
+        </b-card>
     </div>
 </template>
 
@@ -61,6 +92,7 @@ export default {
             countrys: [],
             selectedCountry: '',
             loading: false,
+            jobList: [],
             root: process.env.VUE_APP_ROOT_API,
         }
     },
@@ -90,6 +122,43 @@ export default {
                         solid: true,
                     });
                 });
+        },
+        fetchJobs() {
+            this.loading = true;
+            this.$axios
+                .get(`${this.root}/job`)
+                .then((response) => {
+                    const responseData = response.data;
+                    if (responseData.status) {
+                        this.jobList = responseData.data.jobs;
+                    } else {
+                        this.$bvToast.toast("Couldn't fetch data, try again", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                    }
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$bvToast.toast("Error Occured!", {
+                        title: "Error",
+                        variant: "danger",
+                        solid: true,
+                    });
+                });
+        },
+        handleDescription(str) {
+            if (str.length > 20) {
+                return str.slice(0, 20) + ' ...'
+            }
+        },
+        handleEdit() {
+
+        },
+        handleDelete() {
+
         }
     },
     mounted() {
