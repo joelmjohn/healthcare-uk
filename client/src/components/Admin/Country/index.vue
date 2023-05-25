@@ -24,7 +24,7 @@
                     <td>{{ countryDetails.countryCode }}</td>
                     <td> <b-icon :icon="handleVisibilty(countryDetails.isBlocked)" aria-hidden="true" font-scale="2"
                             @click="toggleHide(countryDetails.isBlocked, countryDetails.id)" style="cursor:pointer"
-                            variant="success">
+                            :variant="countryDetails.isBlocked ? 'secondary' : 'success'">
                         </b-icon></td>
                     <td>
                         <button type="button" class="btn btn-success" @click="handleUpdate(countryDetails)">
@@ -83,7 +83,6 @@ export default {
             presentState = !presentState;
             const data = { isBlocked: presentState };
             if (confirm("You sure want to change visibilty of this country") == true) {
-
                 this.$axios
                     .patch(`${this.root}/country/${id}`, data)
                     .then((response) => {
