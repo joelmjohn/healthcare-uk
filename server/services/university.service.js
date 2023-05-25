@@ -30,6 +30,14 @@ exports.findOne = async (data) => {
 
 exports.findAllUniversities = async ({ page, limit }) => {
     const mongoQuery = [
+        {
+            $lookup: {
+                from: "admins",
+                localField: "adminId",
+                foreignField: "id",
+                as: "adminDetails"
+            }
+        },
         { $project: { "_id": 0 } },
         {
             $facet: {

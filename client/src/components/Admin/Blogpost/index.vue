@@ -80,7 +80,7 @@ export default {
                         this.blogList = responseData.data.blogs;
                     } else {
                         this.$bvToast.toast("Couldn't fetch data, try again", {
-                            title: "Success",
+                            title: "Error",
                             variant: "danger",
                             solid: true,
                         });

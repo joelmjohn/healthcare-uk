@@ -7,14 +7,15 @@ import AdminBlog from '../components/Admin/Blogpost';
 import AdminBlogCreate from '../components/Admin/Blogpost/createBlog';
 import AdminBlogUpdate from '../components/Admin/Blogpost/updateBlog';
 import Country from '../components/Admin/Country/index.vue';
+import AdminJobs from '../components/Admin/Jobs';
 
-Vue.use (VueRouter);
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import ('../views/IndexView.vue'),
+    component: () => import('../views/IndexView.vue'),
   },
   {
     path: '/about',
@@ -23,7 +24,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import (/* webpackChunkName: "about" */ '../views/AboutUs.vue'),
+      import(/* webpackChunkName: "about" */ '../views/AboutUs.vue'),
   },
   ,
   {
@@ -33,7 +34,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import (/* webpackChunkName: "about" */ '../views/JobServices.vue'),
+      import(/* webpackChunkName: "about" */ '../views/JobServices.vue'),
   },
   {
     path: '/studyAbroad',
@@ -42,7 +43,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import (/* webpackChunkName: "about" */ '../views/StudyAbroad.vue'),
+      import(/* webpackChunkName: "about" */ '../views/StudyAbroad.vue'),
   },
   {
     path: '/contact',
@@ -51,7 +52,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import (/* webpackChunkName: "about" */ '../views/Contact.vue'),
+      import(/* webpackChunkName: "about" */ '../views/Contact.vue'),
   },
   {
     path: '/blog',
@@ -60,7 +61,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import (/* webpackChunkName: "about" */ '../views/Blog.vue'),
+      import(/* webpackChunkName: "about" */ '../views/Blog.vue'),
   },
   {
     path: '/admin',
@@ -92,10 +93,15 @@ const routes = [
     name: 'blogpostUpdate',
     component: AdminBlogUpdate,
   },
+  {
+    path: '/admin/jobs',
+    name: 'jobs',
+    component: AdminJobs,
+  },
 ];
 //{ path: '/:NotFound(.*)*', component: NotFound},
 
-const router = new VueRouter ({
+const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
@@ -107,19 +113,20 @@ const protectedRoutes = [
   '/admin/country',
   '/admin/blogpost/create',
   '/admin/blogpost/update',
+  '/admin/jobs',
 ];
 
-router.beforeEach ((to, from, next) => {
-  const adminId = localStorage.getItem ('adminId');
-  const adminRole = localStorage.getItem ('adminRole');
+router.beforeEach((to, from, next) => {
+  const adminId = localStorage.getItem('adminId');
+  const adminRole = localStorage.getItem('adminRole');
 
-  if (!adminId && protectedRoutes.includes (to.path)) {
-    next ('/admin');
+  if (!adminId && protectedRoutes.includes(to.path)) {
+    next('/admin');
   }
   if (adminId && adminRole !== 'SUPERADMIN' && to.path == '/admin/userList') {
-    next ('/admin');
+    next('/admin');
   } else {
-    next ();
+    next();
   }
 });
 
