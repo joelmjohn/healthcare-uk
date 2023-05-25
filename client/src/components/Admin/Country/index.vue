@@ -111,7 +111,6 @@ export default {
                             variant: "danger",
                             solid: true,
                         });
-                        this.loading = false;
                     });
             }
         },
