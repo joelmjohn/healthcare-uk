@@ -1,6 +1,6 @@
 <template>
-    <b-modal id="modal-center" v-model="updateModal" centered @close="closeUpdateModal" @cancel="cancelUpdateModal"
-        @ok="handleSave" :no-close-on-backdrop="true">
+    <b-modal title="Update Country" id="modal-center" v-model="updateModal" centered @close="closeUpdateModal"
+        @cancel="cancelUpdateModal" @ok="handleSave" :no-close-on-backdrop="true">
         <div>
             <div class="form mb-3">
                 <b-form-input v-model="updateCountryValue.name" placeholder="Enter the CountryName"></b-form-input>

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-modal id="modal-center" v-model="show" centered @cancel="cancelDeleteModal" @ok="deleteCountry"
-            @close="closeDeleteModal" :no-close-on-backdrop="true">
+        <b-modal title="Delete Country" id="modal-center" v-model="show" centered @cancel="cancelDeleteModal"
+            @ok="deleteCountry" @close="closeDeleteModal" :no-close-on-backdrop="true">
             <div class="d-block text-center">
                 <h3>Are you sure want to Delete</h3>
             </div>
@@ -39,6 +39,7 @@ export default {
                 this.$axios
                     .delete(`${this.root}/country/` + this.id)
                     .then((response) => {
+                        console.log(response);
                         if (response.data.status) {
                             this.$emit("closeDeleteModal");
 
@@ -58,7 +59,7 @@ export default {
                     })
                     .catch((err) => {
                         console.log(err);
-                        this.$bvToast.toast("error", {
+                        this.$bvToast.toast(err.response.data.message, {
                             title: "Error",
                             variant: "danger",
                             solid: true,
