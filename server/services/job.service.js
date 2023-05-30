@@ -21,8 +21,9 @@ exports.findOne = async (data) => {
   return await jobModel.findOne(data).lean();
 };
 
-exports.findAll = async ({ page, limit }) => {
+exports.findAll = async ({ page, limit, filterData }) => {
   const mongoQuery = [
+    { $match: filterData },
     {
       $lookup: {
         from: "admins",
