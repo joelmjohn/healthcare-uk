@@ -1,6 +1,8 @@
 <template>
     <div>
         <b-container>
+            <b-card> <b-button @click="createJob">Create Job</b-button></b-card></b-container>
+        <b-container>
             <b-card>
                 <h2>Jobs</h2>
                 <div class="form mb-3">
@@ -68,7 +70,7 @@
                                     <b-icon icon="pencil"></b-icon>
                                     Edit
                                 </b-button>
-                                <b-button variant="outline-danger" size="sm" @click="handleDelete()">
+                                <b-button variant="outline-danger" size="sm" @click="handleDelete(data.id)">
                                     <b-icon icon="trash"></b-icon>
                                     Delete
                                 </b-button>
@@ -79,11 +81,16 @@
                 </table>
             </b-skeleton-wrapper>
         </b-card>
+        <jobComponent :countrys="countrys" @displayJobs="jobDetail" :createJobModal="createJobModal"
+            @closeCreateModal="createJobModal = false" />
     </div>
 </template>
 
 <script>
+import { AlertPlugin } from 'bootstrap-vue';
+import jobComponent from './jobComponent.vue';
 export default {
+    components: { jobComponent },
     name: "jobList",
     data() {
         return {
@@ -94,9 +101,78 @@ export default {
             loading: false,
             jobList: [],
             root: process.env.VUE_APP_ROOT_API,
+            createJobModal: false,
+            jobModal: false,
         }
     },
+    mounted() { this.jobDetail, this.selectedStatus },
     methods: {
+        jobDetail(val) {
+            const isEmptyObjectValuesEmpty = Object.values(val).every(value => {
+                return value === '' || value === null || value === undefined;
+            });
+            if (isEmptyObjectValuesEmpty == true) {
+                this.$bvToast.toast("Please fill all the details", {
+                    title: "Error",
+                    variant: "danger",
+                    solid: true,
+                });
+            }
+            else {
+                Object.assign(val, { adminId: localStorage.getItem("adminId") });
+                this.$axios
+                    .post(`${this.root}/job/create`, val)
+                    .then((response) => {
+                        const responseData = response.data;
+                        if (responseData.status) {
+
+                            console.log("success");
+                        } else {
+                            this.$bvToast.toast("Couldn't fetch data, try again", {
+                                title: "Error",
+                                variant: "danger",
+                                solid: true,
+                            });
+                        }
+                        this.loading = false;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.$bvToast.toast("Error Occured!", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                    });
+            }
+        },
+        fetchJobs() {
+            this.loading = true;
+            this.$axios
+                .post(`${this.root}/job`)
+                .then((response) => {
+                    const responseData = response.data;
+                    if (responseData.status) {
+                        this.jobList = responseData.data.jobs;
+                    } else {
+                        this.$bvToast.toast("Couldn't fetch data, try again", {
+                            title: "Error",
+                            variant: "danger",
+                            solid: true,
+                        });
+                    }
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$bvToast.toast("Error Occured!", {
+                        title: "Error",
+                        variant: "danger",
+                        solid: true,
+                    });
+                });
+        },
+        createJob() { this.createJobModal = true },
         fetchCountries() {
             this.loading = true;
             this.$axios
@@ -155,11 +231,7 @@ export default {
             }
         },
         handleEdit() {
-
         },
-        handleDelete() {
-
-        }
     },
     mounted() {
         this.fetchCountries();
