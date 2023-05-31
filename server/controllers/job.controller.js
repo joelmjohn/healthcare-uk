@@ -7,15 +7,17 @@ const jobRegService = require("../services/userJobRegister.service");
 
 
 exports.getJobs = async (req, res) => {
+    const filterData = req.body;
     const page = req.query.page || 1;
     const limit = parseInt(req.query.limit) || 10;
     const queryParams = {
         page,
-        limit
+        limit,
+        filterData
     };
     try {
         const response = await jobService.findAll(queryParams);
-        if (response.jobs.length) {
+        if (response.jobs) {
             responseUtil.successResponse(res, MessageUtil.success, response);
         } else {
             responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);

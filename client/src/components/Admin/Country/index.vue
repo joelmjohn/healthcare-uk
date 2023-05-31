@@ -125,7 +125,7 @@ export default {
         },
         countryList() {
             this.$axios
-                .get(`${this.root}/country`)
+                .get(`${this.root}/country/all`)
                 .then((response) => {
                     this.addedCountries = response.data.data;
                 })

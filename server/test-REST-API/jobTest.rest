@@ -21,7 +21,12 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:3000/v1/job
+POST http://localhost:3000/v1/job
+Content-Type: application/json
+
+{
+    "countryId": "89b0ee0c-d246-46f6-b288-95e2070777a4", "jobName": "sdsd"
+}
 ###
 
 GET http://localhost:3000/v1/job/00f4ff72-2cdc-42c3-8dd6-9d5881cfab32

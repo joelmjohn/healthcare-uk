@@ -8,16 +8,17 @@
             <b-card>
                 <h2>Jobs</h2>
                 <div class="form mb-3">
-                    <b-form-input v-model="searchData" placeholder="search"></b-form-input>
+                    <b-form-input v-model="searchData" placeholder="Search Job.."></b-form-input>
                 </div>
                 <div class="form mb-3">
-                    <b-button v-b-toggle.collapse-1 variant="outline-secondary" size="sm">Filter</b-button>
+                    <b-button v-b-toggle.collapse-1 variant="outline-secondary" size="sm">
+                        <b-icon icon="filter"></b-icon>Filter</b-button>
                     <b-collapse id="collapse-1" class="mt-2" v-model="filterOpen">
                         <b-card>
                             <b-form-group label-cols-lg="1" label-size="sm" label="Country" label-for="input-country">
                                 <select v-model="selectedCountry" class="custom-select custom-select-sm"
                                     aria-label="Default select example">
-                                    <option value="" disabled>Select</option>
+                                    <option value="">ALL</option>
                                     <option v-for="country in countrys" :value="country.id">{{ country.name }} ({{
                                         country.countryCode }})</option>
                                 </select>
@@ -26,7 +27,9 @@
                     </b-collapse>
                 </div>
                 <div class="form text-center">
-                    <b-button variant="outline-primary" size="md" @click="fetchJobs" :disabled="loading">Search</b-button>
+                    <b-button variant="outline-primary" size="md" @click="fetchJobs" :disabled="loading">
+                        <b-icon icon="search" font-scale="1"></b-icon> Search
+                    </b-button>
                 </div>
 
             </b-card>
@@ -96,7 +99,7 @@ export default {
     data() {
         return {
             searchData: "",
-            filterOpen: true,
+            filterOpen: false,
             countrys: [],
             selectedCountry: '',
             loading: false,
@@ -173,47 +176,41 @@ export default {
                     if (responseData.status) {
                         this.countrys = responseData.data.country;
                     } else {
-                        this.$bvToast.toast("Couldn't fetch data, try again", {
-                            title: "Error",
-                            variant: "danger",
-                            solid: true,
-                        });
+                        this.toast("Error", "Couldn't fetch data, try again", "danger");
                     }
                     this.loading = false;
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.$bvToast.toast("Error Occured!", {
-                        title: "Error",
-                        variant: "danger",
-                        solid: true,
-                    });
+                    this.toast("Error", "Error Occured", "danger");
                 });
         },
         fetchJobs() {
             this.loading = true;
+            const data = {}
+            if (this.selectedCountry) {
+                data.countryId = this.selectedCountry;
+            }
+            if (this.searchData) {
+                data.jobName = this.searchData;
+            }
             this.$axios
-                .get(`${this.root}/job`)
+                .post(`${this.root}/job`, data)
                 .then((response) => {
                     const responseData = response.data;
                     if (responseData.status) {
                         this.jobList = responseData.data.jobs;
+                        if (!this.jobList.length) {
+                            this.toast("Empty", "No data found, try again", "warning");
+                        }
                     } else {
-                        this.$bvToast.toast("Couldn't fetch data, try again", {
-                            title: "Error",
-                            variant: "danger",
-                            solid: true,
-                        });
+                        this.toast("Empty", "No data found, try again", "warning");
                     }
                     this.loading = false;
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.$bvToast.toast("Error Occured!", {
-                        title: "Error",
-                        variant: "danger",
-                        solid: true,
-                    });
+                    this.toast("Error", "Error Occured", "danger");
                 });
         },
         handleDescription(str) {
@@ -223,6 +220,19 @@ export default {
         },
         handleEdit() {
         },
+<<<<<<< HEAD
+=======
+        handleDelete() {
+
+        },
+        toast(title, msg, variant) {
+            this.$bvToast.toast(msg, {
+                title: title,
+                variant: variant,
+                solid: true,
+            });
+        }
+>>>>>>> f8306eb3178d7e646c283d146c7171c154aaef7c
     },
     mounted() {
         this.fetchCountries();
