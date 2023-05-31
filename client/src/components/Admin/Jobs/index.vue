@@ -2,6 +2,8 @@
     <div>
         <b-container>
             <b-card> <b-button @click="createJob">Create Job</b-button></b-card></b-container>
+        <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
+            @closeJobModal="createJobModal = false" />
         <b-container>
             <b-card>
                 <h2>Jobs</h2>
@@ -81,8 +83,7 @@
                 </table>
             </b-skeleton-wrapper>
         </b-card>
-        <jobComponent :countrys="countrys" @displayJobs="jobDetail" :createJobModal="createJobModal"
-            @closeCreateModal="createJobModal = false" />
+
     </div>
 </template>
 
@@ -105,46 +106,36 @@ export default {
             jobModal: false,
         }
     },
-    mounted() { this.jobDetail, this.selectedStatus },
+    mounted() { this.jobData },
     methods: {
-        jobDetail(val) {
-            const isEmptyObjectValuesEmpty = Object.values(val).every(value => {
-                return value === '' || value === null || value === undefined;
-            });
-            if (isEmptyObjectValuesEmpty == true) {
-                this.$bvToast.toast("Please fill all the details", {
-                    title: "Error",
-                    variant: "danger",
-                    solid: true,
-                });
-            }
-            else {
-                Object.assign(val, { adminId: localStorage.getItem("adminId") });
-                this.$axios
-                    .post(`${this.root}/job/create`, val)
-                    .then((response) => {
-                        const responseData = response.data;
-                        if (responseData.status) {
-
-                            console.log("success");
-                        } else {
-                            this.$bvToast.toast("Couldn't fetch data, try again", {
-                                title: "Error",
-                                variant: "danger",
-                                solid: true,
-                            });
-                        }
-                        this.loading = false;
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        this.$bvToast.toast("Error Occured!", {
+        jobData(val) {
+            this.$axios
+                .post(`${this.root}/job/create`, val)
+                .then((response) => {
+                    const responseData = response.data;
+                    if (responseData.status) {
+                        this.$bvToast.toast("Job details Added Successfully", {
+                            title: "Success",
+                            variant: "success",
+                            solid: true,
+                        });
+                    } else {
+                        this.$bvToast.toast("Couldn't fetch data, try again", {
                             title: "Error",
                             variant: "danger",
                             solid: true,
                         });
+                    }
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$bvToast.toast("Error Occured!", {
+                        title: "Error",
+                        variant: "danger",
+                        solid: true,
                     });
-            }
+                });
         },
         fetchJobs() {
             this.loading = true;
@@ -238,5 +229,3 @@ export default {
     }
 }
 </script>
-
-<style scoped></style>
