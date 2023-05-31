@@ -26,6 +26,25 @@ exports.getAllCountry = async (req, res) => {
     }
 };
 
+exports.getAllVerifiedCountry = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const queryParams = {
+        page,
+        limit
+    };
+    try {
+        const response = await countryService.findAllVerified(queryParams);
+        if (response.country.length) {
+            responseUtil.successResponse(res, MessageUtil.success, response);
+        } else {
+            responseUtil.failResponse(res, MessageUtil.requestedDataNotFound, response);
+        }
+    } catch (err) {
+        responseUtil.errorResponse(res, err.message);
+    }
+};
+
 exports.getCountryById = async (req, res) => {
     const countryId = req.params.id;
     try {
