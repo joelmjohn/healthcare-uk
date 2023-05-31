@@ -220,8 +220,6 @@ export default {
         },
         handleEdit() {
         },
-<<<<<<< HEAD
-=======
         handleDelete() {
 
         },
@@ -232,7 +230,6 @@ export default {
                 solid: true,
             });
         }
->>>>>>> f8306eb3178d7e646c283d146c7171c154aaef7c
     },
     mounted() {
         this.fetchCountries();
