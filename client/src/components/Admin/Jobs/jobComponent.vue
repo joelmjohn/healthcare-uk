@@ -93,6 +93,7 @@ export default {
             skillsRequired: "",
             skillsDetails: ["Situational Awareness", "Empathy", "Leadership", "Teamwork"],
             countryId: "", countrySelected: "", status: ["ACTIVE", "EXPIRED"], statusSelected: "",
+            adminId: localStorage.getItem("adminId")
         }
     },
 
@@ -123,24 +124,34 @@ export default {
                 employmentType: this.jobDetails.employmentType,
                 validTillDate: this.jobDetails.validTillDate,
                 countryId: this.countrySelected,
-                status: this.statusSelected
+                status: this.statusSelected,
+                adminId: this.adminId
             }
-            this.jobDetails = {}
-            this.countrySelected = ""
-            this.skillsRequired = ""
-            const isEmptyObjectValuesEmpty = Object.values(data).every(value => {
-                return value === '' || value === null || value === undefined;
-            });
-            if (isEmptyObjectValuesEmpty == true) {
+
+            const isEmpty = Object.values(data).some(value => value === '');
+            if (isEmpty) {
                 this.$bvToast.toast("Please fill all the details", {
                     title: "Error",
                     variant: "danger",
                     solid: true,
                 });
             } else {
-                Object.assign(data, { adminId: localStorage.getItem("adminId") });
                 this.$emit("displayJobs", data);
                 this.$emit('closeJobModal');
+                this.jobDetails.jobName = "",
+                    this.jobDetails.jobDescription = "",
+                    this.jobDetails.companyName = "",
+                    this.jobDetails.companyDescription = "",
+                    this.jobDetails.vacancy = "",
+                    this.jobDetails.address = "",
+                    this.jobDetails.experienceRequired = "",
+                    this.skillsRequired = "",
+                    this.jobDetails.industryType = "",
+                    this.jobDetails.employmentType = "",
+                    this.jobDetails.validTillDate = "",
+                    this.countrySelected = "",
+                    this.statusSelected = ""
+                this.skillsRequired = ""
             }
         },
         cancelCreateModal(evt) { evt.preventDefault(); this.$emit('closeJobModal'); },

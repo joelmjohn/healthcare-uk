@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import { AlertPlugin } from 'bootstrap-vue';
 import jobComponent from './jobComponent.vue';
 export default {
     components: { jobComponent },
@@ -109,7 +108,8 @@ export default {
             jobModal: false,
         }
     },
-    mounted() { this.jobData },
+
+    mounted() { this.fetchCountries() },
     methods: {
         jobData(val) {
             this.$axios
@@ -149,21 +149,13 @@ export default {
                     if (responseData.status) {
                         this.jobList = responseData.data.jobs;
                     } else {
-                        this.$bvToast.toast("Couldn't fetch data, try again", {
-                            title: "Error",
-                            variant: "danger",
-                            solid: true,
-                        });
+                        this.toast("Couldn't fetch data, try again", "Error", "danger");
                     }
                     this.loading = false;
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.$bvToast.toast("Error Occured!", {
-                        title: "Error",
-                        variant: "danger",
-                        solid: true,
-                    });
+                    this.toast("Error Occured!", "Error", "danger");
                 });
         },
         createJob() { this.createJobModal = true },
@@ -231,8 +223,5 @@ export default {
             });
         }
     },
-    mounted() {
-        this.fetchCountries();
-    }
 }
 </script>
