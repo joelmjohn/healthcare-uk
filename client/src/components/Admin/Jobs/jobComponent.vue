@@ -43,7 +43,7 @@
                 <b-col>
                     <label>Experience Required</label>
                     <b-form-input required v-model="jobDetails.experienceRequired"
-                        placeholder="Enter Vacancy"></b-form-input></b-col>
+                        placeholder="Enter Experience"></b-form-input></b-col>
 
             </b-row> <b-row>
                 <b-col>
