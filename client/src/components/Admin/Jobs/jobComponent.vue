@@ -116,14 +116,14 @@ export default {
     },
     methods: {
         validateVacancy() {
-            if (!Number.isInteger(Number(this.jobDetails.vacancy) || this.jobDetails.vacancy == "")) {
+            if (!Number.isInteger(Number(this.jobDetails.vacancy) )|| this.jobDetails.vacancy == "") {
                 this.vacancyCheck = false;
             } else {
                 this.vacancyCheck = true;
             }
         },
         validateExperience() {
-            if (!Number.isInteger(Number(this.jobDetails.experienceRequired) || this.jobDetails.experienceRequired == "")) {
+            if (!Number.isInteger(Number(this.jobDetails.experienceRequired) )|| this.jobDetails.experienceRequired == "") {
                 this.experienceCheck = false;
             } else {
                 this.experienceCheck = true;
