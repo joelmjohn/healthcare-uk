@@ -156,7 +156,8 @@ export default {
 
             }
 
-            else if (this.errorMessage == false) { this.toast("Error", "Please enter a number", "danger") }
+            else if (this.vacancyCheck === false ||
+                this.experienceCheck === false) { this.toast("Error", "Please enter a number", "danger") }
             else {
                 this.$emit("displayJobs", data);
                 this.$emit('closeJobModal');
