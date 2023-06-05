@@ -32,18 +32,19 @@
             <b-row>
                 <b-col>
                     <label>Vacancy</label>
-                    <b-form-input required v-model="jobDetails.vacancy" placeholder="Enter Vacancy"></b-form-input></b-col>
+                    <b-form-input :state="vacancyCheck" @input="validateVacancy" required v-model="jobDetails.vacancy"
+                        placeholder="Enter Vacancy"></b-form-input></b-col>
                 <b-col> <label>Employment Type</label>
                     <select required v-model="jobDetails.employmentTypeSelected" class="custom-select custom-select-sm"
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
-                        <option v-for="(type, index) in employmentType" :key="index">{{type}}</option>
+                        <option v-for="(type, index) in employmentType" :key="index">{{ type }}</option>
                     </select>
-                    </b-col>
+                </b-col>
                 <b-col>
                     <label>Experience Required</label>
-                    <b-form-input required v-model="jobDetails.experienceRequired"
-                        placeholder="Enter Experience"></b-form-input></b-col>
+                    <b-form-input @input="validateExperience" :state="experienceCheck" required
+                        v-model="jobDetails.experienceRequired" placeholder="Enter Experience"></b-form-input></b-col>
 
             </b-row> <b-row>
                 <b-col>
@@ -91,15 +92,17 @@ export default {
                 experienceRequired: "",
                 industryType: "",
                 validTillDate: "",
-                employmentTypeSelected:""
+                employmentTypeSelected: ""
             },
-            employmentType:["FULL TIME","PART TIME"],
+            employmentType: ["FULL TIME", "PART TIME"],
             skillsRequired: "",
             skillsDetails: ["Situational Awareness", "Empathy", "Leadership", "Teamwork"],
             countryId: "", countrySelected: "",
-            status: ["ACTIVE", "EXPIRED"], 
+            status: ["ACTIVE", "EXPIRED"],
             statusSelected: "",
-            adminId: localStorage.getItem("adminId")
+            adminId: localStorage.getItem("adminId"),
+            vacancyCheck: false,
+            experienceCheck: false,
         }
     },
 
@@ -112,6 +115,20 @@ export default {
         },
     },
     methods: {
+        validateVacancy() {
+            if (!Number.isInteger(Number(this.jobDetails.vacancy) || this.jobDetails.vacancy == "")) {
+                this.vacancyCheck = false;
+            } else {
+                this.vacancyCheck = true;
+            }
+        },
+        validateExperience() {
+            if (!Number.isInteger(Number(this.jobDetails.experienceRequired) || this.jobDetails.experienceRequired == "")) {
+                this.experienceCheck = false;
+            } else {
+                this.experienceCheck = true;
+            }
+        },
         toggleStatus() {
             this.status = !this.status;
         },
@@ -135,25 +152,29 @@ export default {
             }
             const isEmpty = Object.values(data).some(value => value === '');
             if (isEmpty) {
-                this.toast("Error","Please fill all the details","danger")
-            } else {
+                this.toast("Error", "Please fill all the details", "danger")
+
+            }
+
+            else if (this.errorMessage == false) { this.toast("Error", "Please enter a number", "danger") }
+            else {
                 this.$emit("displayJobs", data);
                 this.$emit('closeJobModal');
                 this.jobDetails.jobName = "";
-                    this.jobDetails.jobDescription = "";
-                    this.jobDetails.companyName = "";
-                    this.jobDetails.companyDescription = "";
-                    this.jobDetails.vacancy = "";
-                    this.jobDetails.address = "";
-                    this.jobDetails.experienceRequired = "";
-                    this.skillsRequired = "";
-                    this.jobDetails.industryType = "";
-                    this.jobDetails.employmentType = "";
-                    this.jobDetails.validTillDate = "";
-                    this.jobDetails.employmentTypeSelected="";
-                    this.countrySelected = "";
-                    this.statusSelected = "";
-                    this.skillsRequired = "";
+                this.jobDetails.jobDescription = "";
+                this.jobDetails.companyName = "";
+                this.jobDetails.companyDescription = "";
+                this.jobDetails.vacancy = "";
+                this.jobDetails.address = "";
+                this.jobDetails.experienceRequired = "";
+                this.skillsRequired = "";
+                this.jobDetails.industryType = "";
+                this.jobDetails.employmentType = "";
+                this.jobDetails.validTillDate = "";
+                this.jobDetails.employmentTypeSelected = "";
+                this.countrySelected = "";
+                this.statusSelected = "";
+                this.skillsRequired = "";
             }
         },
         cancelCreateModal(evt) { evt.preventDefault(); this.$emit('closeJobModal'); },
