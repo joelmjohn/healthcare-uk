@@ -1,7 +1,7 @@
 <template>
     <b-modal size="xl" :title="actionType" v-model="jobModal" centered @ok="handleModal" @cancel="cancelJobModal"
         @close="closeJobModal" :no-close-on-backdrop="true">
-        <b-container>{{ countryd }}
+        <b-container>
             <b-row>
                 <b-col>
                     <label>Job Name</label>
@@ -135,7 +135,8 @@ export default {
 
         newData() {
             this.jobDetails = this.newData
-
+            this.jobDetails.countrySelected=this.newData.countryId
+            console.log("tester",this.countryd)
             console.log(this.jobDetails);
         },
         //inorder to check the value of vacancy and experience required is a number or not
@@ -189,7 +190,7 @@ export default {
         handleModal(evt) {
             evt.preventDefault();
             if (this.actionType === 'Create') {
-                const datas = {
+                const data = {
                     jobName: this.jobDetails.jobName,
                     jobDescription: this.jobDetails.jobDescription,
                     companyName: this.jobDetails.companyName,
@@ -206,14 +207,14 @@ export default {
                     countryId: this.jobDetails.countrySelected
                 };
 
-                console.log(datas);
-                const isEmpty = Object.values(datas).some((value) => value === undefined);
+                console.log(data);
+                const isEmpty = Object.values(data).some((value) => value === undefined);
                 console.log(isEmpty);
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
                 }
                 else {
-                    this.$emit("displayJobs", datas);
+                    this.$emit("displayJobs", data);
                     this.$emit("closeJobModal");
                     for (const key in this.jobDetails) {
                         delete this.jobDetails[key];
@@ -229,7 +230,6 @@ export default {
                     this.$emit("newDataDetails", this.newData);
                     this.$emit("closeJobModal");
                 }
-
             }
 
         },

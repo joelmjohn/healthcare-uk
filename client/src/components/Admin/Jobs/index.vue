@@ -158,7 +158,6 @@ export default {
                 .get(`${this.root}/country/${this.updateDetails.countryId}`)
                 .then((response) => {
                     this.countryName = response.data.data.name
-                    console.log("ss", this.countryName);
                 })
                 .catch((err) => { console.log(err); })
         },
@@ -191,6 +190,7 @@ export default {
                 // Object.assign(this.updateDetails, { countryNames: this.countryName })
                 this.test();
                 this.editModalId = data.id;
+                console.log(this.editModalId );
             }
         },
 
@@ -224,6 +224,7 @@ export default {
                 });
         },
         fetchJobs() {
+            // jobsDetails
             this.loading = true;
             this.$axios
                 .post(`${this.root}/job`)
@@ -249,6 +250,7 @@ export default {
                     const responseData = response.data;
                     if (responseData.status) {
                         this.countrys = responseData.data.country;
+                        console.log("updatedCountry",this.countrys);
                     } else {
                         this.toast("Error", "Couldn't fetch data, try again", "danger");
                     }
@@ -274,7 +276,9 @@ export default {
                     const responseData = response.data;
                     if (responseData.status) {
                         this.jobList = responseData.data.jobs;
+                        console.log(this.jobList);
                         if (!this.jobList.length) {
+                            console.log(this.jobList.length);
                             this.toast("Empty", "No data found, try again", "warning");
                         }
                     } else {
