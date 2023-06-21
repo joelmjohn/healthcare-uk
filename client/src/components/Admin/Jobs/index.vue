@@ -4,7 +4,7 @@
         <b-container>
             <b-card>
                 <b-button @click="openModal('Create')">Create Job</b-button></b-card></b-container>
-        <jobComponent :countryd="countryName" :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
+        <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
             @closeJobModal="createJobModal = false" :action-type="modalTitle" :newData="updateDetails"
             @newDataDetails="UpdatedValues" />
         <deleteJobComponent :jobDetails="fetchJobs" :deleteId="deleteId" @closeDeleteModal="show = false" :show="show" />
@@ -55,7 +55,7 @@
                             <th>Company Description</th>
                             <th>Country</th>
                             <th>Industry</th>
-                            <th>Vancancy</th>
+                            <th>Vacancy</th>
                             <th>Status</th>
                             <th>Created By</th>
                             <th>Action</th>
@@ -153,14 +153,7 @@ export default {
                     });
                 });
         },
-        test() {
-            this.$axios
-                .get(`${this.root}/country/${this.updateDetails.countryId}`)
-                .then((response) => {
-                    this.countryName = response.data.data.name
-                })
-                .catch((err) => { console.log(err); })
-        },
+
         openModal(mode, data = null) {
             if (mode === 'Create') {
                 this.modalTitle = 'Create';
@@ -186,11 +179,7 @@ export default {
                     status: data.status,
                     countryId: data.countryId
                 };
-                // Inorder to set the value of countryName to updateDetails
-                // Object.assign(this.updateDetails, { countryNames: this.countryName })
-                this.test();
                 this.editModalId = data.id;
-                console.log(this.editModalId );
             }
         },
 
@@ -224,12 +213,12 @@ export default {
                 });
         },
         fetchJobs() {
-            // jobsDetails
             this.loading = true;
             this.$axios
                 .post(`${this.root}/job`)
                 .then((response) => {
                     const responseData = response.data;
+                    
                     if (responseData.status) {
                         this.jobList = responseData.data.jobs;
                     } else {
@@ -250,39 +239,8 @@ export default {
                     const responseData = response.data;
                     if (responseData.status) {
                         this.countrys = responseData.data.country;
-                        console.log("updatedCountry",this.countrys);
                     } else {
                         this.toast("Error", "Couldn't fetch data, try again", "danger");
-                    }
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.toast("Error", "Error Occured", "danger");
-                });
-        },
-        fetchJobs() {
-            this.loading = true;
-            const data = {};
-            if (this.selectedCountry) {
-                data.countryId = this.selectedCountry;
-            }
-            if (this.searchData) {
-                data.jobName = this.searchData;
-            }
-            this.$axios
-                .post(`${this.root}/job`, data)
-                .then((response) => {
-                    const responseData = response.data;
-                    if (responseData.status) {
-                        this.jobList = responseData.data.jobs;
-                        console.log(this.jobList);
-                        if (!this.jobList.length) {
-                            console.log(this.jobList.length);
-                            this.toast("Empty", "No data found, try again", "warning");
-                        }
-                    } else {
-                        this.toast("Empty", "No data found, try again", "warning");
                     }
                     this.loading = false;
                 })
