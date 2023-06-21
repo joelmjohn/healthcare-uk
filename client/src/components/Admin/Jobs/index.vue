@@ -4,11 +4,7 @@
         <b-container>
             <b-card>
                 <b-button @click="openModal('Create')">Create Job</b-button></b-card></b-container>
-<<<<<<< HEAD
         <jobComponent :countryValues="countryName" :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
-=======
-        <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
->>>>>>> 0ddd9e118f1d7737fea113bec0c0c34e6cd85a51
             @closeJobModal="createJobModal = false" :action-type="modalTitle" :newData="updateDetails"
             @newDataDetails="UpdatedValues" />
         <deleteJobComponent :jobDetails="fetchJobs" :deleteId="deleteId" @closeDeleteModal="show = false" :show="show" />
