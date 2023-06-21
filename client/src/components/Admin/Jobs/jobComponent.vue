@@ -129,14 +129,15 @@ export default {
             default: "Create"
         },
         newData: { required: true, type: Object },
-        countryd: { required: true, type: String }
+        countryValues: { required: true, type: String }
     },
     watch: {
 
         newData() {
             this.jobDetails = this.newData
-            this.jobDetails.countrySelected=this.newData.countryId
-            console.log("tester",this.countryd)
+            if(this.actionType==="Update"){
+            this.jobDetails.countrySelected=this.newData.countryId}
+            console.log("tester",this.countryValues)
             console.log(this.jobDetails);
         },
         //inorder to check the value of vacancy and experience required is a number or not
@@ -216,17 +217,20 @@ export default {
                 else {
                     this.$emit("displayJobs", data);
                     this.$emit("closeJobModal");
+                    this.countryId=this.jobDetails.countrySelected
                     for (const key in this.jobDetails) {
                         delete this.jobDetails[key];
                     }
                 }
             }
             else if (this.actionType === 'Update') {
+                console.log(this.jobDetails.countrySelected)
                 const isEmpty = Object.values(this.newData).some((value) => value === "");
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
                 }
                 else {
+                    this.newData.countryId=this.jobDetails.countrySelected
                     this.$emit("newDataDetails", this.newData);
                     this.$emit("closeJobModal");
                 }
