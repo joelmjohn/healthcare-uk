@@ -4,7 +4,11 @@
         <b-container>
             <b-card>
                 <b-button @click="openModal('Create')">Create Job</b-button></b-card></b-container>
+<<<<<<< HEAD
         <jobComponent :countryValues="countryName" :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
+=======
+        <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
+>>>>>>> 0ddd9e118f1d7737fea113bec0c0c34e6cd85a51
             @closeJobModal="createJobModal = false" :action-type="modalTitle" :newData="updateDetails"
             @newDataDetails="UpdatedValues" />
         <deleteJobComponent :jobDetails="fetchJobs" :deleteId="deleteId" @closeDeleteModal="show = false" :show="show" />
@@ -153,14 +157,7 @@ export default {
                     });
                 });
         },
-        test() {
-            this.$axios
-                .get(`${this.root}/country/${this.updateDetails.countryId}`)
-                .then((response) => {
-                    this.countryName = response.data.data.name
-                })
-                .catch((err) => { console.log(err); })
-        },
+
         openModal(mode, data = null) {
             if (mode === 'Create') {
                 this.modalTitle = 'Create';
@@ -186,7 +183,6 @@ export default {
                     status: data.status,
                     countryId: data.countryId
                 };
-                this.test();
                 this.editModalId = data.id;
             }
         },

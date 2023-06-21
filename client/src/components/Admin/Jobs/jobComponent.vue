@@ -140,7 +140,6 @@ export default {
             console.log("tester",this.countryValues)
             console.log(this.jobDetails);
         },
-        //inorder to check the value of vacancy and experience required is a number or not
         "jobDetails.vacancy": function (data) {
             if (this.actionType === "Create") {
                 if (!Number.isInteger(Number(data)) || this.jobDetails.vacancy == "") {
@@ -180,8 +179,6 @@ export default {
                     }
                 }
             }
-            //inorder to check the value of vacancy and experience required is a number or not
-
         }
     },
     methods: {
@@ -208,9 +205,7 @@ export default {
                     countryId: this.jobDetails.countrySelected
                 };
 
-                console.log(data);
                 const isEmpty = Object.values(data).some((value) => value === undefined);
-                console.log(isEmpty);
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
                 }
@@ -231,6 +226,7 @@ export default {
                 }
                 else {
                     this.newData.countryId=this.jobDetails.countrySelected
+                    
                     this.$emit("newDataDetails", this.newData);
                     this.$emit("closeJobModal");
                 }
@@ -255,6 +251,5 @@ export default {
     },
 };
 </script>
-  
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
   
