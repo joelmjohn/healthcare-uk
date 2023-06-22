@@ -129,15 +129,12 @@ export default {
             default: "Create"
         },
         newData: { required: true, type: Object },
-        countryValues: { required: true, type: String }
     },
     watch: {
-
         newData() {
             this.jobDetails = this.newData
             if(this.actionType==="Update"){
             this.jobDetails.countrySelected=this.newData.countryId}
-            console.log("tester",this.countryValues)
             console.log(this.jobDetails);
         },
         "jobDetails.vacancy": function (data) {

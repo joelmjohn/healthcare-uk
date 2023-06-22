@@ -4,7 +4,7 @@
         <b-container>
             <b-card>
                 <b-button @click="openModal('Create')">Create Job</b-button></b-card></b-container>
-        <jobComponent :countryValues="countryName" :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
+        <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
             @closeJobModal="createJobModal = false" :action-type="modalTitle" :newData="updateDetails"
             @newDataDetails="UpdatedValues" />
         <deleteJobComponent :jobDetails="fetchJobs" :deleteId="deleteId" @closeDeleteModal="show = false" :show="show" />
@@ -116,12 +116,12 @@ export default {
             modalTitle: "",
             updateDetails: {},
             editModalId: "",
-            countryName: "",
         };
     },
 
     mounted() {
         this.fetchCountries();
+        
     },
     methods: {
         UpdatedValues(val) {
@@ -162,7 +162,6 @@ export default {
             } else if (mode === 'Update') {
                 this.modalTitle = 'Update';
                 this.createJobModal = true;
-                this.vacancyvalue = true
                 this.updateDetails = {
                     address: data.address,
                     jobName: data.jobName,
@@ -214,7 +213,34 @@ export default {
         },
         fetchJobs() {
             this.loading = true;
+            const data = {}
+            if (this.selectedCountry) {
+                data.countryId = this.selectedCountry;
+            }
+            if (this.searchData) {
+                data.jobName = this.searchData;
+            }
             this.$axios
+                .post(`${this.root}/job`, data)
+                .then((response) => {
+                    const responseData = response.data;
+                    if (responseData.status) {
+                        this.jobList = responseData.data.jobs;
+                        console.log(this.jobList)
+                        if (!this.jobList.length) {
+                            this.toast("Empty", "No data found, try again", "warning");
+                        }
+                    } else {
+                        this.toast("Empty", "No data found, try again", "warning");
+                    }
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.toast("Error", "Error Occured", "danger");
+                });
+
+                this.$axios
                 .post(`${this.root}/job`)
                 .then((response) => {
                     const responseData = response.data;
@@ -231,6 +257,7 @@ export default {
                     this.toast("Error Occured!", "Error", "danger");
                 });
         },
+       
         fetchCountries() {
             this.loading = true;
             this.$axios
