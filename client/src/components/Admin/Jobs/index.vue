@@ -239,23 +239,6 @@ export default {
                     console.log(err);
                     this.toast("Error", "Error Occured", "danger");
                 });
-
-                this.$axios
-                .post(`${this.root}/job`)
-                .then((response) => {
-                    const responseData = response.data;
-                    
-                    if (responseData.status) {
-                        this.jobList = responseData.data.jobs;
-                    } else {
-                        this.toast("Couldn't fetch data, try again", "Error", "danger");
-                    }
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.toast("Error Occured!", "Error", "danger");
-                });
         },
        
         fetchCountries() {
