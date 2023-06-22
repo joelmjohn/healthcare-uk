@@ -130,6 +130,7 @@ export default {
                 .then((response) => {
                     const responseData = response.data;
                     if (responseData.status) {
+                        this.fetchJobs()
                         this.$bvToast.toast("Job details Added Successfully", {
                             title: "Success",
                             variant: "success",
@@ -188,6 +189,7 @@ export default {
                 .then((response) => {
                     const responseData = response.data;
                     if (responseData.status) {
+                        this.fetchJobs()
                         this.$bvToast.toast("Job details Added Successfully", {
                             title: "Success",
                             variant: "success",
@@ -226,7 +228,6 @@ export default {
                     const responseData = response.data;
                     if (responseData.status) {
                         this.jobList = responseData.data.jobs;
-                        console.log(this.jobList)
                         if (!this.jobList.length) {
                             this.toast("Empty", "No data found, try again", "warning");
                         }

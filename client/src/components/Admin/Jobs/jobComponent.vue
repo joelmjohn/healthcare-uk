@@ -135,7 +135,6 @@ export default {
             this.jobDetails = this.newData
             if(this.actionType==="Update"){
             this.jobDetails.countrySelected=this.newData.countryId}
-            console.log(this.jobDetails);
         },
         "jobDetails.vacancy": function (data) {
             if (this.actionType === "Create") {
@@ -216,7 +215,6 @@ export default {
                 }
             }
             else if (this.actionType === 'Update') {
-                console.log(this.jobDetails.countrySelected)
                 const isEmpty = Object.values(this.newData).some((value) => value === "");
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
