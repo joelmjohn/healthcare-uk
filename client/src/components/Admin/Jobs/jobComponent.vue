@@ -283,8 +283,9 @@ export default {
         };
 
         const isEmpty = Object.values(data).some(
-          (value) => value === undefined
+          (value) => value === undefined||data.skillsRequired==[]
         );
+        console.log(data);
         if (isEmpty) {
           this.toast("Error", "Please fill all the details", "danger");
         } else {
@@ -297,7 +298,7 @@ export default {
         }
       } else if (this.actionType === "Update") {
         const isEmpty = Object.values(this.newData).some(
-          (value) => value === ""
+          (value) => value === ""||this.newData.skillsRequired.length==0
         );
         if (isEmpty) {
           this.toast("Error", "Please fill all the details", "danger");
