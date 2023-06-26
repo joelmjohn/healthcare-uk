@@ -199,19 +199,19 @@ export default {
     };
   },
   props: {
-    jobModal: { required: true, type: Boolean },
-    countrys: { required: true, type: Array },
+    jobModal: { required: true, type: Boolean,default:false },
+    countrys: { required: true, type: Array ,default: [] },
     actionType: {
       type: String,
       default: "Create",
     },
-    newData: { required: true, type: Object },
+    jobDataDetails: { required: true, type: Object },
   },
   watch: {
-    newData() {
-      this.jobDetails = this.newData;
+    jobDataDetails() {
+      this.jobDetails = this.jobDataDetails;
       if (this.actionType === "Update") {
-        this.jobDetails.countrySelected = this.newData.countryId;
+        this.jobDetails.countrySelected = this.jobDataDetails.countryId;
       }
     },
     "jobDetails.vacancy": function (data) {
@@ -283,7 +283,7 @@ export default {
         };
 
         const isEmpty = Object.values(data).some(
-          (value) => value === undefined||data.skillsRequired==[]
+          (value) => value === undefined||data.skillsRequired==[]||value===""
         );
         console.log(data);
         if (isEmpty) {
@@ -297,15 +297,15 @@ export default {
           }
         }
       } else if (this.actionType === "Update") {
-        const isEmpty = Object.values(this.newData).some(
-          (value) => value === ""||this.newData.skillsRequired.length==0
+        const isEmpty = Object.values(this.jobDataDetails).some(
+          (value) => value === ""||this.jobDataDetails.skillsRequired.length==0
         );
         if (isEmpty) {
           this.toast("Error", "Please fill all the details", "danger");
         } else {
-          this.newData.countryId = this.jobDetails.countrySelected;
+          this.jobDataDetails.countryId = this.jobDetails.countrySelected;
 
-          this.$emit("newDataDetails", this.newData);
+          this.$emit("newDataDetails", this.jobDataDetails);
           this.$emit("closeJobModal");
         }
       }

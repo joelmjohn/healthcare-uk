@@ -38,25 +38,8 @@ export default {
     },
     deleteJob(evt) {
       evt.preventDefault();
-      if (!this.deleteId) {
-        return false;
-      } else {
-        this.$axios
-          .delete(`${this.root}/job/` + this.deleteId)
-          .then((response) => {
-            if (response.data.status) {
-              this.$emit("closeDeleteModal");
-              this.jobDetails();
-              this.toast("Success", "Job Deleted Successfully", "success");
-            } else {
-              this.toast("Try Again", "Couldn't delete job", "danger");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            this.toast("Error", "Error Occured", "danger");
-          });
-      }
+      this.$emit("closeDeleteModal");
+      this.$emit("deleteJobDetails",this.deleteId)
     },
     toast(title, msg, variant) {
       this.$bvToast.toast(msg, {

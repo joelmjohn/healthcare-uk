@@ -12,10 +12,11 @@
       :jobModal="createJobModal"
       @closeJobModal="createJobModal = false"
       :action-type="modalTitle"
-      :newData="updateDetails"
+      :jobDataDetails="updateDetails"
       @newDataDetails="UpdatedValues"
     />
     <deleteJobComponent
+    @deleteJobDetails="deleteJobDetails"
       :jobDetails="fetchJobs"
       :deleteId="deleteId"
       @closeDeleteModal="show = false"
@@ -128,6 +129,7 @@
                   @click="handleDelete(data.id)"
                 >
                   <b-icon icon="trash"></b-icon>
+                  <b-spinner v-if="loading" small></b-spinner>
                   Delete
                 </b-button>
               </td>
@@ -175,7 +177,7 @@ export default {
           const responseData = response.data;
           if (responseData.status) {
             this.fetchJobs();
-            this.$bvToast.toast("Job details Added Successfully", {
+            this.$bvToast.toast("Job details Updated Successfully", {
               title: "Success",
               variant: "success",
               solid: true,
@@ -285,7 +287,25 @@ export default {
           this.toast("Error", "Error Occured", "danger");
         });
     },
-
+    deleteJobDetails(val){ 
+      if (!this.deleteId) {
+        return false;
+      } else {
+        this.$axios
+          .delete(`${this.root}/job/` + val)
+          .then((response) => {
+            if (response.data.status) {
+              this.fetchJobs();
+              this.toast("Success", "Job Deleted Successfully", "success");
+            } else {
+              this.toast("Try Again", "Couldn't delete job", "danger");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.toast("Error", "Error Occured", "danger");
+          });
+      }},
     fetchCountries() {
       this.loading = true;
       this.$axios
