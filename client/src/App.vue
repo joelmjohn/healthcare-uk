@@ -7,6 +7,9 @@
          <router-link to="/">Home</router-link> |
          <router-link to="/admin">Admin</router-link>|
          <router-link to="/admin/blogpost">Admin Blog</router-link>|
+         <router-link to="/admin/userList">User</router-link>|
+    <router-link to="/admin/list">List Admins</router-link>|
+    <router-link to="/admin/register">Register Admin</router-link>
       </nav>
       <router-view />
    </div>
