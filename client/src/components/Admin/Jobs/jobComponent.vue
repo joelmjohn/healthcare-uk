@@ -120,7 +120,6 @@
             placeholder="Enter Address"
           ></b-form-textarea
         ></b-col>
-
         <b-col>
           <label>Country</label>
           <select
@@ -215,27 +214,17 @@ export default {
       }
     },
     "jobDetails.vacancy": function (data) {
-      if (this.actionType === "Create") {
+      if (this.actionType === "Create"||this.actionType === "Update") {
         if (!Number.isInteger(Number(data)) || this.jobDetails.vacancy == "") {
           this.vacancyCheck = false;
         } else {
           this.vacancyCheck = true;
         }
-      } else {
-        if (this.actionType === "Update") {
-          if (
-            !Number.isInteger(Number(data)) ||
-            this.jobDetails.vacancy == ""
-          ) {
-            this.vacancyCheck = false;
-          } else {
-            this.vacancyCheck = true;
-          }
-        }
       }
+      else{this.vacancyCheck = false;}
     },
     "jobDetails.experienceRequired": function (data) {
-      if (this.actionType === "Create") {
+      if (this.actionType === "Create"||this.actionType === "Update") {
         if (
           !Number.isInteger(Number(data)) ||
           this.jobDetails.experienceRequired == ""
@@ -244,18 +233,8 @@ export default {
         } else {
           this.experienceCheck = true;
         }
-      } else {
-        if (this.actionType === "Update") {
-          if (
-            !Number.isInteger(Number(data)) ||
-            this.jobDetails.experienceRequired == ""
-          ) {
-            this.experienceCheck = false;
-          } else {
-            this.experienceCheck = true;
-          }
-        }
       }
+      else{this.experienceCheck = false;}
     },
   },
   methods: {
@@ -281,7 +260,6 @@ export default {
           adminId: this.adminId,
           countryId: this.jobDetails.countrySelected,
         };
-
         const isEmpty = Object.values(data).some(
           (value) => value === undefined||data.skillsRequired==[]||value===""
         );
