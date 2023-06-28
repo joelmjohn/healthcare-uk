@@ -14,6 +14,8 @@
                     </div>
                     <div class="form mb-3">
                         <b-form-input v-model="email" :state="emailState" placeholder="Email"></b-form-input>
+                        <span v-if="emailError" class="error">{{ emailError }}</span>
+                   
                     </div>
                     <div class="form mb-3">
                         <b-form-input v-model="password" :state="passwordState" type="password"
@@ -36,12 +38,14 @@ export default {
             }
             this.userState = false;
         },
-        email() {
-            if (this.email.length > 2) {
-                return (this.emailState = true);
-            }
-            this.emailState = false;
-        },
+        // email() {
+        //     if (this.email.length > 2) {
+        //         return (this.emailState = true);
+        //     }
+        //     this.emailState = false;
+        // },
+        email(newEmail) {
+        this.validateEmail(newEmail)},
         userName() {
             if (this.userName.length > 2) {
                 return (this.userNameState = true);
@@ -67,9 +71,23 @@ export default {
             password: "",
             passwordState: false,
             root: process.env.VUE_APP_ROOT_API,
+            emailError:""
         };
     },
     methods: {
+        validateEmail(email) {
+        // Regular expression for email validation
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+  
+     if (!emailRegex.test(email)) {
+          this.emailError = 'Invalid email format';
+          this.emailState=false
+        } else {
+          this.emailError = '';
+          this.emailState=true
+
+        }
+      },
         toast(title, msg, variant) {
             this.$bvToast.toast(msg, {
                 title: title,
@@ -85,9 +103,11 @@ export default {
                     solid: true,
                 });
                 return false;
-            } else if (this.password.length != 7) {
-                this.toast("Error", "Password must be atleast 7 characters", "danger");
-            } else {
+            }
+            //  else if (this.password.length != 7) {
+            //     this.toast("Error", "Password must be atleast 7 characters", "danger");
+            // }
+             else {
                 const data = {};
                 data.password = this.password;
                 data.role = "ADMIN";
@@ -124,7 +144,15 @@ export default {
                         });
                     });
             }
+          
+                    
+            
         },
     },
 };
 </script>
+<style>
+.error {
+  color: red;
+}
+</style>

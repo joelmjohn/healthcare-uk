@@ -26,8 +26,6 @@
                 </b-container>
             </b-card>
         </b-container>
-      </b-card>
-    </b-container>
    
   </div>
 </template>
@@ -57,6 +55,7 @@ export default {
             password: "",
             passwordState: false,
             root: process.env.VUE_APP_ROOT_API,
+            emailError:""
         };
     },
     methods: {
