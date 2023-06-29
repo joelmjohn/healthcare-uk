@@ -194,7 +194,7 @@ export default {
                     this.$emit("closeJobModal");
                     this.countryId = this.jobDetails.countrySelected;
                     for (const key in this.jobDetails) {
-                        delete this.jobDetails[key];
+                        this.jobDetails[key]="";
                     }
                 }
             } else if (this.actionType === "Update") {
