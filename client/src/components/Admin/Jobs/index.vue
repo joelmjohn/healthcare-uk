@@ -159,7 +159,9 @@ export default {
             if (mode === "Create") {
                 this.modalTitle = "Create";
                 this.createJobModal = true;
-                this.updateDetails = {};
+                for (const key in this.updateDetails) {
+                    this.updateDetails[key]="";
+                    }
             } else if (mode === "Update") {
                 this.modalTitle = "Update";
                 this.createJobModal = true;

@@ -9,7 +9,7 @@
                         trim></b-form-input></b-col>
                 <b-col>
                     <label>Job Description</label>
-                    <b-form-textarea class="rows-sm" required id="textarea" v-model="jobDetails.jobDescription"
+                    <b-form-textarea type="number" class="rows-sm" required id="textarea" v-model="jobDetails.jobDescription"
                         placeholder="Enter Job Description"></b-form-textarea></b-col>
                 <b-col>
                     <label>Company Name</label>
@@ -183,10 +183,10 @@ export default {
                     adminId: this.adminId,
                     countryId: this.jobDetails.countrySelected,
                 };
+
                 const isEmpty = Object.values(data).some(
                     (value) => value === undefined || data.skillsRequired == [] || value === ""
                 );
-                console.log(data);
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
                 } else {
