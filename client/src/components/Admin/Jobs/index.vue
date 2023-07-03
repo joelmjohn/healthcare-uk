@@ -6,7 +6,7 @@
         <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
             @closeJobModal="createJobModal = false" :action-type="modalTitle" :jobDataDetails="updateDetails"
             @newDataDetails="UpdatedValues" />
-        <deleteJobComponent @deleteJobDetails="deleteJobDetails" :jobDetails="fetchJobs" :deleteId="deleteId"
+        <deleteComponent @deleteJobDetails="deleteJobDetails" :jobDetails="fetchJobs" :deleteId="deleteId"
             @closeDeleteModal="show = false" :show="show" />
         <b-container>
             <b-card>
@@ -96,10 +96,10 @@
 </template>
       
 <script>
-import deleteJobComponent from "./deleteJobComponent.vue";
+import deleteComponent from "../deleteComponent.vue";
 import jobComponent from "./jobComponent.vue";
 export default {
-    components: { jobComponent, deleteJobComponent },
+    components: { jobComponent, deleteComponent },
     name: "jobList",
     data() {
         return {
