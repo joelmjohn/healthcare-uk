@@ -7,17 +7,24 @@
                         <b>ADMIN REGISTRATION </b>
                     </h1>
                     <div class="form mb-3">
+                        <label>Name</label>
                         <b-form-input v-model="name" :state="userState" placeholder="Name"></b-form-input>
                     </div>
                     <div class="form mb-3">
+                        <label>Username</label>
+
                         <b-form-input v-model="userName" :state="userNameState" placeholder="UserName"></b-form-input>
                     </div>
                     <div class="form mb-3">
+                        <label>Email</label>
+
                         <b-form-input v-model="email" :state="emailState" placeholder="Email"></b-form-input>
-                        <span v-if="emailError" class="error">{{ emailError }}</span>
+                        <!-- <span v-if="emailError" class="error">{{ emailError }}</span> -->
                    
                     </div>
                     <div class="form mb-3">
+                        <label>Password</label>
+
                         <b-form-input v-model="password" :state="passwordState" type="password"
                             placeholder="Password"></b-form-input>
                     </div>
