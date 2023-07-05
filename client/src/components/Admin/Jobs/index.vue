@@ -156,6 +156,7 @@ export default {
         },
 
         openModal(mode, data = null) {
+            console.log(this.updateDetails);
             if (mode === "Create") {
                 this.modalTitle = "Create";
                 this.createJobModal = true;
