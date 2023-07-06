@@ -5,34 +5,34 @@
             <b-row>
                 <b-col>
                     <label>Job Name</label>
-                    <b-form-input required v-model="jobDetails.jobName" placeholder="Enter Job Name"
+                    <b-form-input required v-model="jobDetails.jobName" :state="jobNameCheck" placeholder="Enter Job Name"
                         trim></b-form-input></b-col>
                 <b-col>
                     <label>Job Description</label>
-                    <b-form-textarea type="number" class="rows-sm" required id="textarea" v-model="jobDetails.jobDescription"
+                    <b-form-textarea type="number" :state="jobDescriptionCheck" class="rows-sm" required id="textarea" v-model="jobDetails.jobDescription"
                         placeholder="Enter Job Description"></b-form-textarea></b-col>
                 <b-col>
                     <label>Company Name</label>
-                    <b-form-input required v-model="jobDetails.companyName" placeholder="Enter Company Name"
+                    <b-form-input required v-model="jobDetails.companyName" :state="companyNameCheck" placeholder="Enter Company Name"
                         trim></b-form-input></b-col></b-row>
             <b-row>
                 <b-col>
                     <label>Company Description</label>
-                    <b-form-textarea required id="textarea" v-model="jobDetails.companyDescription"
+                    <b-form-textarea required id="textarea" :state="companyDescriptionCheck" v-model="jobDetails.companyDescription"
                         placeholder="Enter Company Description"></b-form-textarea></b-col>
                 <b-col cols="4">
                     <label>Job status</label>
-                    <select required v-model="jobDetails.status" class="custom-select custom-select-sm"
+                    <b-form-select :state="statusCheck" required v-model="jobDetails.status" class="custom-select custom-select-sm"
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(statusValue, index) in statusSelected" :key="index">
                             {{ statusValue }}
                         </option>
-                    </select></b-col>
+                    </b-form-select></b-col>
 
                 <b-col>
                     <label>Industry</label>
-                    <b-form-input required v-model="jobDetails.industryType"
+                    <b-form-input :state="industryTypeCheck" required v-model="jobDetails.industryType"
                         placeholder="Enter Industry"></b-form-input></b-col>
             </b-row>
             <b-row>
@@ -42,13 +42,13 @@
                         placeholder="Enter Vacancy"></b-form-input></b-col>
                 <b-col>
                     <label>Employment Type</label>
-                    <select required v-model="jobDetails.employmentType" class="custom-select custom-select-sm"
+                    <b-form-select required v-model="jobDetails.employmentType" :state="employmentTypeCheck" class="custom-select custom-select-sm"
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(type, index) in employmentTypeSelected" :key="index">
                             {{ type }}
                         </option>
-                    </select>
+                    </b-form-select>
                 </b-col>
                 <b-col>
                     <label>Experience Required</label>
@@ -58,28 +58,29 @@
             <b-row>
                 <b-col>
                     <label>Address</label>
-                    <b-form-textarea required id="textarea" v-model="jobDetails.address"
+                    <b-form-textarea required id="textarea" v-model="jobDetails.address" :state="addressCheck"
                         placeholder="Enter Address"></b-form-textarea></b-col>
                 <b-col>
                     <label>Country</label>
-                    <select required v-model="jobDetails.countrySelected" class="custom-select custom-select-sm"
+                    <b-form-select :state="countryCheck" required v-model="jobDetails.countrySelected" class="custom-select custom-select-sm"
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
-                        <option v-for="(country, index) in countrys" :value="country.id" :key="index">
+                        <option v-for="(country, index) in countrys"  :value="country.id" :key="index">
                             {{ country.name }} ({{ country.countryCode }})
                         </option>
-                    </select></b-col>
+                    </b-form-select></b-col>
                 <b-col>
                     <label>Skills Required</label>
                     <multiselect v-model="jobDetails.skillsRequired" :options="skillsDetails" :multiple="true"
                         :close-on-select="true">
                     </multiselect>
+                    <span v-if="!isValid" class="error">Please select at least one option.</span>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col cols="4">
                     <label>Valid Till Date</label>
-                    <b-form-datepicker v-model="jobDetails.validTillDate" class="mb-2"></b-form-datepicker></b-col>
+                    <b-form-datepicker v-model="jobDetails.validTillDate" :state="validTillDateCheck" class="mb-2"></b-form-datepicker></b-col>
             </b-row>
         </b-container>
     </b-modal>
@@ -118,8 +119,19 @@ export default {
             adminId: localStorage.getItem("adminId"),
             vacancyCheck: false,
             experienceCheck: false,
+            jobNameCheck:false,
+            jobDescriptionCheck:false,
+            companyNameCheck:false,
+            companyDescriptionCheck:false,
+            statusCheck:false,
+            industryTypeCheck:false,
+            employmentTypeCheck:false,
+            addressCheck:false,
+            validTillDateCheck:false,
+            countryCheck:false
         };
     },
+
     props: {
         jobModal: { required: true, type: Boolean, default: false },
         countrys: { required: true, type: Array, default: [] },
@@ -129,6 +141,11 @@ export default {
         },
         jobDataDetails: { required: true, type: Object },
     },
+    computed: {
+    isValid() {
+      return this.skillsRequired=="";
+    },
+  },
     watch: {
         jobDataDetails() {
             this.jobDetails = this.jobDataDetails;
@@ -145,6 +162,94 @@ export default {
                 }
             }
             else { this.vacancyCheck = false; }
+        },
+        "jobDetails.jobName": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.jobNameCheck = false;}
+                else { this.jobNameCheck = true; }
+            }
+            else { this.jobNameCheck = false; }
+            
+        },
+        "jobDetails.jobDescription": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.jobDescriptionCheck = false;}
+                else { this.jobDescriptionCheck = true; }
+            }
+            else { this.jobDescriptionCheck = false; }
+            
+        },
+        "jobDetails.companyName": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.companyNameCheck = false;}
+                else { this.companyNameCheck = true; }
+            }
+            else { this.companyNameCheck = false; }
+            
+        },
+        "jobDetails.companyDescription": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.companyDescriptionCheck = false;}
+                else { this.companyDescriptionCheck = true; }
+            }
+            else { this.companyDescriptionCheck = false; }
+            
+        },
+        "jobDetails.status": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.statusCheck = false;}
+                else { this.statusCheck = true; }
+            }
+            else { this.statusCheck = false; }
+            
+        },
+        "jobDetails.industryType": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.industryTypeCheck = false;}
+                else { this.industryTypeCheck = true; }
+            }
+            else { this.industryTypeCheck = false; }
+            
+        },
+        "jobDetails.employmentType": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.employmentTypeCheck = false;}
+                else { this.employmentTypeCheck = true; }
+            }
+            else { this.employmentTypeCheck = false; }
+            
+        },
+        "jobDetails.address": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.addressCheck = false;}
+                else { this.addressCheck = true; }
+            }
+            else { this.addressCheck = false; }
+            
+        },
+        "jobDetails.validTillDate": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                if(data==""){this.validTillDateCheck = false;}
+                else { this.validTillDateCheck = true; }
+            }
+            else { this.validTillDateCheck = false; }
+            
+        },
+        "jobDetails.countrySelected": function (data) {
+            if (this.actionType === "Create") {
+                if(data==""){this.countryCheck = false;}
+                else { this.countryCheck = true; }
+            }
+            else { this.countryCheck = false; }
+            
+        },
+        "jobDataDetails.countryId": function (data) {
+            if (this.actionType === "Update") {
+                if(data==""){this.countryCheck = false;}
+                else { this.countryCheck = true; }
+            }
+            else { this.countryCheck = false; }
+            
         },
         "jobDetails.experienceRequired": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {

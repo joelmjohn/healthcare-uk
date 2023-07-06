@@ -160,6 +160,7 @@ export default {
                 this.modalTitle = "Create";
                 this.createJobModal = true;
                 for (const key in this.updateDetails) {
+                    
                     this.updateDetails[key]="";
                     }
             } else if (mode === "Update") {
@@ -171,7 +172,6 @@ export default {
                     jobDescription: data.jobDescription,
                     companyName: data.companyName,
                     companyDescription: data.companyDescription,
-                    address: data.address,
                     vacancy: data.vacancy,
                     experienceRequired: data.experienceRequired,
                     industryType: data.industryType,
