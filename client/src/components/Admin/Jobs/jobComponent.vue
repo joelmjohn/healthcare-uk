@@ -1,10 +1,11 @@
 <template>
-    <b-modal size="xl" :title="actionType" v-model="jobModal" centered @ok="handleModal" @cancel="cancelJobModal"
+    <b-modal size="xl" :title="actionType" v-model="jobModal" type="submit" centered @ok="handleModal" @cancel="cancelJobModal"
         @close="closeJobModal" :no-close-on-backdrop="true">
         <b-container>
             <b-row>
                 <b-col>
                     <label>Job Name</label>
+<<<<<<< HEAD
                     <b-form-input required v-model="jobDetails.jobName" :state="jobNameCheck" placeholder="Enter Job Name"
                         trim></b-form-input></b-col>
                 <b-col>
@@ -14,15 +15,34 @@
                 <b-col>
                     <label>Company Name</label>
                     <b-form-input required v-model="jobDetails.companyName" :state="companyNameCheck" placeholder="Enter Company Name"
+=======
+                    <b-form-input required :state="jobNameState" v-model="jobDetails.jobName" placeholder="Enter Job Name"
+                        trim></b-form-input></b-col>
+                <b-col>
+                    <label>Job Description</label>
+                    <b-form-textarea type="number" class="rows-sm" required id="textarea" v-model="jobDetails.jobDescription" :state="jobDescription"
+                        placeholder="Enter Job Description"></b-form-textarea></b-col>
+                <b-col>
+                    <label>Company Name</label>
+                    <b-form-input required v-model="jobDetails.companyName" :state="companyName" placeholder="Enter Company Name"
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
                         trim></b-form-input></b-col></b-row>
             <b-row>
                 <b-col>
                     <label>Company Description</label>
+<<<<<<< HEAD
                     <b-form-textarea required id="textarea" :state="companyDescriptionCheck" v-model="jobDetails.companyDescription"
                         placeholder="Enter Company Description"></b-form-textarea></b-col>
                 <b-col cols="4">
                     <label>Job status</label>
                     <b-form-select :state="statusCheck" required v-model="jobDetails.status" class="custom-select custom-select-sm"
+=======
+                    <b-form-textarea required id="textarea" :state="companyDescription" v-model="jobDetails.companyDescription"
+                        placeholder="Enter Company Description"></b-form-textarea></b-col>
+                <b-col cols="4">
+                    <label>Job status</label>
+                    <b-form-select :state="statusSelectedState" required v-model="jobDetails.status" class="custom-select custom-select-sm"
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(statusValue, index) in statusSelected" :key="index">
@@ -32,7 +52,11 @@
 
                 <b-col>
                     <label>Industry</label>
+<<<<<<< HEAD
                     <b-form-input :state="industryTypeCheck" required v-model="jobDetails.industryType"
+=======
+                    <b-form-input required v-model="jobDetails.industryType" :state="industryTypeState"
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
                         placeholder="Enter Industry"></b-form-input></b-col>
             </b-row>
             <b-row>
@@ -42,7 +66,11 @@
                         placeholder="Enter Vacancy"></b-form-input></b-col>
                 <b-col>
                     <label>Employment Type</label>
+<<<<<<< HEAD
                     <b-form-select required v-model="jobDetails.employmentType" :state="employmentTypeCheck" class="custom-select custom-select-sm"
+=======
+                    <b-form-select required v-model="jobDetails.employmentType" :state="employmentTypeState" class="custom-select custom-select-sm"
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(type, index) in employmentTypeSelected" :key="index">
@@ -58,11 +86,20 @@
             <b-row>
                 <b-col>
                     <label>Address</label>
+<<<<<<< HEAD
                     <b-form-textarea required id="textarea" v-model="jobDetails.address" :state="addressCheck"
                         placeholder="Enter Address"></b-form-textarea></b-col>
                 <b-col>
                     <label>Country</label>
                     <b-form-select :state="countryCheck" required v-model="jobDetails.countrySelected" class="custom-select custom-select-sm"
+=======
+                    <b-form-textarea required id="textarea" v-model="jobDetails.address"
+                    :state="addressState"
+                        placeholder="Enter Address"></b-form-textarea></b-col>
+                <b-col>
+                    <label>Country</label>
+                    <b-form-select :state="countrySelectedState" required v-model="jobDetails.countrySelected" class="custom-select custom-select-sm"
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
                         aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(country, index) in countrys"  :value="country.id" :key="index">
@@ -71,16 +108,25 @@
                     </b-form-select></b-col>
                 <b-col>
                     <label>Skills Required</label>
-                    <multiselect v-model="jobDetails.skillsRequired" :options="skillsDetails" :multiple="true"
+                    <multiselect :required="true" v-model="jobDetails.skillsRequired" :options="skillsDetails" :multiple="true"
                         :close-on-select="true">
                     </multiselect>
+<<<<<<< HEAD
                     <span v-if="!isValid" class="error">Please select at least one option.</span>
+=======
+                    <span v-if="!isValid" class="error">Please select atleast one option</span>
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
                 </b-col>
+                
             </b-row>
             <b-row>
                 <b-col cols="4">
                     <label>Valid Till Date</label>
+<<<<<<< HEAD
                     <b-form-datepicker v-model="jobDetails.validTillDate" :state="validTillDateCheck" class="mb-2"></b-form-datepicker></b-col>
+=======
+                    <b-form-datepicker v-model="jobDetails.validTillDate" :state="validTillDateState" class="mb-2"></b-form-datepicker></b-col>
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
             </b-row>
         </b-container>
     </b-modal>
@@ -119,6 +165,7 @@ export default {
             adminId: localStorage.getItem("adminId"),
             vacancyCheck: false,
             experienceCheck: false,
+<<<<<<< HEAD
             jobNameCheck:false,
             jobDescriptionCheck:false,
             companyNameCheck:false,
@@ -132,6 +179,26 @@ export default {
         };
     },
 
+=======
+            jobNameState:false,
+            jobDescription:false,
+            companyName:false,
+            companyDescription:false,
+            addressState:false,
+            industryTypeState:false,
+            validTillDateState:false,
+            employmentTypeState:false,
+            countrySelectedState:false,
+            statusSelectedState:false
+
+        };
+    },
+    computed: {
+    isValid() {
+        if (this.actionType === "Create" || this.actionType === "Update") {
+      return this.jobDetails.skillsRequired!=""}}
+    },
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
     props: {
         jobModal: { required: true, type: Boolean, default: false },
         countrys: { required: true, type: Array, default: [] },
@@ -147,6 +214,7 @@ export default {
     },
   },
     watch: {
+    
         jobDataDetails() {
             this.jobDetails = this.jobDataDetails;
             if (this.actionType === "Update") {
@@ -163,6 +231,7 @@ export default {
             }
             else { this.vacancyCheck = false; }
         },
+<<<<<<< HEAD
         "jobDetails.jobName": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
                 if(data==""){this.jobNameCheck = false;}
@@ -251,6 +320,9 @@ export default {
             else { this.countryCheck = false; }
             
         },
+=======
+        
+>>>>>>> c1c3270eb9c8a97aa824e27ea6bf69f2f89ada2e
         "jobDetails.experienceRequired": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
                 if (
@@ -264,6 +336,69 @@ export default {
             }
             else { this.experienceCheck = false; }
         },
+        "jobDetails.countrySelected":function(data){
+            if (this.actionType === "Create") {
+            if(data==""){this.countrySelectedState=false}
+        else{this.countrySelectedState=true}
+        } 
+        },
+        
+        "jobDetails.jobName":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.jobNameState=false}
+        else{this.jobNameState=true}
+        } 
+        },
+        "jobDetails.status":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.statusSelectedState=false}
+        else{this.statusSelectedState=true}
+        } 
+        },
+        "jobDetails.employmentType":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.employmentTypeState
+=false}
+        else{this.employmentTypeState=true}
+        } 
+        },
+    
+        "jobDetails.validTillDate":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.validTillDateState=false}
+        else{this.validTillDateState=true}
+        } 
+        },
+        "jobDetails.companyDescription":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.companyDescription=false}
+        else{this.companyDescription=true}
+        } 
+        },
+        "jobDetails.address":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.addressState=false}
+        else{this.addressState=true}
+        } 
+        },
+        "jobDetails.companyName":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.companyName=false}
+        else{this.companyName=true}
+        } 
+        },
+        "jobDetails.jobDescription":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.jobDescription=false}
+        else{this.jobDescription=true}
+        } 
+        },
+        "jobDetails.industryType":function(data){
+            if (this.actionType === "Create" || this.actionType === "Update") {
+            if(data==""){this.industryTypeState=false}
+        else{this.industryTypeState=true}
+        } 
+        }
     },
     methods: {
         toggleStatus() {
@@ -272,25 +407,10 @@ export default {
         handleModal(evt) {
             evt.preventDefault();
             if (this.actionType === "Create") {
-                const data = {
-                    jobName: this.jobDetails.jobName,
-                    jobDescription: this.jobDetails.jobDescription,
-                    companyName: this.jobDetails.companyName,
-                    companyDescription: this.jobDetails.companyDescription,
-                    vacancy: this.jobDetails.vacancy,
-                    address: this.jobDetails.address,
-                    experienceRequired: this.jobDetails.experienceRequired,
-                    skillsRequired: this.jobDetails.skillsRequired,
-                    industryType: this.jobDetails.industryType,
-                    employmentType: this.jobDetails.employmentType,
-                    validTillDate: this.jobDetails.validTillDate,
-                    status: this.jobDetails.status,
-                    adminId: this.adminId,
-                    countryId: this.jobDetails.countrySelected,
-                };
+                
 
-                const isEmpty = Object.values(data).some(
-                    (value) => value === undefined || data.skillsRequired == [] || value === ""
+                const isEmpty = Object.values(this.jobDetails).some(
+                    (value) => value === undefined || this.jobDetails.skillsRequired == [] || value === ""
                 );
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
@@ -319,10 +439,14 @@ export default {
         cancelJobModal(evt) {
             evt.preventDefault();
             this.$emit("closeJobModal");
+            this.countrySelectedState=false
+
         },
         closeJobModal(evt) {
             evt.preventDefault();
             this.$emit("closeJobModal");
+            this.countrySelectedState=false
+
         },
         toast(title, msg, variant) {
             this.$bvToast.toast(msg, {
@@ -334,5 +458,7 @@ export default {
     },
 };
 </script>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+
+</style>
   
