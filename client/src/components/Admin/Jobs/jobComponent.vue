@@ -71,10 +71,12 @@
                     </b-form-select></b-col>
                 <b-col>
                     <label>Skills Required</label>
+                    <div id="select-tag">
                     <multiselect :required="true" v-model="jobDetails.skillsRequired" :options="skillsDetails"
-                        :multiple="true" :close-on-select="true">
+                        :multiple="true" :close-on-select="true" :state="true" :max-height="600">
                     </multiselect>
-                    <span v-if="!isValid" class="error">Please select at least one option.</span>
+                </div>
+                    <!-- <span v-if="!isValid" class="error">Please select at least one option.</span> -->
                 </b-col>
 
             </b-row>
@@ -141,10 +143,11 @@ export default {
             default: "Create",
         },
         jobDataDetails: { required: true, type: Object },
+        errorTextColor:{ required: true, type: String },
     },
     computed: {
         isValid() {
-            return this.jobDetails.skillsRequired != "";
+            // return this.jobDetails.skillsRequired != "";
         },
     },
     watch: {
@@ -179,6 +182,20 @@ export default {
                 else { this.jobDescriptionCheck = true; }
             }
             else { this.jobDescriptionCheck = false; }
+
+        },
+        "jobDetails.skillsRequired": function (data) {
+            if (this.actionType === "Create" || this.actionType === "Update") {
+                // select-tag
+                if(data==""){
+                const selectTag = document.getElementById('select-tag')
+                selectTag.style.border = '1px solid red'
+                selectTag.style.borderRadius = '5px'
+            }
+            else{const selectTag = document.getElementById('select-tag')
+                selectTag.style.border = '1px solid green'
+                selectTag.style.borderRadius = '5px'}
+            }
 
         },
         "jobDetails.companyName": function (data) {
@@ -330,7 +347,7 @@ export default {
             evt.preventDefault();
             this.$emit("closeJobModal");
             this.countrySelectedState = false
-
+             
         },
         closeJobModal(evt) {
             evt.preventDefault();

@@ -3,7 +3,7 @@
         <b-container>
             <b-card>
                 <b-button @click="openModal('Create')">Create Job</b-button></b-card></b-container>
-        <jobComponent :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
+        <jobComponent :errorTextColor="errorColor" :countrys="countrys" @displayJobs="jobData" :jobModal="createJobModal"
             @closeJobModal="createJobModal = false" :action-type="modalTitle" :jobDataDetails="updateDetails"
             @newDataDetails="UpdatedValues" />
         <deleteComponent @deleteJobDetails="deleteJobDetails" :jobDetails="fetchJobs" :deleteId="deleteId"
@@ -117,6 +117,7 @@ export default {
             modalTitle: "",
             updateDetails: {},
             editModalId: "",
+            errorColor:""
         };
     },
 
@@ -158,15 +159,18 @@ export default {
         openModal(mode, data = null) {
             console.log(this.updateDetails);
             if (mode === "Create") {
+                this.errorColor="red" 
                 this.modalTitle = "Create";
                 this.createJobModal = true;
                 for (const key in this.updateDetails) {
                     
                     this.updateDetails[key]="";
                     }
+                    
                 
             } else if (mode === "Update") {
                 this.modalTitle = "Update";
+                this.errorColor="green" 
                 this.createJobModal = true;
                 this.updateDetails = {
                     address: data.address,
