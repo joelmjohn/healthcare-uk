@@ -164,6 +164,7 @@ export default {
                     
                     this.updateDetails[key]="";
                     }
+                
             } else if (mode === "Update") {
                 this.modalTitle = "Update";
                 this.createJobModal = true;

@@ -144,7 +144,7 @@ export default {
     },
     computed: {
         isValid() {
-            return this.skillsRequired == "";
+            return this.jobDetails.skillsRequired != "";
         },
     },
     watch: {
@@ -239,8 +239,11 @@ export default {
         },
         "jobDetails.countrySelected": function (data) {
             if (this.actionType === "Create") {
-                if (data == "") { this.countryCheck = false; }
-                else { this.countryCheck = true; }
+                if (data == "") { this.countryCheck = false;
+                
+                }
+                else { this.countryCheck = true; 
+                }
             }
             else { this.countryCheck = false; }
 
@@ -266,71 +269,10 @@ export default {
             }
             else { this.experienceCheck = false; }
         },
-        "jobDetails.countrySelected": function (data) {
-            if (this.actionType === "Create") {
-                if (data == "") { this.countrySelectedState = false }
-                else { this.countrySelectedState = true }
-            }
-        },
 
-        "jobDetails.jobName": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.jobNameState = false }
-                else { this.jobNameState = true }
-            }
-        },
-        "jobDetails.status": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.statusSelectedState = false }
-                else { this.statusSelectedState = true }
-            }
-        },
-        "jobDetails.employmentType": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") {
-                    this.employmentTypeState
-                    = false
-                }
-                else { this.employmentTypeState = true }
-            }
-        },
 
-        "jobDetails.validTillDate": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.validTillDateState = false }
-                else { this.validTillDateState = true }
-            }
-        },
-        "jobDetails.companyDescription": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.companyDescription = false }
-                else { this.companyDescription = true }
-            }
-        },
-        "jobDetails.address": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.addressState = false }
-                else { this.addressState = true }
-            }
-        },
-        "jobDetails.companyName": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.companyName = false }
-                else { this.companyName = true }
-            }
-        },
-        "jobDetails.jobDescription": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.jobDescription = false }
-                else { this.jobDescription = true }
-            }
-        },
-        "jobDetails.industryType": function (data) {
-            if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.industryTypeState = false }
-                else { this.industryTypeState = true }
-            }
-        }
+    
+
     },
     methods: {
         toggleStatus() {
@@ -339,10 +281,25 @@ export default {
         handleModal(evt) {
             evt.preventDefault();
             if (this.actionType === "Create") {
+                const data = {
+                    jobName: this.jobDetails.jobName,
+                    jobDescription: this.jobDetails.jobDescription,
+                    companyName: this.jobDetails.companyName,
+                    companyDescription: this.jobDetails.companyDescription,
+                    vacancy: this.jobDetails.vacancy,
+                    address: this.jobDetails.address,
+                    experienceRequired: this.jobDetails.experienceRequired,
+                    skillsRequired: this.jobDetails.skillsRequired,
+                    industryType: this.jobDetails.industryType,
+                    employmentType: this.jobDetails.employmentType,
+                    validTillDate: this.jobDetails.validTillDate,
+                    status: this.jobDetails.status,
+                    adminId: this.adminId,
+                    countryId: this.jobDetails.countrySelected,
+                };
 
-
-                const isEmpty = Object.values(this.jobDetails).some(
-                    (value) => value === undefined || this.jobDetails.skillsRequired == [] || value === ""
+                const isEmpty = Object.values(data).some(
+                    (value) => value === undefined || data.skillsRequired == [] || value === ""
                 );
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
@@ -365,6 +322,7 @@ export default {
 
                     this.$emit("newDataDetails", this.jobDataDetails);
                     this.$emit("closeJobModal");
+                    
                 }
             }
         },
@@ -377,7 +335,9 @@ export default {
         closeJobModal(evt) {
             evt.preventDefault();
             this.$emit("closeJobModal");
+            if(this.actionType=="Create"){
             this.countrySelectedState = false
+            }
 
         },
         toast(title, msg, variant) {
