@@ -10,7 +10,7 @@
             @closeDeleteModal="show = false" :show="show" />
         <b-container>
             <b-card>
-                <h2>Jobs Details</h2>
+                <h2>Jobs</h2>
                 <div class="form mb-3">
                     <b-form-input v-model="searchData" placeholder="Search Job.."></b-form-input>
                 </div>
@@ -161,9 +161,9 @@ export default {
                 this.modalTitle = "Create";
                 this.createJobModal = true;
                 for (const key in this.updateDetails) {
-
-                    this.updateDetails[key] = "";
-                }
+                    
+                    this.updateDetails[key]="";
+                    }
             } else if (mode === "Update") {
                 this.modalTitle = "Update";
                 this.createJobModal = true;
