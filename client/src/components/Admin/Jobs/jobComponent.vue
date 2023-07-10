@@ -13,17 +13,18 @@
                         v-model="jobDetails.jobDescription" placeholder="Enter Job Description"></b-form-textarea></b-col>
                 <b-col>
                     <label>Company Name</label>
-                    <b-form-input required v-model="jobDetails.companyName" :state="companyNameCheck" placeholder="Enter Company Name"
-                        trim></b-form-input></b-col></b-row>
+                    <b-form-input required v-model="jobDetails.companyName" :state="companyNameCheck"
+                        placeholder="Enter Company Name" trim></b-form-input></b-col></b-row>
             <b-row>
                 <b-col>
                     <label>Company Description</label>
-                    <b-form-textarea required id="textarea" :state="companyDescriptionCheck" v-model="jobDetails.companyDescription"
+                    <b-form-textarea required id="textarea" :state="companyDescriptionCheck"
+                        v-model="jobDetails.companyDescription"
                         placeholder="Enter Company Description"></b-form-textarea></b-col>
                 <b-col cols="4">
                     <label>Job status</label>
-                    <b-form-select :state="statusCheck" required v-model="jobDetails.status" class="custom-select custom-select-sm"
-                        aria-label="Default select example">
+                    <b-form-select :state="statusCheck" required v-model="jobDetails.status"
+                        class="custom-select custom-select-sm" aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(statusValue, index) in statusSelected" :key="index">
                             {{ statusValue }}
@@ -42,8 +43,8 @@
                         placeholder="Enter Vacancy"></b-form-input></b-col>
                 <b-col>
                     <label>Employment Type</label>
-                    <b-form-select required v-model="jobDetails.employmentType" :state="employmentTypeCheck" class="custom-select custom-select-sm"
-                        aria-label="Default select example">
+                    <b-form-select required v-model="jobDetails.employmentType" :state="employmentTypeCheck"
+                        class="custom-select custom-select-sm" aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(type, index) in employmentTypeSelected" :key="index">
                             {{ type }}
@@ -62,8 +63,8 @@
                         placeholder="Enter Address"></b-form-textarea></b-col>
                 <b-col>
                     <label>Country</label>
-                    <b-form-select :state="countryCheck" required v-model="jobDetails.countrySelected" class="custom-select custom-select-sm"
-                        aria-label="Default select example">
+                    <b-form-select :state="countryCheck" required v-model="jobDetails.countrySelected"
+                        class="custom-select custom-select-sm" aria-label="Default select example">
                         <option value="" disabled>Select</option>
                         <option v-for="(country, index) in countrys" :value="country.id" :key="index">
                             {{ country.name }} ({{ country.countryCode }})
@@ -71,19 +72,18 @@
                     </b-form-select></b-col>
                 <b-col>
                     <label>Skills Required</label>
-                    <div id="select-tag">
-                    <multiselect :required="true" v-model="jobDetails.skillsRequired" :options="skillsDetails"
-                        :multiple="true" :close-on-select="true" :state="true" :max-height="600">
-                    </multiselect>
-                </div>
-                    <!-- <span v-if="!isValid" class="error">Please select at least one option.</span> -->
+                    <div id="select-tag" :style="'border: 1px solid ' + errorTextColor">
+                        <multiselect :required="true" v-model="jobDetails.skillsRequired" :options="skillsDetails"
+                            :multiple="true" :close-on-select="true" :state="true" :max-height="600">
+                        </multiselect>
+                    </div>
                 </b-col>
-
             </b-row>
             <b-row>
                 <b-col cols="4">
                     <label>Valid Till Date</label>
-                    <b-form-datepicker v-model="jobDetails.validTillDate" :state="validTillDateCheck" class="mb-2"></b-form-datepicker></b-col>
+                    <b-form-datepicker v-model="jobDetails.validTillDate" :state="validTillDateCheck"
+                        class="mb-2"></b-form-datepicker></b-col>
             </b-row>
         </b-container>
     </b-modal>
@@ -122,16 +122,16 @@ export default {
             adminId: localStorage.getItem("adminId"),
             vacancyCheck: false,
             experienceCheck: false,
-            jobNameCheck:false,
-            jobDescriptionCheck:false,
-            companyNameCheck:false,
-            companyDescriptionCheck:false,
-            statusCheck:false,
-            industryTypeCheck:false,
-            employmentTypeCheck:false,
-            addressCheck:false,
-            validTillDateCheck:false,
-            countryCheck:false
+            jobNameCheck: false,
+            jobDescriptionCheck: false,
+            companyNameCheck: false,
+            companyDescriptionCheck: false,
+            statusCheck: false,
+            industryTypeCheck: false,
+            employmentTypeCheck: false,
+            addressCheck: false,
+            validTillDateCheck: false,
+            countryCheck: false,
         };
     },
 
@@ -143,15 +143,9 @@ export default {
             default: "Create",
         },
         jobDataDetails: { required: true, type: Object },
-        errorTextColor:{ required: true, type: String },
-    },
-    computed: {
-        isValid() {
-            // return this.jobDetails.skillsRequired != "";
-        },
+        errorTextColor: { required: true, type: String },
     },
     watch: {
-
         jobDataDetails() {
             this.jobDetails = this.jobDataDetails;
             if (this.actionType === "Update") {
@@ -165,113 +159,145 @@ export default {
                 } else {
                     this.vacancyCheck = true;
                 }
+            } else {
+                this.vacancyCheck = false;
             }
-            else { this.vacancyCheck = false; }
         },
         "jobDetails.jobName": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.jobNameCheck = false; }
-                else { this.jobNameCheck = true; }
+                if (data == "") {
+                    this.jobNameCheck = false;
+                } else {
+                    this.jobNameCheck = true;
+                }
+            } else {
+                this.jobNameCheck = false;
             }
-            else { this.jobNameCheck = false; }
-
         },
         "jobDetails.jobDescription": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.jobDescriptionCheck = false; }
-                else { this.jobDescriptionCheck = true; }
+                if (data == "") {
+                    this.jobDescriptionCheck = false;
+                } else {
+                    this.jobDescriptionCheck = true;
+                }
+            } else {
+                this.jobDescriptionCheck = false;
             }
-            else { this.jobDescriptionCheck = false; }
-
         },
         "jobDetails.skillsRequired": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                // select-tag
-                if(data==""){
-                const selectTag = document.getElementById('select-tag')
-                selectTag.style.border = '1px solid red'
-                selectTag.style.borderRadius = '5px'
+                if (document.getElementById("select-tag") != null) {
+                    if (data == "") {
+                        const selectTag = document.getElementById("select-tag");
+                        selectTag.style.border = "1px solid red";
+                        selectTag.style.borderRadius = "5px";
+                    } else {
+                        const selectTag = document.getElementById("select-tag");
+                        selectTag.style.border = "1px solid green";
+                        selectTag.style.borderRadius = "5px";
+                    }
+                }
             }
-            else{const selectTag = document.getElementById('select-tag')
-                selectTag.style.border = '1px solid green'
-                selectTag.style.borderRadius = '5px'}
-            }
-
         },
         "jobDetails.companyName": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.companyNameCheck = false; }
-                else { this.companyNameCheck = true; }
+                if (data == "") {
+                    this.companyNameCheck = false;
+                } else {
+                    this.companyNameCheck = true;
+                }
+            } else {
+                this.companyNameCheck = false;
             }
-            else { this.companyNameCheck = false; }
-
         },
         "jobDetails.companyDescription": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.companyDescriptionCheck = false; }
-                else { this.companyDescriptionCheck = true; }
+                if (data == "") {
+                    this.companyDescriptionCheck = false;
+                } else {
+                    this.companyDescriptionCheck = true;
+                }
+            } else {
+                this.companyDescriptionCheck = false;
             }
-            else { this.companyDescriptionCheck = false; }
-
         },
         "jobDetails.status": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.statusCheck = false; }
-                else { this.statusCheck = true; }
+                if (data == "") {
+                    this.statusCheck = false;
+                } else {
+                    this.statusCheck = true;
+                }
+            } else {
+                this.statusCheck = false;
             }
-            else { this.statusCheck = false; }
-
         },
         "jobDetails.industryType": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.industryTypeCheck = false; }
-                else { this.industryTypeCheck = true; }
+                if (data == "") {
+                    this.industryTypeCheck = false;
+                } else {
+                    this.industryTypeCheck = true;
+                }
+            } else {
+                this.industryTypeCheck = false;
             }
-            else { this.industryTypeCheck = false; }
-
         },
         "jobDetails.employmentType": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.employmentTypeCheck = false; }
-                else { this.employmentTypeCheck = true; }
+                if (data == "") {
+                    this.employmentTypeCheck = false;
+                } else {
+                    this.employmentTypeCheck = true;
+                }
+            } else {
+                this.employmentTypeCheck = false;
             }
-            else { this.employmentTypeCheck = false; }
-
         },
         "jobDetails.address": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.addressCheck = false; }
-                else { this.addressCheck = true; }
+                if (data == "") {
+                    this.addressCheck = false;
+                } else {
+                    this.addressCheck = true;
+                }
+            } else {
+                this.addressCheck = false;
             }
-            else { this.addressCheck = false; }
-
         },
         "jobDetails.validTillDate": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
-                if (data == "") { this.validTillDateCheck = false; }
-                else { this.validTillDateCheck = true; }
+                if (data == "") {
+                    this.validTillDateCheck = false;
+                } else {
+                    this.validTillDateCheck = true;
+                }
+            } else {
+                this.validTillDateCheck = false;
             }
-            else { this.validTillDateCheck = false; }
-
         },
         "jobDetails.countrySelected": function (data) {
             if (this.actionType === "Create") {
-                if (data == "") { this.countryCheck = false;
-                
+                if (data == "") {
+                    this.countryCheck = false;
+                } else {
+                    this.countryCheck = true;
                 }
-                else { this.countryCheck = true; 
-                }
+            } else {
+                this.countryCheck = false;
             }
-            else { this.countryCheck = false; }
-
         },
         "jobDataDetails.countryId": function (data) {
             if (this.actionType === "Update") {
-                if (data == "") { this.countryCheck = false; }
-                else { this.countryCheck = true; }
+                if (data == "") {
+                    this.countryCheck = false;
+                } else {
+                    this.countryCheck = true;
+                }
+            } else {
+                this.countryCheck = false;
             }
-            else { this.countryCheck = false; }
-
         },
         "jobDetails.experienceRequired": function (data) {
             if (this.actionType === "Create" || this.actionType === "Update") {
@@ -283,13 +309,10 @@ export default {
                 } else {
                     this.experienceCheck = true;
                 }
+            } else {
+                this.experienceCheck = false;
             }
-            else { this.experienceCheck = false; }
         },
-
-
-    
-
     },
     methods: {
         toggleStatus() {
@@ -316,7 +339,8 @@ export default {
                 };
 
                 const isEmpty = Object.values(data).some(
-                    (value) => value === undefined || data.skillsRequired == [] || value === ""
+                    (value) =>
+                        value === undefined || data.skillsRequired == "" || value === ""
                 );
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
@@ -330,7 +354,8 @@ export default {
                 }
             } else if (this.actionType === "Update") {
                 const isEmpty = Object.values(this.jobDataDetails).some(
-                    (value) => value === "" || this.jobDataDetails.skillsRequired.length == 0
+                    (value) =>
+                        value === "" || this.jobDataDetails.skillsRequired.length == 0
                 );
                 if (isEmpty) {
                     this.toast("Error", "Please fill all the details", "danger");
@@ -339,23 +364,20 @@ export default {
 
                     this.$emit("newDataDetails", this.jobDataDetails);
                     this.$emit("closeJobModal");
-                    
                 }
             }
         },
         cancelJobModal(evt) {
             evt.preventDefault();
             this.$emit("closeJobModal");
-            this.countrySelectedState = false
-             
+            this.countrySelectedState = false;
         },
         closeJobModal(evt) {
             evt.preventDefault();
             this.$emit("closeJobModal");
-            if(this.actionType=="Create"){
-            this.countrySelectedState = false
+            if (this.actionType == "Create") {
+                this.countrySelectedState = false;
             }
-
         },
         toast(title, msg, variant) {
             this.$bvToast.toast(msg, {
